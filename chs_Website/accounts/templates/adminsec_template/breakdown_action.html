@@ -1,0 +1,187 @@
+{% extends 'adminsec_template/base_template.html' %}
+{% load static %}
+{% block page_title %}
+Add Items
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Item Detailed Entry</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form role="form" action="{% url 'breakdown_item_save' %}" method="POST">
+                {% csrf_token %}
+
+                    
+                    {% comment %} Display Messages {% endcomment %}
+                    {% if messages %}
+                    <div class="form-group">
+                    <div class="col-12">
+                        {% for message in messages %}
+                        {% if message.tags == "error" %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        {% elif message.tags == "success" %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    </div>
+                    {% endif %}
+
+                <div class="card-body">
+                <div class="form-group">
+                    <label>Item Name</label>
+                    <input type="text" class="form-control" name="item_name">
+                </div>
+                <h3 class="bg-gradient-success">Item Pricing For Junior Classes</h3>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>New Students</label>
+                            <input type="text" class="form-control" name="fst_jnew" placeholder="Enter first term price here">
+                            <input type="text" class="form-control" name="sec_jnew" placeholder="Enter second term price here">
+                            <input type="text" class="form-control" name="trd_jnew" placeholder="Enter third term price here">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Old Students</label>
+                            <input type="text" class="form-control" name="fst_jold" placeholder="Enter first term price here">
+                            <input type="text" class="form-control" name="sec_jold" placeholder="Enter second term price here">
+                            <input type="text" class="form-control" name="trd_jold" placeholder="Enter third term price here">
+                        </div>
+                    </div>
+                </div>
+                <h3 class="bg-gradient-success">Item Pricing For Senior Classes</h3>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>New Students</label>
+                            <input type="text" class="form-control" name="fst_snew" placeholder="Enter first term price here">
+                            <input type="text" class="form-control" name="sec_snew" placeholder="Enter second term price here">
+                            <input type="text" class="form-control" name="trd_snew" placeholder="Enter third term price here">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Old Students</label>
+                            <input type="text" class="form-control" name="fst_sold" placeholder="Enter first term price here">
+                            <input type="text" class="form-control" name="sec_sold" placeholder="Enter second term price here">
+                            <input type="text" class="form-control" name="trd_sold" placeholder="Enter third term price here">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-block">Add Item</button>
+                </div>
+            </form>
+            </div>
+            <!-- /.card -->
+        </div>
+        <!--/.col (left) -->
+        </div>
+
+
+
+            <div class='col-md-12 col-lg-12 col-xl-12'>
+                <div class='card'>
+                    <div class='card-body'>
+                        <table id='example1' class='table table-bordered table-striped'>
+                            <thead>
+                                <colgroup>
+                                <colgroup span="2"></colgroup>
+                                <colgroup span="2"></colgroup>
+                                <tr>
+                                    <td rowspan="3"></td>
+                                    <th colspan="6" scope="colgroup" style="text-align: center;" >Junior Students</th>
+                                    <th colspan="6" scope="colgroup" style="text-align: center;">Sinior Students</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" scope="colgroup">Frist Term</th>
+                                    <th colspan="2" scope="colgroup">Second Term</th>
+                                    <th colspan="2" scope="colgroup">Third Term</th>
+                                    <th colspan="2" scope="colgroup">Frist Term</th>
+                                    <th colspan="2" scope="colgroup">Second Term</th>
+                                    <th colspan="2" scope="colgroup">Third Term</th>
+                                </tr>
+                                <tr>
+                                    <th scope="col">New</th>
+                                    <th scope="col">Old</th>
+                                    <th scope="col">New</th>
+                                    <th scope="col">Old</th>
+                                    <th scope="col">New</th>
+                                    <th scope="col">Old</th>
+                                    <th scope="col">New</th>
+                                    <th scope="col">Old</th>
+                                    <th scope="col">New</th>
+                                    <th scope="col">Old</th>
+                                    <th scope="col">New</th>
+                                    <th scope="col">Old</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in list_data %}
+                                        <tr>
+                                            <th scope="row">{{item.name}}</th>
+                                            <td>{{item.fst_jnew}}</td>
+                                            <td>{{item.fst_jold}}</td>
+                                            <td>{{item.sec_jnew}}</td>
+                                            <td>{{item.sec_jold}}</td>
+                                            <td>{{item.trd_jnew}}</td>
+                                            <td>{{item.trd_jold}}</td>
+                                            <td>{{item.fst_snew}}</td>
+                                            <td>{{item.fst_sold}}</td>
+                                            <td>{{item.sec_snew}}</td>
+                                            <td>{{item.sec_sold}}</td>
+                                            <td>{{item.trd_snew}}</td>
+                                            <td>{{item.trd_sold}}</td>
+                                            <td>
+                                                <a href='{% url 'edit_items' item_id=item.id %}' class='btn btn-warning'><i class="nav-icon fas fa-edit"></i></a>
+                                                <a href='{% url 'delete_item' item_id=item.id %}' class='btn btn-danger'><i class="nav-icon fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>                          
+                                    {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_js %}
+
+{% endblock custom_js %}
+
+<!-- 
+
+    id=int
+    items=String
+    
+
+ -->

@@ -1,0 +1,1023 @@
+{% extends 'principal_template/base_template.html' %}
+{% load custom_filters %}
+{% load static %}
+
+{% block custom_css %}
+ <!-- DataTables -->
+ <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-responsive/css/responsive.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-buttons/css/buttons.bootstrap4.min.css" %}">
+ <style>
+    table {
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 8px;
+        border: 1px solid black;
+    }
+
+    .grade-A {
+        font-weight: bold;
+        font-size: larger;
+        color:green;
+    }
+
+    .grade-B {
+        font-weight: bold;
+        font-size: larger;
+        color:darkblue;
+    }
+
+    .grade-C {
+        font-weight: bold;
+        font-size: larger;
+        color:orange;
+    }
+    .grade-P {
+        font-weight: bold;
+        font-size: larger;
+        color:gold;
+    }
+    .grade-F {
+        font-weight: bold;
+        font-size: larger;
+        color:red;
+    }
+
+    .score-a {
+        background-color: green;
+        color: white;
+        font-weight: bold;
+        font-size: larger;
+    }
+    .score-b {
+        background-color: darkblue;
+        color: white;
+        font-weight: bold;
+        font-size: larger;
+    }
+    .score-c {
+        background-color: darkorange;
+        color: white;
+        font-weight: bold;
+        font-size: larger;
+    }
+    .score-p {
+        background-color: yellow;
+        font-weight: bold;
+        font-size: larger;
+
+    }
+    .score-red {
+        background-color: red;
+        color: white;
+        font-weight: bold;
+        font-size: larger;
+    }
+
+    .subscore {
+        background-color: green;
+        color: white;
+    }
+</style>
+{% endblock custom_css %}
+
+{% block main_content %}
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
+ <section class="content">
+<!-- selection form -->
+            <div class="row mb-2">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Select Category</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form action="{% url 'thebroadsheet_analysis' %}" method="post">
+                        {% csrf_token %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <!-- select -->
+                                <div class="form-group">
+                                <label>Session</label>
+                                <select class="form-control" name="sess_year" id="sess_year">
+                                    {% for sessions in all_sessions %}
+                                        {% if sessions.id >= 7 %}
+                                            <option value="{{sessions.id}}">{{ sessions.session_start_year }}/{{ sessions.session_end_year }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Term</label>
+                                    <select class="form-control" name="term" id="term">
+                                        {% for all_terms in all_terms %}
+                                            <option value="{{ all_terms.id}}">{{ all_terms.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Type</label>
+                                    <select class="form-control" name="result_type" id="result_type">
+                                        <option value="1">First Half</option>
+                                        <option value="2">End of Term</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Select Class</label>
+                                    <select class="form-control" name="classid" id="classid">
+                                        {% for classes in all_cat%}
+                                            {% if classes.class_id.name != 'Left Student' and classes.class_id.name != 'Expelled Students' and classes.class_id.name != 'Graduate Class' %}
+                                                <option value="{{ classes.id}}">{{ classes.class_id.name}} {{ classes.name}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                        <button type="submit" class="btn btn-primary btn-block" id="fetch_student">Generate</button>
+                        </div>
+
+                    </form>
+                    </div>
+                
+                </div>
+            </div>
+<!-- /selection form -->
+
+
+<!-- Analysis of resultss -->
+<h2>{{ thehalf}} Analysis of {{theclass.name}} for {{ theterm.name}} Term, {{ theses.session_start_year }}/{{ theses.session_end_year }}</h2>
+
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Tutors Attestation
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Content for Tutors Attestation -->
+                    <div class="row">
+                        <div class="col-md-12">
+                           <table class='table table-bordered table-striped'>
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Subject</th>
+                                <th>Date/Time</th>
+                                <th>Attestation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for attest in attestations %}
+                            <tr>
+                                
+                                  <td>{{ forloop.counter }}</td>
+                                  <td>{{ attest.subjects.subject_name}}</td>
+                                  <td>{{ attest.remark }}</td>
+                                  <td>{{ attest.created_at }}</td>
+                                
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Student Ethos Record
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Content for Student Ethos Record -->
+                    <div class="row">
+                        <div class="col-md-12">
+                                <h2>Student Ethos Records</h2>
+                                <div class="accordion" id="studentAccordion">
+                                {% for record in ethos_records %}
+                                    <div class="card">
+                                        <div class="card-header" id="heading{{ record.id }}">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ record.id }}" aria-expanded="true" aria-controls="collapse{{ record.id }}" style="color: green;">
+                                                    {{ record.student_id.admin.first_name }} {{ record.student_id.admin.last_name }}
+                                                </button>
+                                            </h2>
+                                        </div>
+                        
+                                        <div id="collapse{{ record.id }}" class="collapse" aria-labelledby="heading{{ record.id }}" data-parent="#studentAccordion">
+                                            <div class="card-body">
+                                                <h4 style="color: green;text-align: center;">Ethos Record</h4>
+                                                <table class="table table-bordered" style="color: green;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Positive Ethos</th>
+                                                            <th>Score</th>
+                                                            <th style="color: red;">Negative Ethos</th>
+                                                            <th style="color: red;">Score</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Leadership</td>
+                                                            <td class="table-success">{{ record.leadership }}</td>
+                                                            <td style="color: red;">Loitering</td>
+                                                            <td class="table-danger">{{ record.loitering }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Neatness</td>
+                                                            <td class="table-success">{{ record.neatness }}</td>
+                                                            <td style="color: red;">Immoral Relation Conduct</td>
+                                                            <td class="table-danger">{{ record.immoral_relation_conduct }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Room Representation (Competition)</td>
+                                                            <td class="table-success">{{ record.room_represent_compet }}</td>
+                                                            <td style="color: red;">Poor Timing</td>
+                                                            <td class="table-danger">{{ record.poor_timing }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Room Representation (Inspection)</td>
+                                                            <td class="table-success">{{ record.room_represent_inspect }}</td>
+                                                            <td style="color: red;">Negative Influence</td>
+                                                            <td class="table-danger">{{ record.negative_influence }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Self Confidence</td>
+                                                            <td class="table-success">{{ record.selfconfidence }}</td>
+                                                            <td style="color: red;">Noise Making</td>
+                                                            <td class="table-danger">{{ record.noise_making }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Team Spirit</td>
+                                                            <td class="table-success">{{ record.team_spirit }}</td>
+                                                            <td style="color: red;">Hostel Disobedience</td>
+                                                            <td class="table-danger">{{ record.hostel_disobidience }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Return Lost Items</td>
+                                                            <td class="table-success">{{ record.return_lost_items }}</td>
+                                                            <td style="color: red;">Bullying/Fighting</td>
+                                                            <td class="table-danger">{{ record.bullying_fighting }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Obedience to Staff</td>
+                                                            <td class="table-success">{{ record.obidience_to_staff }}</td>
+                                                            <td style="color: red;">Negative Civil</td>
+                                                            <td class="table-danger">{{ record.negative_civil }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Obedience to Rules</td>
+                                                            <td class="table-success">{{ record.obidience_to_rules }}</td>
+                                                            <td style="color: red;">Gossip</td>
+                                                            <td class="table-danger">{{ record.gossip }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Volunteerism</td>
+                                                            <td class="table-success">{{ record.volunteerism }}</td>
+                                                            <td style="color: red;">Avoiding Meals</td>
+                                                            <td class="table-danger">{{ record.avoiding_meals }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Reporting Unacceptable Behavior</td>
+                                                            <td class="table-success">{{ record.reporting_unacceptable_behavior }}</td>
+                                                            <td style="color: red;">Carelessness Personal</td>
+                                                            <td class="table-danger">{{ record.carelessness_personal }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Prayerfulness</td>
+                                                            <td class="table-success">{{ record.prayerfullness }}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                        
+                                                <div class="row mt-4">
+                                                    <div class="col-md-12">
+                                                        <h4>Total Calculations</h4>
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item" style="color: green;"><strong>Total Positive Ethos:</strong> {{ record.total_positive_ethos }}</li>
+                                                            <li class="list-group-item" style="color: red;"><strong>Total Negative Ethos:</strong> {{ record.total_negative_ethos }}</li>
+                                                            <li class="list-group-item"><strong>Total Ethos:</strong> {{ record.total_ethos }}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4">
+                                                    <div class="col-md-12">
+                                                        <h4>Remarks</h4>
+                                                        <p>{{ record.remark }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Subject/Class Average Analysis
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Content for Subject/Class Average Analysis -->
+                    <div class='row'>
+                                <div class='col-md-8 col-sm-8 col-12'>
+                                    <!-- DONUT CHART -->
+                                    <div class="card card-danger">
+                                        <div class="card-header">
+                                        <h3 class="card-title">SUBJECT BASED: Analysis of Number of Grades Below <strong>C</strong></h3>
+                        
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                        </div>
+                                        <div class="card-body">
+                                        <canvas id="donutChart" style="min-height: 500px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                    <!-- /.card -->
+                                </div>
+                                <div class='col-md-4 col-sm-4 col-12'>
+                                    <!-- PIE CHART -->
+                                    <div class="card card-danger">
+                                        <div class="card-header">
+                                        <h3 class="card-title">ANALYSIS OF CLASS AVERAGE GRADE COUNT</h3>
+                        
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                        </div>
+                                        <div class="card-body">
+                                        <canvas id="pieChart" style="min-height: 500px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                    <!-- /.card -->
+                                </div>
+                            </div>  
+                    <div class="row">
+                        <div class="col-md-12">
+                            
+                            <!-- Add your form or content here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        Analysis of Subject Grades
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Content for Analysis of Subject Grades -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-success">
+                                        <div class="card-header">
+                                        <h3 class="card-title">ANALYSIS OF SUBJECTS BASED GRADES</h3>
+
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                        </div>
+                                        <div class="card-body">
+                                        <div class="chart">
+                                            <canvas id="stackedBarChart" style="min-height: 500px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                                        </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                    <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingFive">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        Subject Termly Comparison
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Content for Subject Termly Comparison -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="chart">
+                                <canvas id="barChart1" style="min-height: 500px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingSix">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        Student Termly Analysis
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Content for Student Termly Analysis -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="chart">
+                                <canvas id="barChart" style="min-height: 500px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingSeven">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                        Broadsheet
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Content for Broadsheet -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class='card'>
+                                <div class='card-header'>
+                                    <h2 class='card-title'>{{ thehalf}} Broadsheet of {{theclass.name}} for {{ theterm.name}} Term, {{ theses.session_start_year }}/{{ theses.session_end_year }}</h2>
+                                </div>
+                                <div class='card-body'>   
+                                    {% if thehalf == "First Half" %}
+                                        <table id="exampl1" class='table table-bordered table-striped'>
+                                            <thead>
+                                                <tr>
+                                                    {% for key in json_data.0 %}
+                                                    <th>{{ key }}</th>
+                                                    {% endfor %}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for student  in json_data %}
+                                                <tr>
+                                                    {% if theclass.id <= 3 %}
+                                                        {% for key, value in student.items %}
+                                                            <td class="{% if value >= 25  %}score-a{% elif value >= 20 %}score-b{% elif value >= 15 %}score-c{% elif value >= 10 %}score-p{% elif value <= 9 %}score-red{% endif %}">
+                                                                {{ value }}
+                                                            </td>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        {% for key, value in student.items %}
+                                                            <td class="{% if value >= 13  %}score-a{% elif value >= 10 %}score-b{% elif value >= 8 %}score-c{% elif value >= 6 %}score-p{% elif value <= 5 %}score-red{% endif %}">
+                                                                {{ value }}
+                                                            </td>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                            <tfoot>
+                                                    <tr>
+                                                        {% for key in json_data.0.keys %}
+                                                        <th>{{ key }}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                            </tfoot>
+                                        </table>
+                                    
+                                    {% else %}
+                                        <table id="exampl1" class='table table-bordered table-striped'>
+                                            <thead>
+                                                <tr>
+                                                    {% for key in json_data.0 %}
+                                                    <th>{{ key }}</th>
+                                                    {% endfor %}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for student  in json_data %}
+                                                <tr>
+                                                    {% for key, value in student.items %}
+                                                    <td  class="{% if value >= 80  %}score-a{% elif value >= 70 %}score-b{% elif value >= 60 %}score-c{% elif value >= 50 %}score-p{% elif value <= 49.9 %}score-red{% endif %}">
+                                                        {{ value }}
+                                                    </td>
+                                                    {% endfor %}
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                            <tfoot>
+                                                    <tr>
+                                                        {% for key in json_data.0.keys %}
+                                                        <th>{{ key }}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                            </tfoot>
+                                        </table>
+                                    {% endif %}                 
+                                    
+                                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingEight">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                        Cumulative Average
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Content for Cumulative Average -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class='card'>
+                                <div class='card-header'>
+                                    <h2 class='card-title'>CUMMULATIVE ANALYSIS OF {{ theclass.name }} for {{ theterm.name }} Term, {{ theses.session_start_year }}/{{ theses.session_end_year }}</h2>
+                                </div>
+                                <div class='card-body'>
+                                    <table id="exampl1" class='table table-bordered table-striped'>
+                                        <thead>
+                                            <tr>
+                                                {% for key in cumul_records.0 %}
+                                                <th>{{ key }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for student in cumul_records %}
+                                            <tr>
+                                                {% for key, value in student.items %}
+                                                    {% if key == 'Cum Grade' %}
+                                                        <td class="{% if value == 'A' %}grade-A{% elif value == 'B' %}grade-B{% elif value == 'C' %}grade-C{% elif value == 'F' %}grade-F{% endif %}">
+                                                            {{ value }}
+                                                        </td>
+                                                    {% else %}
+                                                        <td class="{% if value >= 80  %}score-a{% elif value >= 70 %}score-b{% elif value >= 60 %}score-c{% elif value >= 50 %}score-p{% elif value <= 49.9 %}score-red{% endif %}">
+                                                            {{ value }}
+                                                        </td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                {% for key in cumul_records.0.keys %}
+                                                <th>{{ key }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- /Broadsheet -->
+</section>
+ 
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<!-- DataTables  & Plugins -->
+<script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/jszip/jszip.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/pdfmake.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/vfs_fonts.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.print.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.colVis.min.js" %}"></script>
+<script>
+    $(document).ready(function(){
+                $(function () {
+                    $("#example1").DataTable({
+                      "responsive": true, "lengthChange": false,"pageLength": 40, "autoWidth": false,
+                      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                    $('#example2').DataTable({
+                      "paging": true,
+                      "lengthChange": false,
+                      "searching": false,
+                      "ordering": true,
+                      "info": true,
+                      "autoWidth": false,
+                      "responsive": true,
+                    });
+                  });
+    });
+    $("#fetch_student").click(function(){
+        $('.modal').modal('show');
+                setTimeout(function () {
+                    console.log('hejsan');
+                    $('.modal').modal('hide');
+                }, 3000);
+    });
+   
+</script>
+<script>
+    $(document).ready(function(){
+
+        {% if theterm.name %}
+            $('.modal').modal('show');
+            setTimeout(function () {
+                console.log('hejsan');
+                $('.modal').modal('hide');
+            }, 1000);
+        {% endif %}
+        
+
+
+        var subjects = [];
+        var gradcount = [];
+
+        {% for subject, grade_count in subject_grade_counts.items %}
+            var count = {{grade_count.P}} + {{grade_count.F}};
+            gradcount.push(count);
+            subjects.push('{{ subject }}');
+        {% endfor %}
+
+        var pieData = {
+            labels: subjects,
+            datasets: [
+              {
+                data: gradcount,
+                backgroundColor : ['#00a65a', '#0612B5', '#f39c12', '#FCFC0B', '#FF5C5C', '#FCB3FF', '#48A0FF', '#0EFF76', '#000000', '#14718B', '#676A29', '#0612B5', '#f39c12', '#989854', '#FF0E0E', '#A92DAD', '#CDE5FF', '#551857', '#445970', '#ACFCCE', '#9E9A9A', '#AA4767', '#FF073D'],
+              }
+            ]
+        };
+
+        var grades        = {
+            labels: [
+                'A',
+                'B',
+                'C',
+                'P',
+                'F',
+            ],
+            datasets: [
+              {
+                data: [{{ grade_counts.A }},{{ grade_counts.B }},{{ grade_counts.C }},{{ grade_counts.P }},{{ grade_counts.F }}],
+                backgroundColor : ['#00a65a', '#0612B5', '#FFBB4E', '#FFFF2B', '#FF0E0E'],
+              }
+            ]
+        };
+        
+        var stud = [];
+        var cterm = [];
+        var pterm = [];
+        {% for student, values in termly_compare.items %}
+            stud.push('{{ student.admin.first_name }}');
+            cterm.push('{{ values.currentterm }}');
+            pterm.push('{{ values.prevterm }}');
+        {% endfor %}
+        term_compare = {
+            'labels': stud,
+            'datasets': [
+                {
+                    'label': 'Previous Term',
+                    'backgroundColor': '#07D2FF',
+                    'borderColor': '#B8F9FF',
+                    'pointRadius': false,
+                    'pointColor': '#7AF2FF',
+                    'pointStrokeColor': '#00FF22',
+                    'pointHighlightFill': '#c2ffb8',
+                    'pointHighlightStroke': 'rgba(60,141,188,1)',
+                    'data': pterm,
+                },
+                {
+                    'label': 'Current Term',
+                    'backgroundColor': '#46BA34',
+                    'borderColor': '#4FBE3E',
+                    'pointRadius': false,
+                    'pointColor': '#3AFF1C',
+                    'pointStrokeColor': '#3DFF1F',
+                    'pointHighlightFill': '#4CF3FC',
+                    'pointHighlightStroke': 'rgba(220,220,220,1)',
+                    'data':cterm,
+                },
+            ],
+        };
+
+        var subje = [];
+        var cuterm = [];
+        var pevterm = [];
+        {% for subject, values in subject_termly.items %}
+            subje.push('{{ subject }}');
+            cuterm.push('{{ values.curterm }}');
+            pevterm.push('{{ values.pevterm }}');
+        {% endfor %}
+
+        subject_compare = {
+            labels  : subje,
+            datasets: [
+              {
+                label               : 'Current Term',
+                backgroundColor     : 'rgba(60,141,188,0.9)',
+                borderColor         : 'rgba(60,141,188,0.8)',
+                pointRadius          : false,
+                pointColor          : '#3b8bba',
+                pointStrokeColor    : 'rgba(60,141,188,1)',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data                : cuterm,
+              },
+              {
+                label               : 'Previouse Term',
+                backgroundColor     : 'rgba(210, 214, 222, 1)',
+                borderColor         : 'rgba(210, 214, 222, 1)',
+                pointRadius         : false,
+                pointColor          : 'rgba(210, 214, 222, 1)',
+                pointStrokeColor    : '#c1c7d1',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: 'rgba(220,220,220,1)',
+                data                : pevterm,
+              },
+            ]
+        };
+
+        //-------------
+        //- DONUT CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+        
+        var donutOptions     = {
+          maintainAspectRatio : false,
+          responsive : true,
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        new Chart(donutChartCanvas, {
+            type: 'doughnut',
+            data: pieData,
+            options: donutOptions
+        });
+
+        //-------------
+        //- PIE CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+        var pieOptions     = {
+          maintainAspectRatio : false,
+          responsive : true,
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        new Chart(pieChartCanvas, {
+          type: 'pie',
+          data: grades,
+          options: pieOptions
+        });
+
+
+
+        //-------------
+        //- BAR CHART 1 -
+        //-------------
+        var barChartCanvas1 = $('#barChart1').get(0).getContext('2d')
+        var barChartData1 = $.extend(true, {}, subject_compare)
+        var temp0 = subject_compare.datasets[0]
+        var temp1 = subject_compare.datasets[1]
+        barChartData1.datasets[0] = temp1
+        barChartData1.datasets[1] = temp0
+    
+        var barChartOptions1 = {
+          responsive              : true,
+          maintainAspectRatio     : false,
+          datasetFill             : false
+        }
+    
+        new Chart(barChartCanvas1, {
+          type: 'bar',
+          data: barChartData1,
+          options: barChartOptions1
+        });
+
+    
+        //-------------
+        //- BAR CHART -
+        //-------------
+        var barChartCanvas = $('#barChart').get(0).getContext('2d')
+        var barChartData = $.extend(true, {}, term_compare)
+        var temp0 = term_compare.datasets[0]
+        var temp1 = term_compare.datasets[1]
+        barChartData.datasets[0] = temp0
+        barChartData.datasets[1] = temp1
+    
+        var barChartOptions = {
+          responsive              : true,
+          maintainAspectRatio     : false,
+          datasetFill             : false
+        }
+    
+        new Chart(barChartCanvas, {
+          type: 'bar',
+          data: barChartData,
+          options: barChartOptions
+        });
+
+
+        var subj = [];
+        var a = [];
+        var b = [];
+        var c = [];
+        var p = [];
+        var f = [];
+        {% for subject, grade_counts in subject_grade_counts.items %}
+            subj.push('{{ subject }}');;
+            a.push('{{ grade_counts.A }}');
+            b.push('{{ grade_counts.B }}');
+            c.push('{{ grade_counts.C }}');
+            p.push('{{ grade_counts.P }}');
+            f.push('{{ grade_counts.F }}');
+        {% endfor %}
+
+        var subgradeData = {
+            labels  : subj,
+            datasets: [
+              {
+                label               : 'A',
+                backgroundColor     : '#08ED17',
+                borderColor         : '#03BD1F',
+                pointRadius          : false,
+                pointColor          : '#75FFAF',
+                pointStrokeColor    : '#237D65',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: '#23457D',
+                data                : a,
+              },
+              {
+                label               : 'B',
+                backgroundColor     : '#0762F5',
+                borderColor         : '#193F7C',
+                pointRadius         : false,
+                pointColor          : '#76ABFF',
+                pointStrokeColor    : '#324C76',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: '#23457D',
+                data                : b,
+              },
+              {
+                label               : 'C',
+                backgroundColor     : '#FFA920',
+                borderColor         : '#EEC019',
+                pointRadius         : false,
+                pointColor          : '#676214',
+                pointStrokeColor    : '#23457D',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: '#23457D',
+                data                : c,
+              },
+              {
+                label               : 'P',
+                backgroundColor     : '#FBF85D',
+                borderColor         : '#EEEB56',
+                pointRadius         : false,
+                pointColor          : '#6F6C41',
+                pointStrokeColor    : '#23457D',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: '#23457D',
+                data                : p,
+              },
+              {
+                label               : 'F',
+                backgroundColor     : '#F71B1B',
+                borderColor         : '#A42323',
+                pointRadius         : false,
+                pointColor          : '#E03030',
+                pointStrokeColor    : '#A53C3C',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: '#23457D',
+                data                : f,
+              },
+            ]
+        };
+
+
+
+        var barChartCanvas = $('#barChart').get(0).getContext('2d')
+        var baChartData = $.extend(true, {}, subgradeData)
+        var temp0 = subgradeData.datasets[0]
+        var temp1 = subgradeData.datasets[1]
+        var temp2 = subgradeData.datasets[2]
+        var temp3 = subgradeData.datasets[3]
+        var temp4 = subgradeData.datasets[4]
+        baChartData.datasets[0] = temp0
+        baChartData.datasets[1] = temp1
+        baChartData.datasets[2] = temp2
+        baChartData.datasets[3] = temp3
+        baChartData.datasets[4] = temp4
+        //---------------------
+        //- STACKED BAR CHART -
+        //---------------------
+        var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')
+        var stackedBarChartData = $.extend(true, {}, baChartData)
+
+        var stackedBarChartOptions = {
+        responsive              : true,
+        maintainAspectRatio     : false,
+        scales: {
+            xAxes: [{
+            stacked: true,
+            }],
+            yAxes: [{
+            stacked: true
+            }]
+        }
+        }
+
+        new Chart(stackedBarChartCanvas, {
+        type: 'bar',
+        data: stackedBarChartData,
+        options: stackedBarChartOptions
+        });
+    
+        
+    });
+</script>
+{% endblock custom_js %}

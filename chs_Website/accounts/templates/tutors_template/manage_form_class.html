@@ -1,0 +1,43 @@
+{% extends 'tutors_template/base_template.html' %}
+{% load static %}
+{% block page_title %}
+Form Class
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<div class="card card-success">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 col-lg-6 col-xl-4">
+          <a href="{% url 'form_students' class_id %}" class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/timeresult.png" %}" alt="Dist Photo 2"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">View Students</span>
+              </div>
+              <!-- /.info-box-content -->
+          </a>
+        </div>
+        <div class="col-md-12 col-lg-6 col-xl-4">
+          <a href="{% url 'tutors_assesment' class_id %}" class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/timeresult.png" %}" alt="icon"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Asses Student</span>
+              </div>
+              <!-- /.info-box-content -->
+          </a>
+        </div>
+        <div class="col-md-12 col-lg-6 col-xl-4">
+          <a href="{% url 'class_results' class_id %}" class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/timeresult.png" %}" alt="icon"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">View Class result</span>
+              </div>
+              <!-- /.info-box-content -->
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.content -->
+{% endblock main_content %}

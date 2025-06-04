@@ -1,0 +1,292 @@
+{% extends 'base_template.html' %}
+<<<<<<< HEAD
+{% load static %}
+=======
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
+{% block page_title %}
+Allocation
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Allocate Hostel and Room</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form role="form" action="/allocate_room" method="post">
+                            {% csrf_token %}
+        
+                                {% comment %} Display Messages {% endcomment %}
+                                {% if messages %}
+                                <div class="form-group">
+                                <div class="col-12">
+                                    {% for message in messages %}
+                                    {% if message.tags == "error" %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                    {% elif message.tags == "success" %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                </div>
+                                {% endif %}
+        
+                            <div class="card-body">
+                                
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Session</label>
+                                        <h3>{{ ses.session_start_year }}/{{ ses.session_end_year }}</h3>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+<<<<<<< HEAD
+                                <!-- select -->
+                                <div class="form-group">
+                                    <label>Hostel</label>
+                                    <select class="form-control" id="hostel" name="hostel" onchange="updateRooms()">
+                                        <option value="0">--select hostel--</option>
+                                        {% for hostel in hostels %}
+                                            <option value="{{ hostel.id }}">{{ hostel.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <!-- select -->
+                                <div class="form-group">
+                                    <label>Rooms</label>
+                                    <select class="form-control" id="roomsSelect" name="room" required>
+                                        {% for room in rooms %}
+                                            <option value="{{ room.id }}" data-hostel="{{ room.hostels.id }}">{{ room.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-3">
+                                    <div class="form-group">
+                                    <label>Students</label>
+                                    <select class="form-control" name="studentid" id="studentid">
+                                        {% for student in students %}
+                                        <option value="{{ student.admin.username}}">{{ student.class_id.name }}:  {{ student.admin.first_name }} {{ student.admin.last_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                </div>
+
+=======
+                                    <!-- select -->
+                                    <div class="form-group">
+                                    <label>Hostel</label>
+                                        <select class="form-control" id="hostel" name="hostel">
+                                            <option value="0">--select hostel--</option required>
+                                            {% for hostel in hostel %}
+                                                <option value="{{ hostel.id}}">{{ hostel.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <!-- select -->
+                                    <div class="form-group">
+                                    <label>Rooms</label>
+                                        <select class="form-control" id="rooms" name="room" required>
+                                            <option value=>--Select room --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Student Reg.</label>
+                                        <input type="text" class="form-control" id="id_username" name="studentid" placeholder="Enter Student Reg. No." required>
+                                    </div>
+                                </div>
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+                            </div>
+                             <!-- /.card-body -->
+                             <div class="card-footer">
+                                <button type="submit" class="btn btn-success btn-block" id="submit lession plan">Add/Update</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Allocations</h3>
+                        </div>
+                        
+                        <div class="table">
+<<<<<<< HEAD
+                            <table id='example1' class='table table-bordered table-striped'>
+=======
+                            <table class="table table-hover text-nowrap">
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Student</th>
+                                        <th>Allocator</th>
+                                        <th>Accomodation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for allo in allo %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>Reg. No: {{ allo.student.admin.username}} <br>Name: {{ allo.student.admin.first_name}} {{ allo.student.admin.last_name}} <br>Class: {{ allo.student.class_id.name}} {{ allo.student.class_category.name}} |{{ allo.student.gender}} </td>
+                                            <td>Reg. No.: {{allo.allocator.admin.username}} <br>Name: {{allo.allocator.admin.first_name}} {{allo.allocator.admin.last_name}}</td>
+                                            <td>Hostel: {{ allo.room.hostels.name}} <br> Room: {{ allo.room.name}}<br>Session: {{ allo.sessionid.session_start_year}} / {{ allo.sessionid.session_end_year}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Student</th>
+                                        <th>Allocator</th>
+                                        <th>Accomodation</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--/.col (left) -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<!-- /.content -->
+{% endblock main_content %}
+{% block custom_js %}
+<script>
+<<<<<<< HEAD
+    function updateRooms() {
+        var selectedHostel = $('#hostel').val();
+
+        // Hide all rooms
+        $('#roomsSelect option').hide();
+
+        // Show only the rooms belonging to the selected hostel
+        $('#roomsSelect option[data-hostel="' + selectedHostel + '"]').show();
+
+        // Select the default option
+        $('#roomsSelect').val($('#roomsSelect option:visible:first').val());
+    }
+
+    // Call the function on page load to initialize the "Rooms" dropdown based on the initial selected "Hostel"
+    $(document).ready(function() {
+        updateRooms();
+    });
+</script>
+<!-- DataTables  & Plugins -->
+<script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/jszip/jszip.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/pdfmake.min.js" %}"></script>
+<script src="{% static "/plugins/pdfmake/vfs_fonts.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.print.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.colVis.min.js" %}"></script>
+<script>
+    $(document).ready(function(){
+                $(function () {
+                    $("#example1").DataTable({
+                      "responsive": true, "lengthChange": false, "autoWidth": false,
+                      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                    $('#example2').DataTable({
+                      "paging": true,
+                      "lengthChange": false,
+                      "searching": false,
+                      "ordering": true,
+                      "info": true,
+                      "autoWidth": false,
+                      "responsive": true,
+                    });
+                  });
+    });
+   
+=======
+    $(document).ready(function(){
+        $("#hostel").on('change',function(){
+
+            var hostel=$("#hostel").val()
+            $.ajax({
+                url:'{% url 'get_rooms' %}',
+                type: 'POST',
+                data:{hostel:hostel}
+            })
+            .done(function(response){
+                var json_data=JSON.parse(response);
+                $("#rooms").empty();
+                $.each(json_data, function (index, value){
+                    $('<option value="'+ value.id +'" id="ops">' + value.name + '</option>').appendTo('#rooms');
+                });
+
+                
+            })
+            .fail(function(){
+               
+
+            })
+
+        
+        });
+
+        $("#id_username").keyup(function(){
+            var username=$(this).val();
+
+            if(username!=""){
+                $.ajax({
+                    url:'{% url 'check_username_exis' %}',
+                    type: 'POST',
+                    data:{username:username}
+                })
+                .done(function(response){
+                    if(response=="True"){
+                        $(".username_error").remove();
+                        $("<span class='username_error' style='padding:5px;color:green;font-weight:bold;'>Valid Reg. Number</span>").insertAfter("#id_username");
+                    }
+                    else{
+                        $(".username_error").remove();
+                        $("<span class='username_error' style='padding:5px;color:red;font-weight:bold;'>Invalid Reg. Number</span>").insertAfter("#id_username");
+                    }
+                })
+                .fail(function(){
+
+                })
+            }
+            else{
+                $(".username_error").remove();
+            }
+        });
+    })
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+</script>
+{% endblock custom_js %}

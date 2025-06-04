@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Quiz: {{ schedule.quiz.title }}</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-size: 1.2rem;
+            font-family: 'Arial', sans-serif;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .btn-nav, .btn-ques-num {
+            margin: 5px;
+        }
+        #timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .form-control, input[type="radio"] {
+            transform: scale(1.2);
+        }
+        label {
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        input[type="radio"]:checked + label {
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+        }
+        .question-card {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .answered-card {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .unanswered-card {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .current-question {
+            border: 2px solid #007bff;
+        }
+        #previous-btn, #next-btn, #submit-btn {
+            width: 100px;
+        }
+        #submit-btn {
+            display: none;
+        }
+        .btn-ques-num {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .btn-ques-num.answered {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-ques-num.unanswered {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+    <style>
+        .question-diagram {
+            width: 200px;
+            height: 200px;
+            object-fit: contain; /* Ensures the image fits within the box without stretching */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">{{ schedule.quiz.title }}</h1>
+        <div class="d-flex justify-content-between align-items-center">
+            <div id="timer" class="alert alert-info text-right">
+                <i class="fas fa-clock"></i>  <span id="timeRemaining"></span>
+            </div>
+            <div id="answered-count" class="alert alert-success text-right">
+                Answered: 0
+            </div>
+        </div>
+        
+        <div id="questions-container">
+            <h3 class="mt-4">Objective Questions</h3>
+            {% for question in objective_questions %}
+                <div class="question question-card unanswered-card" id="objective-question-{{ forloop.counter }}" style="display: {{ forloop.first|yesno:'block,none' }};">
+                    <h4><i class="fas fa-question-circle"></i> Question {{ forloop.counter }}</h4>
+                    <p>{{ question.question }}</p>
+                    {% if question.diagram %}
+                        <img src="{{ question.diagram.url }}" alt="Diagram" class="img-fluid question-diagram">
+                    {% endif %}
+                    <form class="answer-form" method="POST" data-question-id="{{ question.id }}" data-question-type="objective">
+                        {% csrf_token %}
+                        <input type="hidden" name="question_id" value="{{ question.id }}">
+                        {% for option in question.options.all %}
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="option-{{ question.id }}-{{ forloop.counter }}" name="selected_option" class="custom-control-input" value="{{ option.id }}"
+                                    {% if option.id == question.selected_option.id %}checked{% endif %}>
+                                <label class="custom-control-label" for="option-{{ question.id }}-{{ forloop.counter }}">
+                                    {{ option.option_value }}. {{ option.option_text }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </form>
+                </div>
+            {% endfor %}
+
+
+            <!-- Navigation Buttons -->
+            <div class="text-center mt-3">
+                <button class="btn btn-secondary btn-nav" id="previous-btn"><i class="fas fa-arrow-left"></i></button>
+                <button class="btn btn-success btn-nav" id="submit-btn">Submit <i class="fas fa-check-circle"></i></button>
+                <button class="btn btn-primary btn-nav" id="next-btn"><i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <!-- Question Number Navigation -->
+            <div class="text-center mt-4">
+                {% for question in objective_questions %}
+                    <button class="btn btn-ques-num {% if question.selected_option %}answered{% else %}unanswered{% endif %}" id="ques-btn-{{ forloop.counter }}">
+                        {{ forloop.counter }}
+                    </button>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        let currentQuestion = 1;
+        const totalQuestions = {{ objective_questions|length }};
+        let timeRemaining = {{ time_remaining }};
+        let isAnswered = Array(totalQuestions).fill(false);
+
+        function updateTimer() {
+            // Use Math.floor to ensure we are working with whole numbers
+            const hours = Math.floor(timeRemaining / 3600);
+            const minutes = Math.floor((timeRemaining % 3600) / 60);
+            const seconds = Math.floor(timeRemaining % 60); // Use Math.floor to avoid fractions
+        
+            // Format the timer output to HH:MM:SS
+            $('#timeRemaining').text(
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+            );
+        
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                alert('Time is up! Submitting your quiz.');
+                submitQuiz();
+            }
+        
+            timeRemaining--; // Decrement the time remaining
+        }
+        
+        
+
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        function showQuestion(index) {
+            $('.question').hide();
+            $(`#objective-question-${index}`).show();
+            $('.btn-ques-num').removeClass('current-question');
+            $(`#ques-btn-${index}`).addClass('current-question');
+        }
+
+        function saveAnswer(questionId) {
+            const form = $(`form[data-question-id="${questionId}"]`);
+            const formData = form.serialize();
+        
+            $.ajax({
+                type: 'POST',
+                url: '{% url "save_answer" schedule.id %}', // Adjust to the correct URL if necessary
+                data: formData,
+                success: function(response) {
+                    const toastOptions = {
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Answer saved successfully!',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        toast: true
+                    };
+
+                    if (response.status === 'success') {
+                        // Mark question as answered by updating the button and card styles
+                        const questionButton = $(`#ques-btn-${currentQuestion}`);
+                        const questionCard = $(`#objective-question-${currentQuestion}`);
+        
+                        questionButton.removeClass('unanswered').addClass('answered');
+                        questionCard.removeClass('unanswered-card').addClass('answered-card');
+
+                        // Show success toast
+                        SweetAlert.fire(toastOptions);
+                        // Mark this question as answered in the internal tracker
+                        isAnswered[questionId - 1] = true;
+                        updateAnsweredCount();
+                    } else {
+                        // Show error toast
+                        toastOptions.icon = 'error';
+                        toastOptions.title = response.message;
+                        SweetAlert.fire(toastOptions);
+                    }
+                },
+                error: function() {
+                    const toastOptions = {
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'An error occurred while saving the answer.',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        toast: true
+                    };
+                    SweetAlert.fire(toastOptions);
+                }
+            });
+        }
+        
+
+        function submitQuiz() {
+            $.ajax({
+                type: 'POST',
+                url: '{% url "submit_quiz" schedule.id %}',
+                data: {},  // Include any necessary data here
+                success: function(response) {
+                    if (response.status === 'success') {
+                        if (response.code === 'theory') {
+                            // Navigate to the theory quiz view if the code is valid
+                            window.location.href = "{% url 'quiz_view_theory' schedule.id %}";
+                        } else {
+                            // Navigate to the quiz result if code is not 'theory'
+                            window.location.href = "{% url 'quiz_result' schedule.id %}";
+                        }
+                    } else {
+                        SweetAlert.fire({
+                            icon: 'error',
+                            title: 'Error submitting quiz',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function() {
+                    SweetAlert.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while submitting the quiz.',
+                    });
+                }
+            });
+        }
+        
+
+        function updateAnsweredCount() {
+            const answeredCount = isAnswered.filter(Boolean).length;
+            $('#answered-count').text('Answered: ' + answeredCount);
+        }
+
+        $(document).ready(function() {
+            $('#next-btn').on('click', function() {
+                if (currentQuestion < totalQuestions) {
+                    console.log(currentQuestion)
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                    updateSubmitButton();
+                    console.log(currentQuestion)
+                }
+            });
+
+            $('#previous-btn').on('click', function() {
+                if (currentQuestion > 1) {
+                    console.log(currentQuestion)
+                    currentQuestion--;
+                    showQuestion(currentQuestion);
+                    updateSubmitButton();
+                    console.log(currentQuestion)
+                }
+            });
+
+            $('.btn-ques-num').on('click', function() {
+                const number = $(this).attr('id').replace('ques-btn-', '');
+                currentQuestion = parseInt(number);
+                showQuestion(currentQuestion);
+                updateSubmitButton();
+            });
+
+            $('input[type="radio"]').on('change', function() {
+                const questionId = $(this).closest('form').data('question-id');
+                saveAnswer(questionId);
+            });
+
+            function updateSubmitButton() {
+                if (currentQuestion === totalQuestions) {
+                    $('#submit-btn').show();
+                    $('#next-btn').hide();
+                } else {
+                    $('#submit-btn').hide();
+                    $('#next-btn').show();
+                }
+            }
+
+            $('#submit-btn').click(function() {
+                SweetAlert.fire({
+                    icon: 'question',
+                    title: 'Are you sure?',
+                    text: 'You want to submit the quiz.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, submit it!',
+                    cancelButtonText: 'No, keep working',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        submitQuiz();
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        // Prevent back button
+        window.history.pushState(null, "", window.location.href);
+        window.onpopstate = function() {
+            window.history.pushState(null, "", window.location.href);
+        };
+    </script>
+    <script>
+        // Disable right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        }, false);
+    
+        // Disable F12 and Ctrl+Shift+I for developer tools
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+                e.preventDefault();
+            }
+        }, false);
+    </script>
+    
+    
+</body>
+</html>

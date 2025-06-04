@@ -1,0 +1,66 @@
+{% extends 'students_template/base_template.html' %}
+
+{% block page_title %}
+Subjects Taking
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-12">
+            <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Subjects</h3>
+
+                <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                <thead>
+                    <tr>
+                    <th>Class</th>
+                    <th>Code</th>
+                    <th>Subject Name</th>
+                    <th>1st Term Resource</th>
+                    <th>2st Term Resource</th>
+                    <th>3st Term Resource</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for student_subject in student_subjects %}
+                    <tr>
+                    <td>{{ student_subject.class_id.name }}</td>
+                    <td>{{ student_subject.outline }}</td>
+                    <td>{{ student_subject.subject_name }}</td>
+                    <td><a href="{{ student_subject.term1_resources }}">Open File</a></td>
+                    <td><a href="{{ student_subject.term1_resources}}">Open File</a></td>
+                    <td><a href="{{ student_subject.term1_resources}}">Open File</a></td>
+                   </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock main_content %}

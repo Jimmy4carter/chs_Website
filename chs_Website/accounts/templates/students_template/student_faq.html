@@ -1,0 +1,68 @@
+{% extends 'students_template/base_template.html' %}
+{% load static %}
+
+{% block page_title %}
+Online Classes
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-12" id="accordion">
+            <div class="card card-primary card-outline">
+                <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
+                    <div class="card-header">
+                        <h4 class="card-title w-100">
+                            1. How can i change or Reset my password?
+                        </h4>
+                    </div>
+                </a>
+                <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                        To change your password, you can locate your profile page from the menu and type in a new password in the password field. <br> 
+                        In situations where you can not login you can contact the school Secratery or ICT to assist you with a password reset.
+                    </div>
+                </div>
+            </div>
+            <div class="card card-primary card-outline">
+                <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo">
+                    <div class="card-header">
+                        <h4 class="card-title w-100">
+                            2. How can i print/download my result?
+                        </h4>
+                    </div>
+                </a>
+                <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        To print your result, you have to open the prefered result before clicking on the print option and from the print preview you can choose to either print or save as pdf.
+                    </div>
+                </div>
+            </div>
+            <div class="card card-danger card-outline">
+                <a class="d-block w-100" data-toggle="collapse" href="#collapseNine">
+                    <div class="card-header">
+                        <h4 class="card-title w-100">
+                            3.  How does the online exit work?
+                        </h4>
+                    </div>
+                </a>
+                <div id="collapseNine" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        You choose the exit date and a comprehensive reason for the request and submit. To ensure review is been done please inform the school secretary immediately after your request so that she can review it at that instant.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-3 text-center">
+            <p class="lead">
+                <a href="{% url 'contact_us' %}">Contact us</a>,
+                if you have not found the right anwser or you have a other question?<br />
+            </p>
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+{% endblock main_content %}

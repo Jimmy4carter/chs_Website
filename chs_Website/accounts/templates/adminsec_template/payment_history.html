@@ -1,0 +1,85 @@
+{% extends 'adminsec_template/base_template.html' %}
+{% load static %}
+
+{% block page_title %}
+Payment History
+{% endblock page_title %}
+
+{% block main_content %}
+ <!-- Main content -->
+ <section class="content">
+   <div class="container-fluid">
+      <div class="col-md-12" id="cont">
+        <div class='card-body'>
+            <table id='example1' class='table table-bordered table-striped'>
+                <thead>
+                    <tr>
+                        <th>Payer Info</th>
+                        <th>Payment Info</th>
+                        <th>Transaction Info</th>                  
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in response %}
+                    <tr>
+                        <td>
+                            {% for v in record.metadata.custom_fields %}
+                            {{ v.value }} <br>
+                            {% endfor %}
+                            {{ record.customer.email }} <br>
+                        </td>
+                        <td>Status: {{ record.status }} <br>Amount: {{ record.amount }}</td>
+                        <td>Channel: {{ record.channel }} <br>Date: {{ record.paid_at }} <br>Ref: {{ record.reference }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Payer Info</th>
+                        <th>Payment Info</th>
+                        <th>Transaction Info</th> 
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+   </div>
+ </section>
+ <!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_js %}
+<!-- DataTables  & Plugins -->
+<script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/jszip/jszip.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/pdfmake.min.js" %}"></script>
+<script src="{% static "/plugins/pdfmake/vfs_fonts.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.print.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.colVis.min.js" %}"></script>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+        });
+   
+</script>
+{% endblock custom_js %}
+    

@@ -1,0 +1,81 @@
+{% extends 'students_template/base_template.html' %}
+
+{% block page_title %}
+View Attendance Records
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">View Attendance</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form action="{% url 'student_view_attendance_post' %}" method="post">
+                    {% csrf_token %}
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select class="form-control" name="subject" id="subject">
+                            {% for subject in subjects %}
+                            <option value="{{ subject.id}}">{{ subject.subject_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Start Date</label>
+                                <input type="date" class="form-control" name="start_date" id="start_date" placeholder="Start Date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>End Date</label>
+                                <input type="date" class="form-control" name="end_date" id="end_date" laceholder="Start Date">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-block" id="fetch_attendance">Fetch Attendace</button>
+                    </div>
+
+                    <div class="row">
+                    {% if messages%}
+                        <div class="col-12">
+                        {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                            {% endif %}
+                            {% if message.tags == 'success' %}
+                            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                    </div>
+                    <div id="student_data">
+                        
+                    </div>
+                </div>
+                </form>
+                <!-- /.card -->
+            </div>
+            <!--/.col (left) -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<!-- /.content -->
+{% endblock main_content %}

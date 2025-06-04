@@ -1,0 +1,274 @@
+{% extends 'admin_template/base_template.html' %}
+{% load static %}
+
+{% block custom_css %}
+ <!-- DataTables -->
+ <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-responsive/css/responsive.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-buttons/css/buttons.bootstrap4.min.css" %}">
+
+{% endblock custom_css %}
+
+{% block page_title %}
+Subject Based Results
+{% endblock page_title %}
+
+{% block main_content %}
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
+<!-- Main content -->
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Select Category</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form action="/domainviews" method="post">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <!-- select -->
+                                <div class="form-group">
+                                <label>Session</label>
+                                <select class="form-control" name="session" id="session">
+                                    {% for sessions in sessions %}
+                                        <option value="{{sessions.id}}">{{ sessions.session_start_year }}/{{ sessions.session_end_year }}</option>
+                                    {% endfor %}
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Term</label>
+                                    <select class="form-control" name="term" id="term">
+                                        {% for all_terms in all_terms %}
+                                            <option value="{{ all_terms.id}}">{{ all_terms.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Type</label>
+                                    <select class="form-control" name="result_type" id="result_type">
+                                        <option value="1">First Half</option>
+                                        <option value="2">End of Term</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                            <!-- select -->
+                            <div class="form-group">
+                                <label>Select Subject</label>
+                                <select class="form-control" name="c_id" id="subject">
+                                    {% for all_classes in all_classes %}
+                                    <option value="{{ all_classes.id}}">{{ all_classes.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-block" id="fetch_student">Generate</button>
+                    </div>
+                </form>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class='card-header'>
+                                        <h2 class='card-title'>Affective Domain</h2>
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>DB ID</th>
+                                                    <th>Reg. No</th>
+                                                    <th>Name</th>
+                                                    <th>punctuality</th>
+                                                    <th>neatness</th>
+                                                    <th>initiative</th>
+                                                    <th>leadership</th>
+                                                    <th>health</th>
+                                                    <th>attentiveness</th>
+                                                    <th>perseverance</th>
+                                                    <th>co_others</th>
+                                                    <th>helping</th>
+                                                    <th>emotional</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for domai in adomain %}
+                                                <tr>
+                                                     <td>{{forloop.counter}}</td>
+                                                     <td>{{domai.student_id.id}}</td>
+                                                    <td>{{domai.student_id.admin.username}}</td>
+                                                    <td>{{domai.student_id.admin.first_name}} {{domai.student_id.admin.last_name}}</td>
+                                                    <td>{{domai.punctuality}}</td>
+                                                    <td>{{domai.neatness}}</td>
+                                                    <td>{{domai.initiative}}</td>
+                                                    <td>{{domai.leadership}}</td>
+                                                    <td>{{domai.health}}</td>
+                                                    <td>{{domai.attentiveness}}</td>
+                                                    <td>{{domai.perseverance}}</td>
+                                                    <td>{{domai.co_others}}</td>
+                                                    <td>{{domai.helping}}</td>
+                                                    <td>{{domai.emotional}}</td>
+                                                    <td><a href='{% url 'delete_score' restype=3 score_id=domai.id %}' title="Delete Entry" class='btn btn-danger'><i class="nav-icon fas fa-trash"></i></a></td>
+                                                </tr>
+                                                {% endfor %} 
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>DB ID</th>
+                                                   <th>Reg. No</th>
+                                                    <th>Name</th>
+                                                    <th>punctuality</th>
+                                                    <th>neatness</th>
+                                                    <th>initiative</th>
+                                                    <th>leadership</th>
+                                                    <th>health</th>
+                                                    <th>attentiveness</th>
+                                                    <th>perseverance</th>
+                                                    <th>co_others</th>
+                                                    <th>helping</th>
+                                                    <th>emotional</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                           <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class='card-header'>
+                                        <h2 class='card-title'>P Domain</h2>
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Reg. No</th>
+                                                    <th>Name</th>
+                                                    <th>HANDWRITTING</th>
+                                                    <th>VERBAL</th>
+                                                    <th>SPORT</th>
+                                                    <th>KNITTING</th>
+                                                    <th style='width: 40px'>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for domai in pdomain %}
+                                                <tr>
+                                                     <td>{{forloop.counter}}</td>
+                                                    <td>{{domai.student_id.admin.username}}</td>
+                                                    <td>{{domai.student_id.admin.first_name}} {{domai.student_id.admin.last_name}}</td>
+                                                    <td>{{domai.handwriting}}</td>
+                                                    <td>{{domai.verbal}}</td>
+                                                    <td>{{domai.sport}}</td>
+                                                    <td>{{domai.knitting}}</td>
+                                                    <td><a href='{% url 'delete_score' restype=4 score_id=domai.id %}' title="Delete Entry" class='btn btn-danger'><i class="nav-icon fas fa-trash"></i></a></td>
+                                                </tr>
+                                                {% endfor %} 
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                   <th>No</th>
+                                                    <th>Reg. No</th>
+                                                    <th>Name</th>
+                                                    <th>HANDWRITTING</th>
+                                                    <th>VERBAL</th>
+                                                    <th>SPORT</th>
+                                                    <th>KNITTING</th>
+                                                    <th style='width: 40px'>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        <!--/.col (left) -->
+        </div>
+    
+
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+<!-- /.content -->
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<!-- DataTables  & Plugins -->
+<script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/jszip/jszip.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/pdfmake.min.js" %}"></script>
+<script src="{% static "/plugins/pdfmake/vfs_fonts.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.print.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.colVis.min.js" %}"></script>
+<script>
+    $(document).ready(function(){
+        $("#fetch_student").click(function(){
+            $('.modal').modal('show');
+                setTimeout(function () {
+                    $('.modal').modal('hide');
+                }, 5000);
+
+            
+
+                $(function () {
+                    $("#example1").DataTable({
+                      "responsive": true, "lengthChange": false, "autoWidth": false,
+                      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                    $('#example2').DataTable({
+                      "paging": true,
+                      "lengthChange": false,
+                      "searching": false,
+                      "ordering": true,
+                      "info": true,
+                      "autoWidth": false,
+                      "responsive": true,
+                    });
+                  });
+                
+
+
+            })
+       
+    });
+   
+</script>
+{% endblock custom_js %}
+    

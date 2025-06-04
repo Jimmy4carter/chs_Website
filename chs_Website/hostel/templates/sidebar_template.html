@@ -1,0 +1,216 @@
+{% load static  %}
+ <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+<<<<<<< HEAD
+    <a href="{% url 'hostel_home' %}" class="brand-link">
+=======
+    <a href="{% url 'adminsec_home' %}" class="brand-link">
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+      <img src="{% static "dist/img/AdminLTELogo.png" %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">CHS Hostel Admin</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+<<<<<<< HEAD
+          <img src="{{ user.staff.profile_pic }}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+            <a href="{% url 'hostel_profile' %}" class="d-block">{{ user.first_name }} {{ user.last_name }}</a>
+            <a href="{% url 'hostel_profile'%}" class="d-block">{{ user.username }}</a>
+=======
+          <img src="{% static "dist/img/user2-160x160.jpg" %}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="{% url 'student_profile'%}" class="d-block">{{ user.username }}</a>
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+        </div>
+      </div>
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+<<<<<<< HEAD
+            {% url 'hostel_home' as hostel_home %}
+            <a href="{% url 'hostel_home' %}" class="nav-link {% if request.path == hostel_home %} active {% endif %}">
+=======
+            {% url 'adminsec_home' as adminsec_home %}
+            <a href="{% url 'adminsec_home' %}" class="nav-link {% if request.path == adminsec_home %} active {% endif %}">
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">              
+              <i class="nav-icon fas fa-file-export"></i>
+              <p>
+                Hostel
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                {% url 'hostels_manage' as hostels_manage %}
+                <a href="{% url 'hostels_manage' %}" class="nav-link {% if request.path == hostels_manage %} active {% endif %}">    
+                  <i class="nav-icon fas fa-graduation-cap"></i>
+                  <p>Hostels</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'rooms_manage' as rooms_manage %}
+                <a href="{% url 'rooms_manage' %}" class="nav-link {% if request.path == rooms_manage %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Rooms</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'allocate_room' as allocate_room %}
+                <a href="{% url 'allocate_room' %}" class="nav-link {% if request.path == allocate_room %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Allocate Student</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+<<<<<<< HEAD
+            {% url 'hostel_grading' as hostel_grading %}
+            <a href="{% url 'hostel_grading' %}" class="nav-link {% if request.path == hostel_grading %} active {% endif %}">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Student Assessment
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">              
+              <i class="nav-icon fas fa-file-export"></i>
+=======
+            <a href="#" class="nav-link">              
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+              <p>
+                Task Management
+              </p>
+            </a>
+<<<<<<< HEAD
+            <!--<ul class="nav nav-treeview">-->
+            <!--  <li class="nav-item">-->
+            <!--    {% url 'job_application' as job_application %}-->
+            <!--    <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">-->
+            <!--      <i class="nav-icon fas fa-id-card-alt"></i>-->
+            <!--      <p>Progress Report</p>-->
+            <!--    </a>-->
+            <!--  </li>-->
+            <!--  <li class="nav-item">-->
+            <!--    {% url 'job_application' as job_application %}-->
+            <!--    <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">-->
+            <!--      <i class="nav-icon fas fa-id-card-alt"></i>-->
+            <!--      <p>Completed Task</p>-->
+            <!--    </a>-->
+            <!--  </li>-->
+            <!--</ul>-->
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">              
+              <i class="nav-icon fas fa-file-export"></i>
+=======
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                {% url 'job_application' as job_application %}
+                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Progress Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'job_application' as job_application %}
+                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Completed Task</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">              
+              <i class="nav-icon fas fa-book"></i>
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+              <p>
+                Log Book
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                {% url 'create_log' as create_log %}
+                <a href="{% url 'create_log' %}" class="nav-link {% if request.path == create_log %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Create Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'view_logs' as view_logs %}
+                <a href="{% url 'view_logs' %}" class="nav-link {% if request.path == view_logs %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>view Reports</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+<<<<<<< HEAD
+            {% url 'hostel_student' as hostel_student %}
+            <a href="{% url 'hostel_student' %}" class="nav-link {% if request.path == hostel_student %} active {% endif %}">
+=======
+            {% url 'adminsec_students' as adminsec_students %}
+            <a href="{% url 'adminsec_students' %}" class="nav-link {% if request.path == adminsec_students %} active {% endif %}">
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+              <i class="nav-icon fas fa-graduation-cap"></i>
+              <p>
+                Students
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'hostel_feedback' as hostel_feedback %}
+            <a href="{% url 'hostel_feedback' %}" class="nav-link {% if request.path == hostel_feedback %} active {% endif %}">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+                Feedback
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'hostel_all_notification' as hostel_all_notification %}
+            <a href="{% url 'hostel_all_notification' %}" class="nav-link {% if request.path == hostel_all_notification %} active {% endif %}">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Notifications
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'hostel_profile' as hostel_profile %}
+            <a href="{% url 'hostel_profile' %}" class="nav-link {% if request.path == hostel_profile %} active {% endif %}">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Profile
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->

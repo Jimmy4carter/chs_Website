@@ -1,0 +1,125 @@
+{% extends 'adminsec_template/base_template.html' %}
+
+{% block page_title %}
+Staff Feedback
+{% endblock page_title %}
+
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Staff Feedback</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <div class="table">
+                            <table class="table">
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Message</th>
+                                    <th>Reply</th>     
+                                </tr>
+                                {% for message in mes %}
+                                  <tr>
+                                      <td>{{ message.id }}</td>
+                                      <td>{{ message.name }}</td>
+                                      <td>{{ message.phone}}</td>
+                                      <td>{{ message.email }}</td>
+                                      <td><i>{{ message.created_at }} </i><br><b> {{ message.title }} </b><br>{{ message.message }}</td>
+                                      <td>     
+                                        {% if message.reply == "" %}
+                                            <button class="btn btn-success reply_open_modal" data-toggle="modal" data-target="#reply_modal">Reply</button>
+                                        {% else %}
+                                            {{ message.reply }}
+                                        {% endif %}             
+                                      </td>
+                                  </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+<!-- Modal -->
+<div id="reply_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"> Replying  To<span id="reply_name"></span> </h4>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="reply_id" name="reply_id">
+        <input type="hidden" id="reply_email" name="reply_id">
+        <input type="text" class="form-control" placeholder="Subject" id="title"> <br>
+        <textarea class="form-control" id="reply_message" rows="10"></textarea> <br>
+        <button id="reply_btn" class="btn btn-info btn-block">Reply</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+    <!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        $(".reply_open_modal").click(function(){
+            var id=$(this).parents("tr").children("td:eq(0)").text();
+            var name=$(this).parents("tr").children("td:eq(1)").text();
+            var email=$(this).parents("tr").children("td:eq(3)").text();
+            $("#reply_id").val(id);
+            $("#reply_email").val(email);
+            $("#reply_name").text(name);
+        });
+
+        $(document).on("click", "#reply_btn",function(){
+
+            $(this).attr("disabled","disabled")
+            $(this).text("Sending Reply...")
+
+            var id=$("#reply_id").val();
+            var message=$("#reply_message").val()
+            var email=$("#reply_email").val()
+            var title=$("#title").val()
+
+            $.ajax({
+                url:'{% url 'adminsec_message' %}',
+                type:'POST',
+                data:{id:id,message:message,email:email,title:title},
+            })
+            .done(function(response){
+                if(response=="True"){
+                    alert("Reply Sent")
+                }
+                else{
+                    alert("Error Sending Reply")
+                }
+                location.reload()
+            })
+            .fail(function(){
+                alart("Encountered an Error While Sending Reply")
+            })
+        })   
+    });
+</script>
+{% endblock custom_js %}

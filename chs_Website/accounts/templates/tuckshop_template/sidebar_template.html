@@ -1,0 +1,208 @@
+{% load static  %}
+ <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'tutors_home' %}" class="brand-link">
+      <img src="{% static "dist/img/AdminLTELogo.png" %}" alt="CHS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">Tuckshop/Store</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{ user.staff.profile_pic }}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+            <a href="{% url 'staff_profile'%}" class="d-block">{{ user.first_name }} {{ user.last_name }}</a>
+            <a href="{% url 'staff_profile'%}" class="d-block">{{ user.username }}</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            {% url 'tuckshop_home' as tuckshop_home %}
+            <a href="{% url 'tuckshop_home' %}" class="nav-link {% if request.path == tuckshop_home %} active {% endif %}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">              
+              <i class="nav-icon fas fa-file-export"></i>
+              <p>
+                Store
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                {% url 'add_item' as add_item %}
+                <a href="{% url 'add_item' %}" class="nav-link {% if request.path == add_item %} active {% endif %}">    
+                  <i class="nav-icon fas fa-graduation-cap"></i>
+                  <p>Items</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'add_stock' as add_stock %}
+                <a href="{% url 'add_stock' %}" class="nav-link {% if request.path == add_stock %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Incoming Stock & Logs</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'update_stock' as update_stock %}
+                <a href="{% url 'update_stock' %}" class="nav-link {% if request.path == update_stock %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Outgoing Stock & Logs</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'job_application' as job_application %}
+                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Review</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">              
+              <i class="nav-icon fas fa-file-export"></i>
+              <p>
+                Tuckshop
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                {% url 'student_application' as student_application %}
+                <a href="{% url 'student_application' %}" class="nav-link {% if request.path == student_application %} active {% endif %}">    
+                  <i class="nav-icon fas fa-graduation-cap"></i>
+                  <p>Items</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'job_application' as job_application %}
+                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Incoming Stock Log</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'job_application' as job_application %}
+                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Outgoing Stock Log</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'job_application' as job_application %}
+                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Review</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link {% if request.path == damage_report %} active {% endif %}">              
+              <i class="nav-icon fas fa-file-export"></i>
+              <p>
+                Reports
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                {% url 'student_application' as student_application %}
+                <a href="{% url 'student_application' %}" class="nav-link {% if request.path == student_application %} active {% endif %}">    
+                  <i class="nav-icon fas fa-graduation-cap"></i>
+                  <p>General Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'damage_report' as damage_report %}
+                <a href="{% url 'damage_report' %}" class="nav-link {% if request.path == damage_report %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Damage Report</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            {% url 'requisition' as requisition %}
+            <a href="{% url 'requisition' %}" class="nav-link {% if request.path == requisition %} active {% endif %}">
+              <i class=" nav-icon fas fa-file"></i>
+              <p>
+                Requisition
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'm_analysis' as m_analysis %}
+            <a href="{% url 'm_analysis' %}" class="nav-link {% if request.path == m_analysis %} active {% endif %}">
+              <i class="nav-icon fas fa-receipt"></i>
+              <p>
+                Monthly Analysis
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'a_analysis' as a_analysis %}
+            <a href="{% url 'a_analysis' %}" class="nav-link {% if request.path == a_analysis %} active {% endif %}">
+              <i class="nav-icon fas fa-chart-bar"></i>
+              <p>
+                Annual Analysis
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'tuckshop_students' as tuckshop_students %}
+            <a href="{% url 'tuckshop_students' %}" class="nav-link {% if request.path == tuckshop_students %} active {% endif %}">
+              <i class="nav-icon fas fa-graduation-cap"></i>
+              <p>
+                Students
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'tuckshop_staff' as tuckshop_staff %}
+            <a href="{% url 'tuckshop_staff' %}" class="nav-link {% if request.path == tuckshop_staff %} active {% endif %}">
+              <i class="nav-icon fas fa-id-card-alt"></i>
+              <p>
+                Staff
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'tuckshop_feedback' as tuckshop_feedback %}
+            <a href="{% url 'tuckshop_feedback' %}" class="nav-link {% if request.path == tuckshop_feedback %} active {% endif %}">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+                Feedback
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'tuckshop_profile' as tuckshop_profile %}
+            <a href="{% url 'tuckshop_profile' %}" class="nav-link {% if request.path == tuckshop_profile %} active {% endif %}">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Profile
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->

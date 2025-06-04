@@ -1,0 +1,184 @@
+{% load static  %}
+ <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'principal_home' %}" class="brand-link">
+      <img src="{% static "dist/img/AdminLTELogo.png" %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">CHS Management</span>
+    </a>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{ user.staff.profile_pic }}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+            <a href="{% url 'staff_profile'%}" class="d-block">{{ user.first_name }} {{ user.last_name }}</a>
+            <a href="{% url 'staff_profile'%}" class="d-block">{{ user.username }}</a>
+        </div>
+      </div>
+
+   
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            {% url 'principal_home' as principal_home %}
+            <a href="{% url 'principal_home' %}" class="nav-link {% if request.path == principal_home %} active {% endif %}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'principal_view_students' as principal_view_students %}
+            <a href="{% url 'principal_view_students' %}" class="nav-link {% if request.path == principal_view_students %} active {% endif %}">
+              <i class="nav-icon fas fa-graduation-cap"></i>
+              <p>
+                Students
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'principal_view_staff' as principal_view_staff %}
+            <a href="{% url 'principal_view_staff' %}" class="nav-link {% if request.path == principal_view_staff %} active {% endif %}">
+              <i class="nav-icon fas fa-id-card-alt"></i>
+              <p>
+                Staff
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'lession_plan' as lession_plan %}
+            {% url 'principal_view_subjects' as principal_view_subjects %}
+<<<<<<< HEAD
+            <a href="{% url 'principal_view_subjects' %}" class="nav-link {% if request.path == lession_plan %} active {% endif %} {% if request.path == principal_view_subjects %} active {% endif %}">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Subjects
+                <span class="right badge badge-danger">New</span>
+=======
+            <a href="{% url 'principal_view_subjects' %}" class="nav-link {% if request.path == lession_plan %} active {% endif %}  {% if request.path == principal_view_subjects %} active {% endif %}">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Subjects
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+              </p>
+            </a>
+          </li> 
+          <li class="nav-item">
+<<<<<<< HEAD
+            {% url 'management_result' as management_result %}
+            <a href="{% url 'management_result' %}" class="nav-link {% if request.path == management_result %} active {% endif %} {% if request.path == management_studentresults %} active {% endif %} {% if request.path == thebroadsheet_analysis %} active {% endif %} {% if request.path == management_studentresults %} active {% endif %}">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                Results
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'host_analytics' as host_analytics %}
+            <a href="{% url 'host_analytics' %}" target="_blank" class="nav-link {% if request.path == host_analytics %} active {% endif %}">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                Hostel
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'jambcbt' as jambcbt %}
+            <a href="{% url 'jambcbt' %}" target="_blank" class="nav-link {% if request.path == jambcbt %} active {% endif %}">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                CBT Records
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+=======
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+            {% url 'job_applications' as job_applications %}
+            {% url 'student_applications' as student_applications %}
+            <a href="#" class="nav-link {% if request.path == job_applications %} active {% endif %} {% if request.path == student_applications %} active {% endif %} ">              
+              <i class="nav-icon fas fa-file-export"></i>
+              <p>
+                Applications
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                {% url 'student_applications' as student_applications %}
+                <a href="{% url 'student_applications' %}" class="nav-link {% if request.path == student_applications %} active {% endif %}">    
+                  <i class="nav-icon fas fa-graduation-cap"></i>
+                  <p>Student</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'job_applications' as job_applications %}
+                <a href="{% url 'job_applications' %}" class="nav-link {% if request.path == job_applications %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Job</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            {% url 'principal_feedback' as principal_feedback %}
+            <a href="{% url 'principal_feedback' %}" class="nav-link {% if request.path == principal_feedback %} active {% endif %}">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+               Give Feedback
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'student_feedbacks' as student_feedbacks %}
+            <a href="{% url 'student_feedbacks' %}" class="nav-link {% if request.path == student_feedbacks %} active {% endif %}">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+               Students Feedback
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'principal_leave' as principal_leave %}
+            <a href="{% url 'principal_leave' %}" class="nav-link {% if request.path == principal_leave %} active {% endif %}">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Leave Requests
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'student_all_notification' as student_all_notification %}
+            <a href="{% url 'student_all_notification' %}" class="nav-link {% if request.path == student_all_notification %} active {% endif %}">
+              <i class="nav-icon fas fa-bell"></i>
+              <p>
+                Notifications
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'principal_profile' as principal_profile %}
+            <a href="{% url 'principal_profile' %}" class="nav-link {% if request.path == principal_profile %} active {% endif %}">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Profile
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->

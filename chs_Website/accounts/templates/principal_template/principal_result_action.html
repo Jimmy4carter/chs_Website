@@ -1,0 +1,155 @@
+{% extends 'principal_template/base_template.html' %}
+{% load static %}
+
+{% block custom_css %}
+ <!-- DataTables -->
+ <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-responsive/css/responsive.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-buttons/css/buttons.bootstrap4.min.css" %}">
+
+{% endblock custom_css %}
+
+{% block page_title %}
+Your Students
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <form action="{% url '' %}" method="POST">
+                    {% csrf_token %}
+                <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Select Category</h3>
+                </div>
+               
+                <!-- /.card-header -->
+                <!-- form start -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Select Class</label>
+                                <select class="form-control" name="classid" id="classid">
+                                    <option value="0">All</option>
+                                    {% for classes in classes%}
+                                    <option value="{{ classes.id}}">{{ classes.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    <button type="button" class="btn btn-primary btn-block" id="fetch_student">Fetch Students</button>
+                    </div>
+
+                    <div id="student_data">
+                        
+                    </div>
+                </div>
+               
+                <!-- /.card -->
+            </form>
+            </div>
+        <!--/.col (left) -->
+        </div>
+    
+
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+<!-- /.content -->
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<!-- DataTables  & Plugins -->
+<script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/jszip/jszip.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/pdfmake.min.js" %}"></script>
+<script src="{% static "/plugins/pdfmake/vfs_fonts.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.print.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.colVis.min.js" %}"></script>
+<script>
+    $(document).ready(function(){
+        $("#fetch_student").click(function(){
+            var session_id=$("#session_id").val()
+            var classid=$("#classid").val()
+
+            $.ajax({
+                url:'{% url 'principal_get_result' %}',
+                type:'POST',
+                data:{classid:classid},
+            })
+            .done(function(response){
+                var json_data=JSON.parse(response);
+                var div_data="<div class='row'>";
+                    div_data+="<div class='col-12'>"
+                    div_data+="<div class='card'>"
+                    div_data+="<div class='card-header'>"
+                    div_data+="<h3 class='card-title'>Assess "+json_data[0]['class_name']+" Result (Comment/Approve) </h3>"
+                    div_data+="</div>"
+                    div_data+="<div class='card-body'>"
+                    div_data+="<table id='example1' class='table table-bordered table-striped'>"
+                    div_data+="<thead>"
+                    div_data+="<tr>"
+                    div_data+="<th style='width: 100px'>Photo ID</th>"
+                    div_data+="<th>Reg. No</th>"
+                    div_data+="<th>Name</th>"
+                    div_data+="<th>Mid Term</th>"
+                    div_data+="<th>End Term</th>"
+                    div_data+="</tr>"
+                    div_data+="</thead>"
+                    div_data+="<tbody>"
+                    for(key in json_data)
+                    {
+                        div_data+="<tr>";
+                            div_data+="<td><img alt='Passport' src='"+json_data[key]['profile_pic']+"' style='max-width: 100px;''></td>";
+                            div_data+="<td>"+json_data[key]['reg_id']+"</td>";
+                            div_data+="<td>"+json_data[key]['name']+"</td>";
+                            div_data+="<td>Mid Term</td>";
+                            div_data+="<td>End Term</td>";
+                            //div_data+="</form>";
+                        div_data+="</tr>";
+                    }
+                    div_data+="</tbody>"
+                    div_data+="<tfoot>"
+                    div_data+="<tr>"
+                    div_data+="<th>Photo ID</th>"
+                    div_data+="<th>Reg. No</th>"
+                    div_data+="<th>Name</th>"
+                    div_data+="<th>Mid Term</th>"
+                    div_data+="<th>End Term</th>"
+                    div_data+="</tr>"
+                    div_data+="</tfoot>"
+                    div_data+="</table>"
+                    div_data+="</div>"
+                    div_data+="</div>"
+                    div_data+="</div>"
+                    div_data+="</div>"
+
+                $("#student_data").html(div_data);
+            })
+            .fail(function(){
+                alart("Error in Fetching Students")
+            })
+        });
+       
+    });
+   
+</script>
+{% endblock custom_js %}
+    

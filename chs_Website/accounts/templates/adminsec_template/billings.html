@@ -1,0 +1,96 @@
+{% extends 'adminsec_template/base_template.html' %}
+{% load static %}
+{% block page_title %}
+Billing {{ student_info.admin.first_name }} {{ student_info.admin.last_name }}
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+         <!-- left column -->
+         <div class="col-md-12">
+            <!-- general form elements -->
+            <form role="form" action="{% url 'bill_student_save' %}" method="POST">
+                {% csrf_token %}
+            <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Billing Category</h3>
+            </div>
+           
+            <!-- /.card-header -->
+            <!-- form start -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Billing Against</label>
+                            <select class="form-control" name="class_id" id="term">
+                                {% for clas in classes %}
+                                <option value="{{clas.id}}">{{clas.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Select Term</label>
+                        <select class="form-control" name="terms" id="term">
+                            <option value="1">First Term</option>
+                            <option value="2">Second Term</option>
+                            <option value="3">Third Term</option>
+                        </select>
+                    </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Select Session</label>
+                            <select class="form-control" name="session_id">
+                                {% for session in session_year %}
+                                    <option value="{{ session.id }}">{{ session.session_start_year }}/{{ session.session_end_year}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                    <div class="form-group">
+                        <label> Select Student Type</label>
+                        <select class="form-control" name="std_type"  id="std_type">
+                            <option value="1">New Student</option>
+                            <option value="2">Old Student</option>
+                        </select>
+                    </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Select Student Type</label>
+                            <select class="form-control" name="discounts">
+                                <option value="5">5%</option>
+                                <option value="10">10%</option>
+                                <option value="15">15%</option>
+                                <option value="20">20%</option>
+                                <option value="50">50%</option>
+                                <option value="100">100%</option>
+                            </select>
+                            <input type="text" name="student_id" hidden id="student_info" value="{{ student_info.id }}">
+                        </div>
+                        </div>
+                </div>
+            </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-block">Bill Student</button>
+                </div>
+            </div>
+           
+            <!-- /.card -->
+        </form>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock main_content %}

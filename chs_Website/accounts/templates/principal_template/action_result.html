@@ -1,0 +1,139 @@
+{% extends 'principal_template/base_template.html' %}
+{% load static %}
+{% block page_title %}
+Management Result Actions
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<div class="card card-success">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4 col-lg-4 col-xl-4">
+        <a href="{% url 'management_studentresults' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/arrow.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Student Based Result</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+      </div>
+      <div class="col-md-4 col-lg-4 col-xl-4">
+        <a href="{% url 'management_subjectresults' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/arrow.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Subject based result</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+      </div>
+      <div class="col-md-4 col-lg-4 col-xl-4">
+        <a href="{% url 'thebroadsheet_analysis' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/arrow.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Broadsheet/Analysis</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+      </div>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-default">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-bullhorn"></i>
+                  Info
+                </h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                  <div class="callout callout-warning">
+                  <h2>Broadsheet/Analysis</h2>
+
+                  <p>To view the broadsheet analysis of the first half or end-of-term result, follow these steps:</p>
+
+                    <ol>
+                      <li>Select the desired session year from the available options.</li>
+                      <li>Choose the term (first, second, or third) for which you want to view the results.</li>
+                      <li>Select the result type (first half or end of term).</li>
+                      <li>Select the class for which you want to analyze the result.</li>
+                      <li>Click the "Submit" button to generate the broadsheet analysis.</li>
+                    </ol>
+                    
+                    <p>After submitting the required information, the webpage will display the following charts (Analysis) and table (Broadsheet):</p>
+                    
+                    <h3>Charts (Analysis):</h3>
+                    <ol>
+                      <li><strong>Doughnut Chart (SUBJECT BASED: Analysis of Number of Grades Below):</strong> This chart shows the number of grades below C for each subject offered by the class.</li>
+                      <li><strong>Pie Chart (ANALYSIS OF CLASS AVERAGE GRADE COUNT):</strong> This chart displays the number of grades obtained in total, calculated from the average score of each student.</li>
+                      <li><strong>Stacked Bar Chart (ANALYSIS OF SUBJECTS BASED GRADES):</strong> This chart represents the total number of each grade achieved by students in each subject.</li>
+                      <li><strong>Double Bar Chart (Previous vs. Current Term Performance - Subjects):</strong> This chart compares the performance of each subject between the previous and current term.</li>
+                      <li><strong>Double Bar Chart (Previous vs. Current Term Performance - Students):</strong> This chart compares the performance of each student between the previous and current term.</li>
+                    </ol>
+                    
+                    <h3>Table (Broadsheet):</h3>
+                    <p>The table displays the students in the selected class, along with their corresponding average score, average grade, and total score for each subject.</p>
+                    
+                    <h3>Notes:</h3>
+                    <ul>
+                    <li>Display: the content of the web page will adjust to the device used as much as possible but cannot guarentee of 100% fit, use chrome or edge with zoom between 75% to 85% for optimized display</li>
+                      <li>View: The generated result will be displayed on the webpage, allowing you to scroll through and review it.</li>
+                      <li>Print: There is an option to print the result directly from the webpage.</li>
+                      <li>Download as PDF: You can choose to download the result as a PDF file, which can be saved and accessed offline.</li>
+                    </ul>
+
+                </div>
+                <div class="callout callout-danger">
+                  <h4>Student Based Result</h4>
+
+                    <p>To check the result for a student, follow these steps:</p>
+                    
+                    <ol>
+                      <li>Select the desired session year from the available options.</li>
+                      <li>Choose the term (first, second, or third) for which you want to view the results.</li>
+                      <li>Select the result type (first half or end of term).</li>
+                      <li>Enter the student ID into the provided input field.</li>
+                      <li>Click the "Submit" button to generate the complete result.</li>
+                    </ol>
+                    
+                    <p>After submitting the required information, the webpage will display the student's complete result. Users have multiple options for interacting with the result:</p>
+                    
+                    <ul>
+                      <li>View: The generated result will be displayed on the webpage, allowing you to scroll through and review it.</li>
+                      <li>Print: There is an option to print the result directly from the webpage.</li>
+                      <li>Download as PDF: You can choose to download the result as a PDF file, which can be saved and accessed offline.</li>
+                    </ul>
+                    
+                    <p>In cases where the result does not exist for the provided input, the webpage will display a message informing the user about the absence of the result.</p>
+
+                </div>
+                <div class="callout callout-info">
+                  <h4>Subject based result</h4>
+
+                    <p>To check the result for a subject, follow these steps:</p>
+                    
+                    <ol>
+                      <li>Select the desired session year from the available options.</li>
+                      <li>Choose the term (first, second, or third) for which you want to view the results.</li>
+                      <li>Specify the result type (first half or end of term).</li>
+                      <li>Select the subject from the options list.</li>
+                      <li>Click the "Generate" button to generate the result.</li>
+                    </ol>
+                    
+                    <p>After submitting the required information, the webpage will display the detailed result for the selected subject. If the selected subject is a combined subject, the result for the sub-subjects will be displayed first, followed by the combined result at the bottom.</p>
+                    
+                    <p>Users have the option to print the result directly from the webpage.</p>
+
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+    </div>
+  </div>
+</div>
+<!-- /.content -->
+{% endblock main_content %}

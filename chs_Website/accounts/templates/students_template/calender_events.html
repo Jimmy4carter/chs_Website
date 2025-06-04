@@ -1,0 +1,35 @@
+{% extends 'students_template/base_template.html' %}
+{% load static %}
+
+{% block custom_css %}
+ <!-- DataTables -->
+ <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-responsive/css/responsive.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-buttons/css/buttons.bootstrap4.min.css" %}">
+
+{% endblock custom_css %}
+
+{% block page_title %}
+School Calendar
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+            <!-- left column -->
+        <div class="col-md-12">
+            <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Africa%2FLagos&showTitle=0&showTabs=0&showPrint=0&showNav=1&showDate=1&showCalendars=0&src=amltbXk0Y2FydGVyQGdtYWlsLmNvbQ&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=N2ZncW5zMGF1dmgyODJzdTdhOWZlY3ZucDhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=bms0OWlnMGM3ZzY2NmM4bDB0Y3E0cjRubjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=Y2xhc3Nyb29tMTE3OTM4MzMyMDkwMTI5NzU2NDU5QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=Y2xhc3Nyb29tMTA5NjYxMjQ4NzgzMDY2ODkxOTkxQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=Y2xhc3Nyb29tMTAyNTE4OTgyMzEyNzk4NTg1MTk3QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=Y2xhc3Nyb29tMTE1ODU0NTY1NjU0MTczNTIwNjUxQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=Y2xhc3Nyb29tMTA1NTY2OTk1NzkwNDE4MjgzNzQ2QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=ZmFtaWx5MTc4MjY0ODY3MjE4NTQ4Nzg3OTlAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=ZW4ubmcjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&src=Y2xhc3Nyb29tMTA4NzUyNTI3NDEyNTc1OTUxMjU5QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039BE5&color=%2333B679&color=%23E4C441&color=%23D81B60&color=%233F51B5&color=%233F51B5&color=%233F51B5&color=%233F51B5&color=%233F51B5&color=%23E4C441&color=%230B8043&color=%230B8043" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>             
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+<!-- /.content -->
+{% endblock main_content %}
+
+
+{% block custom_js %}
+
+{% endblock custom_js %}
+    

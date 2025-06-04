@@ -1,0 +1,104 @@
+	{% load static %}
+    <!-- Footer ==== -->
+    <footer>
+        <div class="footer-top">
+			<div class="pt-exebar">
+				<div class="container">
+					<div class="d-flex align-items-stretch">
+						<div class="pt-logo mr-auto">
+							<a href="index.html"><img src="{% static "assets/images/logo-white.png" %}" alt=""/></a>
+						</div>
+						<div class="pt-social-link">
+							<ul class="list-inline m-a0">
+								<li><a href="#" class="btn-link"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="#" class="btn-link"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="#" class="btn-link"><i class="fa fa-linkedin"></i></a></li>
+								<li><a href="#" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
+							</ul>
+						</div>
+						<div class="pt-btn-join">
+							<a href="/apply_school" class="btn ">Apply Now</a>
+						</div>
+					</div>
+				</div>
+			</div>
+            <div class="container">
+                <div class="row">
+					<div class="col-lg-4 col-md-12 col-sm-12 footer-col-4">
+                        <div class="widget">
+                            <h5 class="footer-title">Sign Up For A Newsletter</h5>
+							<p class="text-capitalize m-b20">Reguler updates about programs, employments, events and more</p>
+                            <div class="subscribe-form m-b20">
+								<form role="form" id="subs" method="POST">
+									{% csrf_token %}				
+									<div class="input-group">
+										<input required="required" name="email" id="email"  class="form-control" placeholder="Your Email Address" type="email">
+										<span class="input-group-btn">
+											<button  type="submit" id="subscribe" class="btn"><i class="fa fa-arrow-right"></i></button>
+										</span> 
+									</div>
+								</form>
+							</div>
+                        </div>
+                    </div>
+					<div class="col-12 col-lg-5 col-md-7 col-sm-12">
+						<div class="row">
+							<div class="col-4 col-lg-4 col-md-4 col-sm-4">
+								<div class="widget footer_widget">
+									<h5 class="footer-title">prorgams</h5>
+									<ul>
+										<li><a href="/our_programs#junior-section">JSS</a></li>
+										<li><a href="/our_programs#senior-section">SSS</a></li>
+										<li><a href="/our_programs">Exams</a></li>
+										<li><a href="/our_programs">Extensions</a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-4 col-lg-4 col-md-4 col-sm-4">
+								<div class="widget footer_widget">
+									<h5 class="footer-title">Get In Touch</h5>
+									<ul>
+										<li><a href="/contact_us">Contact us</a></li>
+										<li><a href="Email:info@christhighschoolnigeria.org">Email us</a></li>
+										<li><a href="/our_events">Events</a></li>
+										<li><a href="/apply_school">Apply</a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-4 col-lg-4 col-md-4 col-sm-4">
+								<div class="widget footer_widget">
+									<h5 class="footer-title">About us</h5>
+									<ul>
+										<li><a href="/our_team">Staff</a></li>
+										<li><a href="/about_us">About shcool</a></li>
+										<li><a href="/school_facilities">Our Facilities</a></li>
+										<li><a href="/our_gallery">Portfolio</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+                    </div>
+					<div class="col-12 col-lg-3 col-md-5 col-sm-12 footer-col-4">
+                        <div class="widget widget_gallery gallery-grid-4">
+                            <h5 class="footer-title">Our Gallery</h5>
+                            <ul class="magnific-image">
+								<li><a href="{% static "assets/images/gallery/pic2.jpg" %}" class="magnific-anchor"><img src="{% static "assets/images/gallery/small/pic2.jpg" %}" alt=""></a></li>
+								<li><a href="{% static "assets/images/gallery/pic3.jpg" %}" class="magnific-anchor"><img src="{% static "assets/images/gallery/small/pic3.jpg" %}" alt=""></a></li>
+								<li><a href="{% static "assets/images/gallery/pic5.jpg" %}" class="magnific-anchor"><img src="{% static "assets/images/gallery/small/pic5.jpg" %}" alt=""></a></li>
+								<li><a href="{% static "assets/images/gallery/pic8.jpg" %}" class="magnific-anchor"><img src="{% static "assets/images/gallery/small/pic8.jpg" %}" alt=""></a></li>
+							</ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-center"> <a target="_blank" href="/">CHRIST HIGH SCHOOL 2021</a></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer END ==== -->
+	

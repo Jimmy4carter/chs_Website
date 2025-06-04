@@ -1,0 +1,384 @@
+{% extends 'tutors_template/base_template.html' %}
+{% load static %}
+{% block custom_css %}
+  <style>
+    p.dashed {border-style: dashed;}
+    #photo {border-style: solid;}
+    p.double {border-style: double;}
+    p.inset {border-style: inset;}
+    p.outset {border-style: outset;}
+    #whole{border-style: double;
+            overflow-x: scroll;
+            }
+    #studentdetails{border-style: double;}
+    .parent {
+        display: grid;
+        place-items: center;
+        margin-top: 10px;
+      }
+      .miniP{
+        margin-top: -20px;
+        font-size: smaller;
+      }
+      #scale{
+        margin-top: -5px;
+        font-size: x-small;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      }
+      .miniHead{
+        margin-top: -10px;
+        color: rgb(164, 13, 13);
+        font-size:x-large;
+        font-weight: bold;
+      }
+      .bottomHead{
+        margin-top: -10px;
+        font-size:large;
+        font-weight: bold;
+        margin-bottom: auto;
+      }
+      .theTitle{
+          margin-bottom: auto;
+          margin-bottom: 50px;
+          font-weight: bold;
+          font-size: x-large;
+          font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      }
+  </style>
+{% endblock custom_css %}
+{% block main_content %}
+<!-- Main content -->
+<section class="content">
+    
+<div   id="ele2">
+    <div class="row">
+        <div>
+            <button type="button" class="print-link no-print btn btn-info">Print/Download Result</button>
+        </div>
+    </div>
+    <div class="container"  id="whole">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12	col-md-12 col-lg-12">
+                <div class="parent">
+                    <img src="{% static "assets/images/logo-white.png" %}" style="max-width: 300px;max-height: 70px;" alt="logo">
+                    <p class="miniHead"><u>CHRIST HIGH SCHOOL</u></p>
+                    <P class="miniP">PLOT 5, CHS STREET, KM 32, ABUJA-KEFFI ROAD, UKE</P>
+                    <P class="miniP"><strong>MOBILE:</strong> +234 8095545712, +234 8095545789 <span><strong>Email: </strong>info@christhighschool.org |<strong>Website: </strong>www.christhighschool.org</span></P>
+                </div>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12	col-md-12 col-lg-12">
+                <div class="row">
+                    <div style="margin: 0 auto;">
+                        <p class="theTitle">TERMLY REPORT SHEET</p>
+                    </div>
+                    <table class="table table-striped table-sm ">
+                        <tbody  id="studentdetails" class="miniP">
+                        <tr>
+                            <td><strong>Reg. No:</strong></td>
+                            <td>{{ avg_id.students_id.admin.username}}</td>
+                            <td><strong> Term:</strong></td>
+                            <td>{{ avg_id.term.name}} Term</td>
+                            <td><strong> Session:</strong></td>
+                            <td>{{ avg_id.session_year.session_start_year }}/{{ avg_id.session_year.session_end_year }} Academic Session</td>
+                            <td rowspan="4" style="width: 200px"><img src="{{ avg_id.students_id.profile_pic }}" style="max-width: 200px;max-height: 180px;" id="photo" alt="photo"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Name:</strong></td>
+                            <td>{{ avg_id.students_id.admin.first_name }} {{ avg_id.students_id.admin.last_name }}</td>
+                            <td><strong>Gender:</strong></td>
+                            <td>{{ avg_id.students_id.gender }}</td>
+                            <td><strong>Class:</strong></td>
+                            <td>{{ avg_id.student_class.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Class Average (100%):</strong></td>
+                            <td>{{ avg_id.avg_percent }}%</td>
+                            <td><strong>Date:</strong></td>
+                            <td>{% now "SHORT_DATETIME_FORMAT" %}</td>
+                            <td><strong>Result Type</strong></td>
+                            <td>Mid-Term</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <table class="table table-striped table-bordered table-sm ">
+                    <thead>
+                      <tr class="miniP">
+                        <th>S/n</th>
+                        <th>Subject</th>
+                        <th style="width: 30px">Resumption_Test (5_Marks)</th>
+                        <th style="width: 30px">ClassWork (5_Marks)</th>
+                        <th style="width: 30px">Assignment (5_Marks)</th>
+                        <th style="width: 90px">MidTerm_Exam (15_Marks)</th>
+                        <th style="width: 90px">Total_Score</th>
+                        <th style="width: 20px">Grades</th>
+                        <th>Remark</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for midterm in midterm %}
+                      <tr class="miniP">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ midterm.subjects_id.subject_name }}</td>
+                        <td>{{ midterm.resumption_text }}</td>
+                        <td>{{ midterm.class_work }}</td>
+                        <td>{{ midterm.assignment }}</td>
+                        <td>{{ midterm.midterm_exam }}</td>
+                        <td>{{ midterm.total_score }}</td>
+                        <td>{{ midterm.grades }}</td>
+                        <td>{{ midterm.remark }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-xs-6	col-md-6 col-lg-6">
+                <table class="table table-striped table-bordered table-sm ">
+                    <thead>
+                      <th style="width: 10px;">S/n</th>
+                      <th style="width: 100px;">Psycomotor Domain Name</th>
+                      <td style="width: 10px;">Value</td>
+                    </thead>
+                    <tbody>
+                      <tr class="miniP">
+                        <td>1</td>
+                        <td>Handwriting</td>
+                        <td>{{ psycomotor.handwriting }}</td>
+                      </tr>
+                      <tr class="miniP">
+                        <td>2</td>
+                        <td>Verbal Fluency</td>
+                        <td>{{ psycomotor.verbal }}</td>
+                      </tr>
+                      <tr class="miniP">
+                        <td>3</td>
+                        <td>Sport</td>
+                        <td>{{ psycomotor.sport }}</td>
+                      </tr>
+                      <tr class="miniP">
+                        <td>4</td>
+                        <td>Knitting</td>
+                        <td>{{ psycomotor.knitting }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p  id="scale">
+                    <strong>Scale: </strong>
+                        <ul id="scale">
+                          <li>5 - Excellent level of observation trait</li>
+                          <li>4 - Good level of observation trait</li>
+                          <li>3 - Fair level of observation trait</li>
+                          <li>2 - Poor level of observation trait</li>
+                          <li>1 - No observation trait</li>
+                        </ul>
+                  </p>
+                  {% if avg_id.student_class.id < 4 %}
+                    <p id="scale"><strong>Rating: </strong>A= 26-30, B= 21-25, C= 16-20, P= 11-15, F= 10-Below</p>
+                  {% elif avg_id.student_class.id > 3  %}
+                    <p id="scale"><strong>Rating: </strong>A= 13-15, B= 10-12, C= 8-9, P= 6-7, F= 5-Below</p>
+                  {% endif %}
+            </div>
+            <div class="col-sm-6 col-xs-6	col-md-6 col-lg-6">
+                <table class="table table-striped table-bordered table-sm ">
+                  <thead >
+                    <tr class="miniP">
+                      <th style="width: 10px;">S/N</th>
+                      <th style="max-width: 50px;">Affective Domain Name</th>
+                      <th style="width: 10px;">Value</th>
+                    </tr>
+                  </thead>
+                    <tbody class="miniP">
+                      <tr>
+                       <td>1</td>
+                       <td>Punctuality</td>
+                       <td>{{ affective.punctuality }}</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Neatness</td>
+                        <td>{{ affective.neatness }}</td>
+                       </tr>
+                       <tr>
+                        <td>3</td>
+                        <td>Initiative</td>
+                        <td>{{ affective.initiative }}</td>
+                       </tr>
+                       <tr>
+                        <td>4</td>
+                        <td>Leadership</td>
+                        <td>{{ affective.leadership }}</td>
+                       </tr>
+                       <tr>
+                        <td>5</td>
+                        <td>health</td>
+                        <td>{{ affective.health }}</td>
+                       </tr>
+                       <tr>
+                        <td>6</td>
+                        <td>Attentiveness</td>
+                        <td>{{ affective.attentiveness }}</td>
+                       </tr>
+                       <tr>
+                        <td>7</td>
+                        <td>Cooperation with other</td>
+                        <td>{{ affective.co_others }}</td>
+                       </tr>
+                       <tr>
+                        <td>8</td>
+                        <td>perseverance</td>
+                        <td>{{ affective.perseverance }}</td>
+                       </tr>
+                       <tr>
+                        <td>9</td>
+                        <td>Helping Other</td>
+                        <td>{{ affective.helping }}</td>
+                       </tr>
+                       <tr>
+                        <td>10</td>
+                        <td>Emotional Stability</td>
+                        <td>{{ affective.emotional }}</td>
+                       </tr>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        {% for record in ethos_records %}
+                                    <div class="card">
+                                            <div class="card-body">
+                                                <h4 style="color: green;text-align: center;">Ethos Record</h4>
+                                                <table class="table table-bordered table-striped table-sm" style="color: green;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Positive Ethos</th>
+                                                            <th>Score</th>
+                                                            <th style="color: red;">Negative Ethos</th>
+                                                            <th style="color: red;">Score</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Leadership</td>
+                                                            <td class="table-success">{{ record.leadership }}</td>
+                                                            <td style="color: red;">Loitering</td>
+                                                            <td class="table-danger">{{ record.loitering }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Neatness</td>
+                                                            <td class="table-success">{{ record.neatness }}</td>
+                                                            <td style="color: red;">Immoral Relation Conduct</td>
+                                                            <td class="table-danger">{{ record.immoral_relation_conduct }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Room Representation (Competition)</td>
+                                                            <td class="table-success">{{ record.room_represent_compet }}</td>
+                                                            <td style="color: red;">Poor Timing</td>
+                                                            <td class="table-danger">{{ record.poor_timing }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Room Representation (Inspection)</td>
+                                                            <td class="table-success">{{ record.room_represent_inspect }}</td>
+                                                            <td style="color: red;">Negative Influence</td>
+                                                            <td class="table-danger">{{ record.negative_influence }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Self Confidence</td>
+                                                            <td class="table-success">{{ record.selfconfidence }}</td>
+                                                            <td style="color: red;">Noise Making</td>
+                                                            <td class="table-danger">{{ record.noise_making }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Team Spirit</td>
+                                                            <td class="table-success">{{ record.team_spirit }}</td>
+                                                            <td style="color: red;">Hostel Disobedience</td>
+                                                            <td class="table-danger">{{ record.hostel_disobidience }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Return Lost Items</td>
+                                                            <td class="table-success">{{ record.return_lost_items }}</td>
+                                                            <td style="color: red;">Bullying/Fighting</td>
+                                                            <td class="table-danger">{{ record.bullying_fighting }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Obedience to Staff</td>
+                                                            <td class="table-success">{{ record.obidience_to_staff }}</td>
+                                                            <td style="color: red;">Negative Civil</td>
+                                                            <td class="table-danger">{{ record.negative_civil }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Obedience to Rules</td>
+                                                            <td class="table-success">{{ record.obidience_to_rules }}</td>
+                                                            <td style="color: red;">Gossip</td>
+                                                            <td class="table-danger">{{ record.gossip }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Volunteerism</td>
+                                                            <td class="table-success">{{ record.volunteerism }}</td>
+                                                            <td style="color: red;">Avoiding Meals</td>
+                                                            <td class="table-danger">{{ record.avoiding_meals }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Reporting Unacceptable Behavior</td>
+                                                            <td class="table-success">{{ record.reporting_unacceptable_behavior }}</td>
+                                                            <td style="color: red;">Carelessness Personal</td>
+                                                            <td class="table-danger">{{ record.carelessness_personal }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Prayerfulness</td>
+                                                            <td class="table-success">{{ record.prayerfullness }}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                        
+                                                <div class="row mt-4">
+                                                    <div class="col-md-12">
+                                                       
+                                                        <h4>Total Calculations</h4>
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item" style="color: green;"><strong>Total Positive Ethos:</strong> {{ record.total_positive_ethos }}</li>
+                                                            <li class="list-group-item" style="color: red;"><strong>Total Negative Ethos:</strong> {{ record.total_negative_ethos }}</li>
+                                                            <li class="list-group-item"><strong>Total Ethos:</strong> {{ record.total_ethos }}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4">
+                                                    <div class="col-md-12">
+                                                        <h4>Remarks</h4>
+                                                        <p>{{ record.remark }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+            {% endfor %}
+    </div>
+</div>
+</section>
+<!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_js %}
+<script src="{% static "/assets/js/jQuery.print.js" %}"></script>
+<script>
+//<![CDATA[
+jQuery(function($) { 'use strict';
+    try {
+        var original = document.getElementById('canvasExample');
+        original.getContext('2d').fillRect(20, 20, 120, 120);
+    } catch (err) {
+        console.warn(err)
+    }
+    $("#ele2").find('.print-link').on('click', function() {
+        //Print ele2 with default options
+        $.print("#ele2");
+    });
+});
+//]]>
+</script>
+{% endblock custom_js %}
+    

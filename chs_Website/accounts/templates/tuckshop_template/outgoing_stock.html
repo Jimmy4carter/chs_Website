@@ -1,0 +1,127 @@
+{% extends 'tuckshop_template/base_template.html' %}
+{% load static %}
+
+{% block page_title %}
+Add stocks
+{% endblock page_title %}
+
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Add Item</h3>
+                    </div>
+                            <div class="row">
+                                {% if messages%}
+                                    <div class="col-12">
+                                    {% for message in messages %}
+                                        {% if message.tags == 'error' %}
+                                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                        {% endif %}
+                                        {% if message.tags == 'success' %}
+                                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </div>
+                                {% endif %}
+                                </div>
+<!-- your_template_name.html -->
+
+<!-- Form to update stocks -->
+<form method="post" action="{% url 'update_stock' %}">
+    {% csrf_token %}
+    <label for="selected_date">Select Date:</label>
+    <input type="date" name="selected_date" required>
+    
+    <table class="table table-hover text-nowrap" id="updateStockTable">
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Package Type</th>
+                <th>Description</th>
+                <th>Note</th>
+                <th>Expected Market Price</th>
+                <th>Available Quantity</th>
+                <th>Update Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selected_stocks" value="{{ stock.id }}">
+                    </td>
+                    <td>{{ stock.item.name }}</td>
+                    <td>{{ stock.item.brand }}</td>
+                    <td>{{ stock.item.get_package_type_display }}</td>
+                    <td>{{ stock.item.description }}</td>
+                    <td>{{ stock.item.note }}</td>
+                    <td>{{ stock.item.expected_marketprice }}</td>
+                    <td>{{ stock.quantity }}</td>
+                    <td>
+                        <input type="number" name="quantity_{{ stock.id }}" min="1" max="{{ stock.quantity }}">
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <label for="general_note">General Note:</label>
+    <textarea name="general_note" rows="3"></textarea>
+
+    <button type="submit">Submit</button>
+</form>
+
+
+<!-- ... (remaining code) ... -->
+                                
+                    <div class="card-body">
+                        <h3>Item List</h3>
+                       <!-- Table to view log reports -->
+                        <table class="table table-hover text-nowrap" id="logReportTable">
+                            <thead>
+                                <tr>
+                                    <th>Stock Type</th>
+                                    <th>Date</th>
+                                    <th>General Note</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in stock_logs %}
+                                    <tr>
+                                        <td>{{ log.stock_type }}</td>
+                                        <td>{{ log.general_date }}</td>
+                                        <td>{{ log.general_note }}</td>
+                                        <td>
+                                            <form method="post" action="{% url 'view_report' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="selected_date" value="{{ log.general_date|date:'Y-m-d' }}">
+                                                <input type="hidden" name="selected_type" value="outgoing">
+                                                <button type="submit" class="btn btn-primary">View Details</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<!-- your_template_name.html -->
+{% endblock custom_js %}
+    

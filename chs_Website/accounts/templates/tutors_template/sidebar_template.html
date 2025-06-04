@@ -1,0 +1,192 @@
+{% load static  %}
+ <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'tutors_home' %}" class="brand-link">
+      <img src="{% static "dist/img/AdminLTELogo.png" %}" alt="CHS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">CHS Tutor</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{ user.staff.profile_pic }}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+            <a href="{% url 'staff_profile'%}" class="d-block">{{ user.first_name }} {{ user.last_name }}</a>
+            <a href="{% url 'staff_profile'%}" class="d-block">{{ user.username }}</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            {% url 'tutors_home' as tutors_home %}
+            <a href="{% url 'tutors_home' %}" class="nav-link {% if request.path == tutors_home %} active {% endif %}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          {% if user.staff.post_held_id == 5 %}
+          <li class="nav-item">
+            {% url 'gandc' as gandc %}
+            <a href="{% url 'gandc' %}" class="nav-link {% if request.path == gandc %} active {% endif %}">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                G & C
+              </p>
+            </a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            {% url 'subject_students' as subject_students %}
+            <a href="{% url 'subject_students' %}" class="nav-link {% if request.path == subject_students %} active {% endif %}">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Students
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'form_class' as form_class %}
+            <a href="{% url 'form_class' %}" class="nav-link {% if request.path == form_class %} active {% endif %}">
+              <i class="nav-icon fas fa-columns"></i>
+              <p>
+                Class
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'tutors_subjects' as tutors_subjects %}
+            <a href="{% url 'tutors_subjects' %}" class="nav-link {% if request.path == tutors_subjects %} active {% endif %}">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Subjects
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+<<<<<<< HEAD
+            {% url 'submit_plan' as submit_plan %}
+            <a href="{% url 'submit_plan' %}" class="nav-link {% if request.path == submit_plan %} active {% endif %}">
+              <i class="nav-icon fas fa-file-export"></i>
+              <p>
+                Lesson Plan
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'tutor_quiz_management' as tutor_quiz_management %}
+            <a href="{% url 'tutor_quiz_management' %}" class="nav-link {% if request.path == tutor_quiz_management %} active {% endif %}">
+              <i class="nav-icon fa fa-desktop"></i>
+=======
+            {% url 'tutor_cbt' as tutor_cbt %}
+            <a href="{% url 'addquiz' %}" class="nav-link {% if request.path == tutor_cbt %} active {% endif %}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+              <p>
+                CBT
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+<<<<<<< HEAD
+=======
+            {% url 'submit_plan' as submit_plan %}
+            <a href="{% url 'submit_plan' %}" class="nav-link {% if request.path == submit_plan %} active {% endif %}">
+              <i class="nav-icon fas fa-file-export"></i>
+              <p>
+                Lession Plan
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+            {% url 'result_action' as result_action %}
+            <a href="{% url 'result_action' %}" class="nav-link {% if request.path == result_action %} active {% endif %}">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                Result
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'jambcbt' as jambcbt %}
+            <a href="{% url 'jambcbt' %}" target="_blank" class="nav-link {% if request.path == jambcbt %} active {% endif %}">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                CBT Practice
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'take_attendance' as take_attendance %}
+            <a href="{% url 'take_attendance' %}" class="nav-link {% if request.path == take_attendance %} active {% endif %}">
+              <i class="nav-icon fas fa-edit"></i>
+              <p>
+                Take Atttendance
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'student_attendance' as student_attendance %}
+            <a href="{% url 'student_attendance' %}" class="nav-link {% if request.path == student_attendance %} active {% endif %}">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Attendance
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'staff_leave' as staff_leave %}
+            <a href="{% url 'staff_leave' %}" class="nav-link {% if request.path == staff_leave %} active {% endif %}">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Leave
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'staff_all_notification' as staff_all_notification %}
+            <a href="{% url 'staff_all_notification' %}" class="nav-link {% if request.path == staff_all_notification %} active {% endif %}">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Notifications
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'staff_profile' as staff_profile %}
+            <a href="{% url 'staff_profile' %}" class="nav-link {% if request.path == staff_profile %} active {% endif %}">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Profile
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'staff_feedback' as staff_feedback %}
+            <a href="{% url 'staff_feedback' %}" class="nav-link {% if request.path == staff_feedback %} active {% endif %}">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+                Feedback
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->

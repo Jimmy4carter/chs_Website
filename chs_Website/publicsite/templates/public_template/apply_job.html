@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<!-- META ============================================= -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<meta name="robots" content="" />
+	
+	<!-- DESCRIPTION -->
+	<meta name="description" content="CHS: Christ High School, Uke" />
+	
+	<!-- OG -->
+	<meta property="og:title" content="CHS: Christ High School, Uke" />
+	<meta property="og:description" content="CHS: Christ High School, Uke" />
+	<meta property="og:image" content="" />
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- FAVICONS ICON ============================================= -->
+	<link rel="icon" href="{% static "assets/images/favicon.ico" type="image/x-icon" %}" />
+	<link rel="shortcut icon" type="{% static "image/x-icon" href="assets/images/favicon.ico" %}" />
+	
+	<!-- PAGE TITLE HERE ============================================= -->
+	<title>Christ High School</title>
+	
+	<!-- MOBILE SPECIFIC ============================================= -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- All PLUGINS CSS ============================================= -->
+	<link rel="stylesheet" type="text/css" href="{% static "assets/css/assets.css" %}">
+	
+	<!-- TYPOGRAPHY ============================================= -->
+	<link rel="stylesheet" type="text/css" href="{% static "assets/css/typography.css" %}">
+	
+	<!-- SHORTCODES ============================================= -->
+	<link rel="stylesheet" type="text/css" href="{% static "assets/css/shortcodes/shortcodes.css" %}">
+	
+	<!-- STYLESHEETS ============================================= -->
+	<link rel="stylesheet" type="text/css" href="{% static "assets/css/style.css" %}">
+	<link class="skin" rel="stylesheet" type="text/css" href="{% static "assets/css/color/color-1.css" %}">
+	
+</head>
+<body id="bg">
+<div class="page-wraper">
+	<div id="loading-icon-bx"></div>
+	<div class="account-form">
+		<div class="account-head" style="background-image:url('{% static 'assets/images/background/bg2.jpg' %}');">
+			<a href="index.html"><img src="{% static "assets/images/logo-white-2.png" %}" alt=""></a>
+		</div>
+		<div class="account-form-inner">
+			<div class="account-container">
+                        {% if messages%}
+                        <div class="col-12">
+                        {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                            {% endif %}
+                            {% if message.tags == 'success' %}
+                            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                        {% endif %}
+				<div class="heading-bx left">
+					<h2 class="title-head">Fill <span>Application Form</span></h2>
+					<p>Not ready to apply for job?<a href="{% url 'index' %}""> back home</a></p>
+				</div>	
+				<form class="contact-bx" role="form" action="{% url 'apply_job' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+					<div class="row placeani">
+						<div class="col-lg-12">
+							<div class="form-group">
+								<div class="input-group">
+									<label>Full Name</label>
+									<input name="name" type="text" required="" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<div class="input-group"> 
+									<label>Phone</label>
+									<input name="phone" type="tel" class="form-control" required="">
+								</div>
+							</div>
+						</div>
+                        <div class="col-lg-12">
+							<div class="form-group">
+								<div class="input-group"> 
+									<label>Email Address</label>
+									<input name="email" type="email" class="form-control" required="">
+								</div>
+							</div>
+						</div>
+                        <div class="col-lg-12">
+							<div class="form-group">
+                                <label>Class of Qualification</label>
+									<select name="qualification" class="form-control">
+                                        <option value="First Class/Distinction">First Class/Distinction</option>
+                                        <option value="Second Class Uper-Division/Uper-Credit">Second Class Uper-Division/Uper-Credit</option>
+                                        <option value="Second Class Lower-Division/Lower-Credit">Second Class Lower-Division/Lower-Credit</option>
+                                        <option value="Third Class/Pass">Third Class/Pass</option>
+                                        <option value="Others....(OND,NCE)">Others....(OND,NCE)</option>
+                                    </select>
+							</div>
+						</div>
+                        <div class="col-lg-12">
+							<div class="form-group">
+                                <label>Application Letter</label>
+                                <input type="file" class="form-control" name="letter" id="letter" required accept=".pdf">
+							</div>
+						</div>
+                        <div class="col-lg-12">
+							<div class="form-group">
+                                <label>Remumé</label>
+                                <input type="file" class="form-control" name="cv" id="cv" required accept=".pdf">
+							</div>
+						</div>
+						<div class="col-lg-12 m-b30">
+							<button type="submit" class="btn button-md">Submit Application</button>
+						</div>
+						<div class="col-lg-12">
+							<h6>Note</h6>
+							<div class="d-flex">
+                                <p style="color: rgb(72, 23, 23);">Your letter most state which position/office you are applying for</p>
+                                <p style="color: rgb(5, 5, 44);">We will communicated to you through the submitted email</p>
+                                
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+    
+
+</div>
+<!-- External JavaScripts -->
+<script src="{% static "assets/js/jquery.min.js" %}"></script>
+<script src="{% static "assets/vendors/bootstrap/js/popper.min.js" %}"></script>
+<script src="{% static "assets/vendors/bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="{% static "assets/vendors/bootstrap-select/bootstrap-select.min.js" %}"></script>
+<script src="{% static "assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js" %}"></script>
+<script src="{% static "assets/vendors/magnific-popup/magnific-popup.js" %}"></script>
+<script src="{% static "assets/vendors/counter/waypoints-min.js" %}"></script>
+<script src="{% static "assets/vendors/counter/counterup.min.js" %}"></script>
+<script src="{% static "assets/vendors/masonry/masonry.js" %}"></script>
+<script src="{% static "assets/vendors/owl-carousel/owl.carousel.js" %}"></script>
+<script src="{% static "assets/js/functions.js" %}"></script>
+<script src="{% static "assets/js/contact.js" %}"></script>
+</body>
+
+
+</html>

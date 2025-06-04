@@ -1,0 +1,151 @@
+{% extends 'admin_template/base_template.html' %}
+
+{% block page_title %}
+Exam Files Management
+{% endblock page_title %}
+
+{% block main_content %}
+<section class="content">
+    <div class="container mt-4">
+        <h2>Add Exam File</h2>
+        <form id="examFileForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-3">
+                    <select name="subject" class="form-control" required>
+                        <option value="">Select Subject</option>
+                        {% for subject in subjects %}
+                        <option value="{{ subject.id }}">{{ subject.outline }}: {{ subject.subject_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="session_year" class="form-control" required>
+                        <option value="">Select Session</option>
+                        {% for session in session_years %}
+                        <option value="{{ session.id }}">{{ session.session_start_year }} - {{ session.session_end_year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="class_name" class="form-control" required>
+                        <option value="">Select Class</option>
+                        {% for class in classes %}
+                        <option value="{{ class.id }}">{{ class.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="file" name="exam_pdf" class="form-control" accept="application/pdf" required>
+                </div>
+                <div class="col-md-12 mt-2">
+                    <button type="submit" class="btn btn-success">Add Exam File</button>
+                </div>
+            </div>
+        </form>
+
+        <h2 class="mt-5">Exam Files</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Session Year</th>
+                    <th>Class</th>
+                    <th>PDF</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                    <th>Code</th>
+                </tr>
+            </thead>
+            <tbody id="examFilesTable">
+                {% for file in exam_files %}
+                <tr data-id="{{ file.id }}">
+                    <td>{{ file.subject.subject_name }}</td>
+                    <td>{{ file.session_year.session_start_year }} - {{ file.session_year.session_end_year }}</td>
+                    <td>{{ file.class_name.name }}</td>
+                    <td><a href="{{ file.exam_pdf.url }}" target="_blank">View</a></td>
+                    <td>
+                        <select class="form-control status-select">
+                            <option value="1" {% if file.status == 1 %}selected{% endif %}>Active</option>
+                            <option value="0" {% if file.status == 0 %}selected{% endif %}>Inactive</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+                    </td>
+                    <td>{{ file.code }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock main_content %}
+
+{% block custom_js %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Add Exam File
+    document.getElementById("examFileForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        let formData = new FormData(this);
+
+        fetch("{% url 'add_exam_file' %}", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            location.reload();
+        })
+        .catch(error => console.error(error));
+    });
+
+    // Update Status
+    document.querySelectorAll(".status-select").forEach(select => {
+        select.addEventListener("change", function() {
+            let fileId = this.closest("tr").getAttribute("data-id");
+            let newStatus = this.value;
+
+            fetch(`/exam-files/update/${fileId}/`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: newStatus })
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .catch(error => console.error(error));
+        });
+    });
+
+    // Delete Exam File
+    document.querySelectorAll(".delete-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            let row = this.closest("tr");
+            let fileId = row.getAttribute("data-id");
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This action cannot be undone!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/exam-files/delete/${fileId}/`, { method: "POST" })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        row.remove();
+                    })
+                    .catch(error => console.error(error));
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock custom_js %}

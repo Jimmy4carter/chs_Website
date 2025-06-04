@@ -1,0 +1,63 @@
+{% extends 'public_template/public_base_template.html' %}
+{% load static %}
+{% block public_main_content %}
+    <!-- inner page banner -->
+    <div class="page-banner ovbl-dark" style="background-image:url('{% static 'assets/images/banner/banner2.jpg' %}');">
+        <div class="container">
+            <div class="page-banner-entry">
+                <h1 class="text-white">Scroll Through Events</h1>
+                </div>
+        </div>
+    </div>
+    <!-- Breadcrumb row -->
+    <div class="breadcrumb-row">
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li>Events</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Breadcrumb row END -->
+    <!-- contact area -->
+    <div class="content-block">
+        <!-- Portfolio  -->
+        <div class="section-area section-sp1 gallery-bx">
+            <div class="container">
+                <div class="clearfix">
+                    <ul id="masonry" class="ttr-gallery-listing magnific-image row">
+                        {% for all_event in all_events %}
+                          
+                        
+                            <li class="action-card col-lg-6 col-md-6 col-sm-12 happening">
+                                <div class="event-bx m-b30">
+                                    <div class="action-box">
+                                        <img src="{{ all_event.future_image }}" alt="Event Picture">
+                                    </div>
+                                    <div class="info-bx d-flex">
+                                        <div>
+                                            <div class="event-time">
+                                                <div class="event-date">{{ all_event.event_day }}</div>
+                                                <div class="event-month">{{ all_event.event_month }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="event-info">
+                                            <h4 class="event-title"><a href="#">{{ all_event.event_title }} {{ all_event.event_year }}</a></h4>
+                                            <ul class="media-post">
+                                                <li><a href="#"><i class="fa fa-map-marker"></i>{{ all_event.event_location }}</a></li>
+                                            </ul>
+                                            <p>{{ all_event.blog_post }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- contact area END -->
+{% endblock public_main_content %}

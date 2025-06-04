@@ -1,0 +1,101 @@
+{% extends 'admin_template/base_template.html' %}
+{% load static %}
+{% block page_title %}
+Actions To Perfom For/On Staff Records
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<div class="card card-success">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12 col-lg-6 col-xl-4">
+        <a href="{% url 'add_staff' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/addstaffs.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Add New Staff</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+            <div class="card-body">
+                <strong><i class="fas fa-question-circle"></i> Add Staff</strong>
+
+                <p class="text-muted">
+                Ensure stable network connection before adding any new record.
+                </p>
+
+                <hr>
+                <strong><i class="fas fa-exclamation-circle"></i> Do Not </strong>
+
+                <p class="text-muted">
+                <span class="tag tag-danger">Start without having all details</span>
+                <span class="tag tag-success">Submit before verifying entry</span>
+                </p>
+
+                <hr>
+
+                <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+                <p class="text-muted">Default password is chs1234 all in lower case</p>
+            </div>
+      </div>
+      <div class="col-md-12 col-lg-6 col-xl-4">
+        <a href="{% url 'manage_staff' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/managestaffs.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Manage Existing Staff</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+        <div class="card-body">
+            <strong><i class="fas fa-question-circle"></i> Alter Staff Record</strong>
+
+            <p class="text-muted">
+            Here you can edit existing staff record
+            </p>
+
+            <hr>
+            <strong><i class="fas fa-exclamation-circle"></i> Do Not</strong>
+
+            <p class="text-muted">
+            <span class="tag tag-danger">Click on field that dont need change</span>
+            <span class="tag tag-success">Leave field blank</span>
+            <span class="tag tag-info">Submit unverified detail</span>
+         
+            </p>
+
+            <hr>
+
+            <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+            <p class="text-muted">Consolidate data before entry.</p>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-6 col-xl-4">
+        <a href="{% url 'view_staffs' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/viewstaffs.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">View All Staff</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+        <div class="card-body">
+            <strong><i class="fas fa-question-circle"></i> Search for staff</strong>
+
+            <p class="text-muted">
+            View all staff and sort for further action
+            </p>
+
+            <hr>
+           
+
+            <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+            <p class="text-muted">To sort record use the search box.</p>
+        </div>
+      </div> 
+    </div>
+  </div>
+</div>
+<!-- /.content -->
+{% endblock main_content %}

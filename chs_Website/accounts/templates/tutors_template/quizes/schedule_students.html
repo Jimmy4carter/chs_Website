@@ -1,0 +1,60 @@
+{% extends 'tutors_template/base_template.html' %}
+
+{% load static %}
+
+{% block main_content %}
+<section class="container mt-5">
+    <h2 class="mb-4">Results for Quiz: {{ schedule.name }}</h2>
+    <ul class="list-group">
+        {% for result in results %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span class="badge bg-secondary">{{ forloop.counter }}</span>
+                <span>
+                    <i class="bi bi-person-circle"></i>
+                    {{ result.student.username }} - {{ result.student.first_name }} {{ result.student.last_name }}
+                </span>
+                <button class="btn btn-info view-results" 
+                        data-score="{{ result.score }}" 
+                        data-remark="{{ result.remark }}"
+                        data-id="{{ result.student.id }}" 
+                        data-schedule-id="{{ schedule.id }}">
+                    <i class="bi bi-eye"></i> View Results
+                </button>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+
+{% endblock main_content %}
+
+{% block custom_js %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function() {
+        $('.view-results').on('click', function() {
+            var score = $(this).data('score');
+            var remark = $(this).data('remark');
+            var studentId = $(this).data('id');
+            var scheduleId = $(this).data('schedule-id');
+
+
+            // Display result details in SweetAlert using data from context
+            Swal.fire({
+                title: 'Result',
+                html: `<p><strong>Score:</strong> ${score}</p>
+                       <p><strong>Remark:</strong> ${remark}</p>`,
+                icon: 'info',
+                showCloseButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'View Details',
+                cancelButtonText: 'Close',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the detailed view page if needed
+                    window.location.href = '/results/' + scheduleId + '/' + studentId + '/';
+                }
+            });
+        });
+    });
+</script>
+{% endblock custom_js %}

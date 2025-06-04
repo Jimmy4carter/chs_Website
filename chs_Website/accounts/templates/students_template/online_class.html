@@ -1,0 +1,35 @@
+{% extends 'students_template/base_template.html' %}
+{% load static %}
+
+{% block page_title %}
+Online Classes
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<section class="content">
+    <div class="error-page">
+      <h2 class="headline text-warning">Oops!</h2>
+
+      <div class="error-content">
+        <h3><i class="fas fa-exclamation-triangle text-warning"></i>There is no class schedule.</h3>
+
+        <p>
+          No online classes scheduled at this moment.
+          Meanwhile, you may <a href="{% url 'e_library' %}">visit the library</a>.
+        </p>
+        <p>
+            We will Notify you once there is a schedule
+        </p>
+
+          <div class="input-group">
+            <img src="{% static "assets/images/logo-white.png" %}" alt="logo">
+          </div>
+          <!-- /.input-group -->
+      </div>
+      <!-- /.error-content -->
+    </div>
+    <!-- /.error-page -->
+  </section>
+  <!-- /.content -->
+{% endblock main_content %}

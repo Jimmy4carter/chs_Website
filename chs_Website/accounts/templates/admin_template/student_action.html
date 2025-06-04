@@ -1,0 +1,115 @@
+{% extends 'admin_template/base_template.html' %}
+{% load static %}
+{% block page_title %}
+Actions To Perfom For/On Staff Records
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<div class="card card-success">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12 col-lg-6 col-xl-4">
+        <a href="{% url 'add_students' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/addstudent.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Add New Student</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+            <div class="card-body">
+                <strong><i class="fas fa-question-circle"></i> Add Student</strong>
+
+                <p class="text-muted">
+                when new staff is added bla bla bla bal bla bla bla bal bla bla bla bal bla bla bla bal
+                </p>
+
+                <hr>
+                <strong><i class="fas fa-exclamation-circle"></i> Do Not</strong>
+
+                <p class="text-muted">
+                <span class="tag tag-danger">UI Design</span>
+                <span class="tag tag-success">Coding</span>
+                <span class="tag tag-info">Javascript</span>
+                <span class="tag tag-warning">PHP</span>
+                <span class="tag tag-primary">Node.js</span>
+                </p>
+
+                <hr>
+
+                <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+                <p class="text-muted">when new staff is added bla bla bla bal bla bla bla bal bla bla bla bal bla bla bla bal</p>
+            </div>
+      </div>
+      <div class="col-md-12 col-lg-6 col-xl-4">
+        <a href="{% url 'manage_students' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/managestudents.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Manage Existing Student</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+        <div class="card-body">
+            <strong><i class="fas fa-question-circle"></i> Add Staff</strong>
+
+            <p class="text-muted">
+            when new staff is added bla bla bla bal bla bla bla bal bla bla bla bal bla bla bla bal
+            </p>
+
+            <hr>
+            <strong><i class="fas fa-exclamation-circle"></i> Do Not</strong>
+
+            <p class="text-muted">
+            <span class="tag tag-danger">UI Design</span>
+            <span class="tag tag-success">Coding</span>
+            <span class="tag tag-info">Javascript</span>
+            <span class="tag tag-warning">PHP</span>
+            <span class="tag tag-primary">Node.js</span>
+            </p>
+
+            <hr>
+
+            <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+            <p class="text-muted">when new staff is added bla bla bla bal bla bla bla bal bla bla bla bal bla bla bla bal.</p>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-6 col-xl-4">
+        <a href="{% url 'view_students' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/viewstudents.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">View All Students</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+        <div class="card-body">
+            <strong><i class="fas fa-question-circle"></i> Add Staff</strong>
+
+            <p class="text-muted">
+            B.S. in Computer Science from the University of Tennessee at Knoxville
+            </p>
+
+            <hr>
+            <strong><i class="fas fa-exclamation-circle"></i> Do Not</strong>
+
+            <p class="text-muted">
+            <span class="tag tag-danger">UI Design</span>
+            <span class="tag tag-success">Coding</span>
+            <span class="tag tag-info">Javascript</span>
+            <span class="tag tag-warning">PHP</span>
+            <span class="tag tag-primary">Node.js</span>
+            </p>
+
+            <hr>
+
+            <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+            <p class="text-muted">when new staff is added bla bla bla bal bla bla bla bal bla bla bla bal bla bla bla bal.</p>
+        </div>
+      </div> 
+    </div>
+  </div>
+</div>
+<!-- /.content -->
+{% endblock main_content %}

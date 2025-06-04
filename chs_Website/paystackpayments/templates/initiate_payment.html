@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="d-flex row justify-content align-items-center py-md-5 py-2" style="min-height: 90vh;">
+        <div class="col-12">
+            <form action="." method="POST">
+                <h4>Enter Amound</h4>
+                <hr>
+                {% csrf_token %}
+                {{ payment_form}}
+                <p>
+                    <input type="submit" class="btn btn-success" value="submit">
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

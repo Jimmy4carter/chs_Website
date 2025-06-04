@@ -1,0 +1,175 @@
+{% extends 'base_template.html' %}
+
+{% block page_title %}
+Hostel Management
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Add Hostel</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+<<<<<<< HEAD
+                        <form role="form" action="/hostels_manage" method="post">
+=======
+                        <form role="form" action="/manage_hostels" method="post">
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+                            {% csrf_token %}
+        
+                                {% comment %} Display Messages {% endcomment %}
+                                {% if messages %}
+                                <div class="form-group">
+                                <div class="col-12">
+                                    {% for message in messages %}
+                                    {% if message.tags == "error" %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                    {% elif message.tags == "success" %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                </div>
+                                {% endif %}
+        
+                            <div class="card-body">
+                                
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <!-- select -->
+                                    <div class="form-group">
+                                    <label>Hostel Type</label>
+                                    <select class="form-control" name="cate" id="cate">
+                                        <option value="Male">Male Hostel</option>
+                                        <option value="Female">Female Hostel</option>
+                                        <option value="Mixed">Mixed Hostel</option>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>ID</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" name="ID" placeholder="Existing ID to update or new ID to add">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label> Hostel Name</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" name="name" placeholder="Enter Hostel Name">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Room Count</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" name="rooms" placeholder="Number of Rooms">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Capacity</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" name="capacity" placeholder="Hostel Capacity">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Hostel Parent 1</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" name="p1" placeholder="Parent ID">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Hostel Parent 2</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" name="p2" placeholder="Parent ID">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Hostel Prefect</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" name="prefect" placeholder="Precect ID">
+                                    </div>
+                                </div> 
+                            </div>
+                             <!-- /.card-body -->
+                             <div class="card-footer">
+                                <button type="submit" class="btn btn-success btn-block" id="submit lession plan">Add/Update Hostel</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Hostels</h3>
+                        </div>
+                        
+                        <div class="table">
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Capacity</th>
+                                        <th>Rooms</th>
+                                        <th>H. Parent 1</th>
+                                        <th>H. Parent 2</th>
+                                        <th>H. Prefect</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for hostel in hostels %}
+                                    <tr>
+                                        
+                                          <td>{{ hostel.id }}</td>
+                                          <td>{{ hostel.name }}</td>
+                                          <td> {{ hostel.capacity }} </td>
+                                          <td>{{ hostel.room_count }}</td>
+                                          <td>Name:{{ hostel.hparent1.first_name }}{{ hostel.hparent1.last_name }} <br>{{ hostel.hparent1.username }} </td>
+                                          <td>{{ hostel.hparent2 }}</td>
+                                          <td>Name: {{ hostel.hprefect.admin.first_name }}  {{ hostel.hprefect.admin.last_name }} <br>{{ hostel.hprefect.admin.username }} </td>
+                                          
+                                        
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Capacity</th>
+                                        <th>Rooms</th>
+                                        <th>H. Parent 1</th>
+                                        <th>H. Parent 2</th>
+                                        <th>H. Prefect</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--/.col (left) -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<!-- /.content -->
+{% endblock main_content %}

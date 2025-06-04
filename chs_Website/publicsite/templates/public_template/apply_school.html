@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<!-- META ============================================= -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<meta name="robots" content="" />
+	
+	<!-- DESCRIPTION -->
+	<meta name="description" content="CHS: Christ High School, Uke" />
+	
+	<!-- OG -->
+	<meta property="og:title" content="CHS: Christ High School, Uke" />
+	<meta property="og:description" content="CHS: Christ High School, Uke" />
+	<meta property="og:image" content="" />
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- FAVICONS ICON ============================================= -->
+	<link rel="icon" href="{% static "assets/images/favicon.ico" type="image/x-icon" %}" />
+	<link rel="shortcut icon" type="{% static "image/x-icon" href="assets/images/favicon.ico" %}" />
+	
+	<!-- PAGE TITLE HERE ============================================= -->
+	<title>Christ High School</title>
+	
+	<!-- MOBILE SPECIFIC ============================================= -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- All PLUGINS CSS ============================================= -->
+	<link rel="stylesheet" type="text/css" href="{% static "assets/css/assets.css" %}">
+	
+	<!-- TYPOGRAPHY ============================================= -->
+	<link rel="stylesheet" type="text/css" href="{% static "assets/css/typography.css" %}">
+	
+	<!-- SHORTCODES ============================================= -->
+	<link rel="stylesheet" type="text/css" href="{% static "assets/css/shortcodes/shortcodes.css" %}">
+	
+	<!-- STYLESHEETS ============================================= -->
+	<link rel="stylesheet" type="text/css" href="{% static "assets/css/style.css" %}">
+	<link class="skin" rel="stylesheet" type="text/css" href="{% static "assets/css/color/color-1.css" %}">
+	
+</head>
+<body id="bg">
+<div class="page-wraper">
+		<div class="page-wraper">
+			<div class="account-form">
+				<div class="account-head" style="background-image:url('{% static 'assets/images/background/bg2.jpg' %}');">
+					<a href="{% url 'index' %}"><img src="{% static "assets/images/logo-white-2.png" %}" alt=""></a>
+				</div>
+				<div class="account-form-inner">
+					<div class="account-container">
+						<div class="heading-bx left">
+							<h2 class="title-head">Fill <span>Application Form</span></h2>
+							<p>Not ready to apply for your child?<a href="{% url 'index' %}"> Go back to our home page</a></p>
+						</div>
+						<div class="col-lg-12">
+							<h6 style="color: red;">Notice</h6>
+							<div class="d-flex">
+                                <ol>
+                                    <li>Aplication can also be done at the school.</li>
+                                    <li>Once started please try and complete the application process.</li>
+                                    <li>Kindly review your contact information before submitting, as the details provided will be used for communication purposes.</li>
+                                    <li>An non-refundable application fee of #7,500 must be remitted prior to the commencement of the entrance examination..</li>
+                                </ol>
+							</div>
+						</div>	
+						<form class="contact-bx" role="form" action="{% url 'apply' %}" method="post" enctype="multipart/form-data">
+							{% csrf_token %}
+							<div class="row placeani">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<div class="input-group">
+											<label>SURNAME</label>
+											<input name="surname" type="text" required="" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="form-group">
+										<div class="input-group">
+											<label>OTHER NAMES</label>
+											<input name="other_name" type="text" required="" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label>DATE OF BIRTH</label>
+										<input name="dob" type="date" required="" class="form-control">
+								</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label>GENDER</label>
+										<select style="color: RED;" name="gender" class="form-control" required="">
+											<option  value="Male">Male</option>
+											<option value="Female">Female</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label>RELIGION</label>
+										<select name="religion" class="form-control" required="">
+											<option value="Christianity">Christianity</option>
+											<option value="Islam">Islam</option>
+											<option value="Others">Others</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="form-group">
+										<div class="input-group">
+											<label>STATE OF ORIGEN</label>
+											<input name="SOO" type="text" required="" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="form-group">
+										<div class="input-group"> 
+											<label>CONTACT EMAIL</label>
+											<input name="email" type="email" class="form-control" required="">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="form-group">
+										<div class="input-group"> 
+											<label>CONTACT PHONE</label>
+											<input name="contact_phone" type="tel" class="form-control" required="">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label>APPLYING FOR?</label>
+										<select style="color: RED;" name="applying_for" class="form-control" required="">
+											<option  value="JS 1">JS 1</option>
+											<option  value="JS 2">JS 2</option>
+											<option  value="JS 3">JS 3</option>
+											<option  value="SS 1">SS 1</option>
+											<option  value="SS 2">SS 2</option>
+											<option  value="SS 3">SS 3</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="form-group">
+										<div class="input-group">
+											<label>FORMER SCHOOL NAME</label>
+											<input name="former_school" type="text" required="" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<div class="form-group">
+										<div class="input-group">
+											<label>FORMER SCHOOL PHONE</label>
+											<input name="phone" type="tel" required="" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12 m-b30">
+									<button type="submit" class="btn button-md">Submit Application</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+</div>
+<!-- External JavaScripts -->
+<script src="{% static "assets/js/jquery.min.js" %}"></script>
+<script src="{% static "assets/vendors/bootstrap/js/popper.min.js" %}"></script>
+<script src="{% static "assets/vendors/bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="{% static "assets/vendors/bootstrap-select/bootstrap-select.min.js" %}"></script>
+<script src="{% static "assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js" %}"></script>
+<script src="{% static "assets/vendors/magnific-popup/magnific-popup.js" %}"></script>
+<script src="{% static "assets/vendors/counter/waypoints-min.js" %}"></script>
+<script src="{% static "assets/vendors/counter/counterup.min.js" %}"></script>
+<script src="{% static "assets/vendors/masonry/masonry.js" %}"></script>
+<script src="{% static "assets/vendors/owl-carousel/owl.carousel.js" %}"></script>
+<script src="{% static "assets/js/functions.js" %}"></script>
+<script src="{% static "assets/js/contact.js" %}"></script>
+</body>
+
+
+</html>

@@ -1,0 +1,149 @@
+{% extends 'admin_template/base_template.html' %}
+
+{% block page_title %}Admin Dashboard - CBT Management{% endblock page_title %}
+{% block custom_css %}
+    <!-- Include SweetAlert2 CSS and JavaScript -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+{% endblock custom_css %}
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <!-- Quizzes Section -->
+        <div class="card card-primary mb-3">
+            <div class="card-header">
+                <h3 class="card-title">All Quizzes</h3>
+            </div>
+            <div class="card-body">
+                <input type="text" id="quizSearch" class="form-control mb-3" placeholder="Search quizzes...">
+                {% if quizzes %}
+                    <table class="table table-bordered table-hover" id="quizTable">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Quiz Subject</th>
+                                <th>Quiz Title</th>
+                                <th>Quiz Desc.</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for quiz in quizzes %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ quiz.subject.outline }}</td>
+                                    <td>{{ quiz.title }}</td>
+                                    <td>{{ quiz.description }}</td>
+                                    <td>
+                                        <a href="{% url 'admin_view_quiz' quiz.id %}" class="btn btn-info btn-sm">View</a>
+                                        <button onclick="confirmDelete('{% url 'admin_delete_quiz' quiz.id %}')" class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No quizzes available.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Schedules Section -->
+        <div class="card card-secondary">
+            <div class="card-header">
+                <h3 class="card-title">All Schedules</h3>
+            </div>
+            <div class="card-body">
+                <input type="text" id="scheduleSearch" class="form-control mb-3" placeholder="Search schedules...">
+                {% if schedules %}
+                    <table class="table table-bordered table-hover" id="scheduleTable">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Quiz</th>
+                                <th>Schedule Name</th>
+                                <th>Date</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for schedule in schedules %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ schedule.quiz }}</td>
+                                    <td>{{ schedule.name }}</td>
+                                    <td>{{ schedule.start_time }}</td>
+                                    <td>{{ schedule.duration }} Minutes</td>
+                                    <td>{{ schedule.status }}</td>
+                                    <td>
+                                        <button onclick="confirmDelete('{% url 'admin_delete_schedule' schedule.id %}')" class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No schedules available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock main_content %}
+
+{% block custom_js %}
+    <!-- Include SweetAlert2 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+    <script>
+        // SweetAlert delete confirmation
+        function confirmDelete(url) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This will permanently delete the record.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to delete URL if confirmed
+                    window.location.href = url;
+                }
+            });
+        }
+
+        // Search function for tables
+        function searchTable(inputId, tableId) {
+            const input = document.getElementById(inputId);
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById(tableId);
+            const tr = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                const td = tr[i].getElementsByTagName("td");
+                for (let j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        const txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Event listeners for search inputs
+        document.getElementById('quizSearch').addEventListener('keyup', function() {
+            searchTable('quizSearch', 'quizTable');
+        });
+
+        document.getElementById('scheduleSearch').addEventListener('keyup', function() {
+            searchTable('scheduleSearch', 'scheduleTable');
+        });
+    </script>
+{% endblock custom_js %}

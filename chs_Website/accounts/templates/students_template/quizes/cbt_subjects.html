@@ -1,0 +1,117 @@
+{% extends 'students_template/base_template.html' %}
+
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <!-- Title Row -->
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h1 class="display-4"><i class="fas fa-book-reader"></i> CBT Schedules</h1>
+                <p class="lead">Stay on top of your scheduled tests and results</p>
+            </div>
+        </div>
+        
+        <!-- Ongoing Schedules Section -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title"><i class="fas fa-hourglass-start"></i> Ongoing Quizzes</h3>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-book"></i> Subject Name</th>
+                                    <th><i class="fas fa-calendar-alt"></i> Scheduled Date</th>
+                                    <th><i class="fas fa-clock"></i> Duration</th>
+                                    <th><i class="fas fa-cogs"></i> Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for schedule in schedules %}
+                                    {% if schedule.status == 'ongoing' %}
+                                    <tr>
+                                        <td>{{ schedule.quiz.subject.subject_name }}: {{ schedule.name }}</td>
+                                        <td>{{ schedule.start_time|date:"F j, Y, g:i a" }}</td>
+                                        <td>{{ schedule.duration }} minutes</td>
+                                        <td>
+                                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#startExamModal-{{ schedule.id }}">
+                                                <i class="fas fa-play-circle"></i> Start
+                                            </button>
+
+                                            <!-- Start Exam Modal -->
+                                            <div class="modal fade" id="startExamModal-{{ schedule.id }}" tabindex="-1" aria-labelledby="startExamModalLabel-{{ schedule.id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="startExamModalLabel-{{ schedule.id }}">Start CBT</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Are you sure you want to start the exam for <strong>{{ schedule.quiz.subject.subject_name }}</strong> scheduled on <strong>{{ schedule.start_time|date:"F j, Y, g:i a" }}</strong>?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            <a href="{% url 'cbt_objective' schedule.id %}" class="btn btn-primary">Yes, Start</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Schedules Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h3 class="card-title"><i class="fas fa-check-circle"></i> Quiz Results</h3>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-book"></i> Subject Name</th>
+                                    <th><i class="fas fa-calendar-alt"></i> Scheduled Date</th>
+                                    <th><i class="fas fa-clock"></i> Duration</th>
+                                    <th><i class="fas fa-cogs"></i> Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for schedule in schedules %}
+                                    {% if schedule.status == 'result' %}
+                                    <tr>
+                                        <td>{{ schedule.quiz.subject.subject_name }}: {{ schedule.name }}</td>
+                                        <td>{{ schedule.start_time|date:"F j, Y, g:i a" }}</td>
+                                        <td>{{ schedule.duration }} minutes</td>
+                                        <td>
+                                            <a href="{% url 'cbt_result' schedule.id %}" class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i> View Result
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Include FontAwesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{% endblock main_content %}

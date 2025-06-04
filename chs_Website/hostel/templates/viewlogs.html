@@ -1,0 +1,63 @@
+{% extends 'base_template.html' %}
+
+{% block page_title %}
+Room Management
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Rooms</h3>
+                        </div>
+                        
+                        <div class="table">
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Report</th>
+                                        <th>Report Date</th>
+                                        <th>Session</th>
+                                        <th>Report</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for reports in reports %}
+                                    <tr>
+                                        
+                                          <td>{{ forloop.counter }}</td>
+                                          <td><b>Name:</b>{{ reports.reporter.admin.first_name }}{{ reports.reporter.admin.last_name }} <br><b>Reg. No.:</b>{{ reports.reporter.admin.username }} </td>
+                                          <td><b>Report for:</b> {{ reports.rdate }} <br><b>Created at:</b> {{ reports.created_at }}</td>
+                                          <td>{{ reports.sessionid.session_start_year }}/{{ reports.sessionid.session_end_year }} Academic Session</td>
+                                          <td><a href="report_preview/{{ reports.id }}" class="btn btn-success">View Report</a></td>
+                                        
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Reporter Details</th>
+                                        <th>Report Details</th>
+                                        <th>Session</th>
+                                        <th>Report</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--/.col (left) -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<!-- /.content -->
+{% endblock main_content %}

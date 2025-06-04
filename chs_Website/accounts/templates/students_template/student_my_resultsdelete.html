@@ -1,0 +1,155 @@
+{% extends 'students_template/base_template.html' %}
+{% load static %}
+
+{% block page_title %}
+Results
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-12">
+            <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Select Result</h3>
+
+                <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                <thead>
+                    <tr>
+                    <th>Session/Class</th>
+                    <th style="text-align: center;">1st Term Result</th>
+                    <th style="text-align: center;">2st Term Result</th>
+                    <th style="text-align: center;">3st Term Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for valid_ses in valid_ses %}
+                    <tr>
+                        {% for valid_ses_obj in valid_ses_objs %}
+                            <tr>
+                                    {% if valid_ses_obj.term.id == 1 and valid_ses == valid_ses_obj.session_year %}
+                                    <td>{{ valid_ses.session_start_year }}/{{ valid_ses.session_end_year }} <br> {{ valid_ses_obj.student_class.name }}</td>                 
+
+                                    <td>
+                                    {% if valid_ses_obj.result_type == 1 %}
+                                        <form action="{% url 'result_preview' %}" method="post">
+                                            {% csrf_token %}
+                                            
+                                            <input type="text" hidden name="avg_id" value="{{ valid_ses_obj.id }}">
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-info btn-block">Mid-Term</button>
+                                            </div>
+                                        
+                                        </form> 
+                                    {% endif %}
+                                    
+                                    {% if valid_ses_obj.result_type == 2 %}
+                                        
+                                        <form action="{% url 'result_preview' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="text" hidden name="avg_id" value="{{ valid_ses_obj.id }}">
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-primary btn-block">End of Term</button>
+                                            </div>
+                                        </form>
+                                    {% endif %}
+                                </td>    
+                                {% else %}
+                                    <td style="text-align: center;">Not Available</td>
+                                {% endif %}
+
+                                {% if valid_ses_obj.term.id == 2 and valid_ses == valid_ses_obj.session_year %}
+                                    
+                                <td>
+                                    {% if valid_ses_obj.result_type == 1 %}
+                                        <form action="{% url 'result_preview' %}" method="post">
+                                            {% csrf_token %}
+                                            
+                                            <input type="text" hidden name="avg_id" value="{{ valid_ses_obj.id }}">
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-info btn-block">Mid-Term</button>
+                                            </div>
+                                        
+                                        </form> 
+                                    {% endif %}
+                                    {% if valid_ses_obj.result_type == 2 %}
+                                        <form action="{% url 'result_preview' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="text" hidden name="avg_id" value="{{ valid_ses_obj.id }}">
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-primary btn-block">End of Term</button>
+                                            </div>
+                                        </form>
+                                    {% endif %}
+                                </td>    
+
+                                {% else %}
+                                    <td style="text-align: center;">Not Available</td>
+                                {% endif %}
+
+                                {% if valid_ses_obj.term.id == 3 and valid_ses == valid_ses_obj.session_year %}
+
+                                <td>
+                                    {% if valid_ses_obj.result_type == 1 %}
+                                        <form action="{% url 'result_preview' %}" method="post">
+                                            {% csrf_token %}
+                                            
+                                            <input type="text" hidden name="avg_id" value="{{ valid_ses_obj.id }}">
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-info btn-block">Mid-Term</button>
+                                            </div>
+                                        
+                                        </form> 
+                                    {% endif %}
+
+                                    {% if valid_ses_obj.result_type == 2 %}
+                                        <form action="{% url 'result_preview' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="text" hidden name="avg_id" value="{{ valid_ses_obj.id }}">
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-primary btn-block">End of Term</button>
+                                            </div>
+                                        </form>
+                                    {% endif %}
+                                </td>  
+
+                                {% else %}
+                                    <td style="text-align: center;">Not Available</td>
+                                {% endif %}
+
+                            </tr>
+
+                           
+                        {% endfor %}  
+                   </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock main_content %}

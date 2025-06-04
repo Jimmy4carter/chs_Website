@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Quiz: {{ schedule.quiz.title }}</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>{{ schedule.quiz.title }} - Theory Questions</h2>
+        
+        <!-- Timer Display -->
+        <div class="alert alert-info text-center">
+            <strong>Time Remaining: <span id="timeRemaining">00:00:00</span></strong>
+        </div>
+
+        <!-- Questions Container -->
+        <div id="questions-container">
+            {% for question in theory_questions %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ question.question_number }}. {{ question.question }}</h5>
+                        {% if question.diagram %}
+                            <img src="{{ question.diagram.url }}" alt="Diagram for {{ question.question_number }}" class="img-fluid mb-2">
+                        {% endif %}
+                        <button id="answer-btn-{{ question.id }}" class="btn btn-primary answer-btn" onclick="showInput({{ question.id }})">Answer</button>
+                        <div id="input-container-{{ question.id }}" style="display:none; margin-top: 10px;">
+                            <textarea id="answer-input-{{ question.id }}" class="form-control" placeholder="Type your answer here..." rows="3"></textarea>
+                            <button class="btn btn-success mt-2" onclick="saveTheoryAnswer({{ question.id }})">Save</button>
+                            <button class="btn btn-secondary mt-2" onclick="hideInput({{ question.id }})">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <button class="btn btn-warning" onclick="submitQuiz()">Finalize and Submit</button>
+    </div>
+
+    <script>
+        let timeRemaining = {{ time_remaining }};  // Time in seconds passed from the backend
+
+        function updateTimer() {
+            const hours = Math.floor(timeRemaining / 3600);
+            const minutes = Math.floor((timeRemaining % 3600) / 60);
+            const seconds = Math.floor(timeRemaining % 60);
+
+            // Display the timer
+            $('#timeRemaining').text(
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+            );
+
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Time is up!',
+                    text: 'Submitting your quiz...',
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                    submitQuiz();  // Automatically submit the quiz when time is up
+                });
+            }
+
+            timeRemaining--;  // Decrement the remaining time
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);  // Update the timer every second
+
+        function showInput(questionId) {
+            document.getElementById(`input-container-${questionId}`).style.display = 'block';
+            document.getElementById(`answer-btn-${questionId}`).style.display = 'none';  // Hide the "Answer" button
+        }
+
+        function hideInput(questionId) {
+            document.getElementById(`input-container-${questionId}`).style.display = 'none';
+            document.getElementById(`answer-btn-${questionId}`).style.display = 'inline-block';  // Show the "Answer" button again
+        }
+
+        function saveTheoryAnswer(theoryQuestionId) {
+            const theoryAnswer = document.getElementById(`answer-input-${theoryQuestionId}`).value;
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "quiz_view_theory" schedule.id %}',  // Update with correct URL
+                data: {
+                    'theory_question_id': theoryQuestionId,
+                    'theory_answer': theoryAnswer,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Include CSRF token for POST requests
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Answer saved successfully!',
+                            toast: true,
+                            position: 'top-end',
+                            timer: 3000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error saving answer',
+                            text: response.message,
+                            toast: true,
+                            position: 'top-end',
+                            timer: 3000,
+                            showConfirmButton: false
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while saving the answer.',
+                        toast: true,
+                        position: 'top-end',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        function submitQuiz() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to submit your answers?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, submit it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url "quiz_view_theory" schedule.id %}',  // Ensure this points to the correct view
+                        data: {
+                            'submit': true,  // Add a key to signify submission
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'  // Ensure CSRF token is passed
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Quiz submitted successfully!',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }).then(() => {
+                                    window.location.href = "{% url 'quiz_result' schedule.id %}";  // Redirect to results page
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error submitting quiz',
+                                    text: response.message,
+                                    toast: true,
+                                    position: 'top-end',
+                                    timer: 3000,
+                                    showConfirmButton: false
+                                });
+                            }
+                        },
+                        error: function() {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'An error occurred while submitting the quiz.',
+                                toast: true,
+                                position: 'top-end',
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        
+    </script>
+    <script>
+        // Prevent back button
+        window.history.pushState(null, "", window.location.href);
+        window.onpopstate = function() {
+            window.history.pushState(null, "", window.location.href);
+        };
+    </script>
+    <script>
+        // Disable right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        }, false);
+    
+        // Disable F12 and Ctrl+Shift+I for developer tools
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+                e.preventDefault();
+            }
+        }, false);
+    </script>
+</body>
+</html>

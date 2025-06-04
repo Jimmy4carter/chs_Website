@@ -1,0 +1,50 @@
+{% extends 'quizes/base_template.html' %}
+
+{% load static %}
+
+{% block custom_css %}
+<style>
+    .question-diagram {
+        width: 100px;
+        height: 100px;
+        object-fit: contain; /* Ensures the image fits within the box without stretching */
+    }
+</style>
+{% endblock custom_css %}
+
+{% block main_content %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+<h2>Submitted Objective Questions for {{ quiz.title }}</h2>
+
+<div class="question-list">
+    {% for question in questions %}
+        <div class="question-item mb-4">
+            <h4>{{ forloop.counter }}. {{ question.question }}</h4>
+            
+            {% if question.diagram %}
+                <img src="{{ question.diagram.url }}" alt="Question Diagram" class="img-fluid question-diagram">
+            {% endif %}
+            
+            <ul class="options-list mt-2">
+                {% for option in question.options.all %}
+                    <li class="{% if option.is_correct %}text-success{% endif %}">
+                        {{ option.option_value }}: {{ option.option_text }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+
+<a href="{% url 'quiz_management' %}" class="btn btn-primary mt-4">Back to Quiz Management</a>
+
+{% endblock main_content %}
+
+
+{% block custom_js %}
+
+{% endblock custom_js %}

@@ -1,0 +1,27 @@
+{% extends 'students_template/base_template.html' %}
+
+{% block main_content %}
+<!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+           <div class="container mt-5">
+                <h2>Textbooks</h2>
+                <div class="row">
+                    {% for textbook in materials %}
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ textbook.title }}</h5>
+                                <a href="{% url 'view_textbook' textbook.id %}" class="btn btn-primary">Read</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<!-- /.content -->
+{% endblock main_content %}

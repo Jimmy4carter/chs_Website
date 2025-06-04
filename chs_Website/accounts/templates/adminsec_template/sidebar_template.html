@@ -1,0 +1,205 @@
+{% load static  %}
+ <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'adminsec_home' %}" class="brand-link">
+      <img src="{% static "dist/img/AdminLTELogo.png" %}" alt="CHS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">CHS Admin Sec.</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{ user.staff.profile_pic }}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+            <a href="{% url 'student_profile' %}" class="d-block">{{ user.first_name }} {{ user.last_name }}</a>
+            <a href="{% url 'student_profile'%}" class="d-block">{{ user.username }}</a>
+        </div>
+      </div>
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            {% url 'adminsec_home' as adminsec_home %}
+            <a href="{% url 'adminsec_home' %}" class="nav-link {% if request.path == adminsec_home %} active {% endif %}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'payment_history' as payment_history %}
+            <a href="{% url 'payment_history' %}" class="nav-link {% if request.path == payment_history %} active {% endif %}">
+              <i class="nav-icon fas fa-money-bill-alt"></i>
+              <p>
+                Payments
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'billing_action' as billing_action %}
+            <a href="{% url 'billing_action' %}" class="nav-link {% if request.path == billing_action %} active {% endif %}">
+              <i class="nav-icon fas fa-wallet"></i>
+              <p>
+                Billings
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">              
+              <i class="nav-icon fas fa-file-export"></i>
+              <p>
+                Applications
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                {% url 'student_application' as student_application %}
+                <a href="{% url 'student_application' %}" class="nav-link {% if request.path == student_application %} active {% endif %}">    
+                  <i class="nav-icon fas fa-graduation-cap"></i>
+                  <p>Student</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'job_application' as job_application %}
+                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Job</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">              
+              <i class="nav-icon fas fa-file-export"></i>
+              <p>
+                Task Management
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                {% url 'student_application' as student_application %}
+                <a href="{% url 'student_application' %}" class="nav-link {% if request.path == student_application %} active {% endif %}">    
+                  <i class="nav-icon fas fa-graduation-cap"></i>
+                  <p>Asign Task</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'job_application' as job_application %}
+                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Progrss Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'job_application' as job_application %}
+                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Completed Task</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'job_application' as job_application %}
+                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
+                  <i class="nav-icon fas fa-id-card-alt"></i>
+                  <p>Failed Task</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            {% url 'adminsec_message' as adminsec_message %}
+            <a href="{% url 'adminsec_message' %}" class="nav-link {% if request.path == adminsec_message %} active {% endif %}">
+              <i class=" nav-icon fas fa-comment-dots"></i>
+              <p>
+                Messages
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'newsletter_compose' as newsletter_compose %}
+            <a href="{% url 'newsletter_compose' %}" class="nav-link {% if request.path == newsletter_compose %} active {% endif %}">
+              <i class="nav-icon fab fa-neos"></i>
+              <p>
+                Newsletter
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'adminsec_students' as adminsec_students %}
+            <a href="{% url 'adminsec_students' %}" class="nav-link {% if request.path == adminsec_students %} active {% endif %}">
+              <i class="nav-icon fas fa-graduation-cap"></i>
+              <p>
+                Students
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'adminsec_staff_todo' as adminsec_staff_todo %}
+            <a href="{% url 'adminsec_staff_todo' %}" class="nav-link {% if request.path == adminsec_staff_todo %} active {% endif %}">
+              <i class="nav-icon fas fa-id-card-alt"></i>
+              <p>
+                Staff
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'adminsec_view_subjects' as adminsec_view_subjects %}
+            <a href="{% url 'adminsec_view_subjects' %}" class="nav-link {% if request.path == adminsec_view_subjects %} active {% endif %}">
+              <i class="nav-icon fas fa-book-reader"></i>
+              <p>
+                Subjects
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'add_event' as add_event %}
+            <a href="{% url 'add_event' %}" class="nav-link {% if request.path == add_event %} active {% endif %}">
+              <i class="nav-icon far fa-calendar-alt"></i>
+              <p>
+                Events
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'adminsec_feedback' as adminsec_feedback %}
+            <a href="{% url 'adminsec_feedback' %}" class="nav-link {% if request.path == adminsec_feedback %} active {% endif %}">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+                Feedback
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'student_all_notification' as student_all_notification %}
+            <a href="{% url 'student_all_notification' %}" class="nav-link {% if request.path == student_all_notification %} active {% endif %}">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Notifications
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'adminsec_profile' as adminsec_profile %}
+            <a href="{% url 'adminsec_profile' %}" class="nav-link {% if request.path == adminsec_profile %} active {% endif %}">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Profile
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->

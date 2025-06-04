@@ -1,0 +1,124 @@
+{% extends 'tuckshop_template/base_template.html' %}
+{% load static %}
+
+
+{% block custom_css %}
+<style>
+    .modal-image-container {
+        display:contents;
+        justify-content: space-between;
+    }
+
+    .modal-image {
+        max-width: 100%;  /* Adjust the percentage based on your design */
+        height: auto;
+        border: 1px solid #ddd; /* Add a border for better visibility */
+        margin-bottom: 10px;
+    }
+</style>
+
+{% endblock custom_css %}
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Add Damage Reports</h3>
+                    </div>
+                            <div class="row">
+                                {% if messages%}
+                                    <div class="col-12">
+                                        {% for message in messages %}
+                                            {% if message.tags == 'error' %}
+                                            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                            {% endif %}
+                                            {% if message.tags == 'success' %}
+                                            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+<!-- your_template_name.html -->
+            <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_table }}
+                <button type="submit">Submit Report</button>
+            </form>
+            </div>
+
+
+<!-- ... (remaining code) ... -->
+
+            <div class="card-header">
+                <h3 class="card-title">Damage Reports</h3>
+            </div>                        
+                    <div class="card-body">
+                        <h3>Item List</h3>
+                       <!-- Table to view log reports -->
+                        <table class="table table-hover text-nowrap" id="logReportTable">
+                                <thead>
+                                  <tr>
+                                    <th>Date</th>
+                                    <th>Item</th>
+                                    <th>Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for report in damage_reports %}
+                                    <tr>
+                                      <td>{{ report.date }}</td>
+                                      <td>{{ report.item.name }}</td>
+                                      <td>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewReportModal{{ report.id }}">
+                                          View Report
+                                        </button>
+                                      </td>
+                                    </tr>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="viewReportModal{{ report.id }}" tabindex="-1" role="dialog" aria-labelledby="viewReportModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="viewReportModalLabel">View Damage Report</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <<div class="modal-body">
+                                            <p>Date: {{ report.date }}</p>
+                                            <p>Item: {{ report.item.name }}</p>
+                                            <p>Note: {{ report.notes }}</p>
+                                            <p>Images:</p>
+                                            <div class="modal-image-container">
+                                                <img class="modal-image" src="{{ report.image1.url }}" alt="Image 1">
+                                                <img class="modal-image" src="{{ report.image2.url }}" alt="Image 2">
+                                            </div>
+                                        </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<!-- your_template_name.html -->
+{% endblock custom_js %}
+    

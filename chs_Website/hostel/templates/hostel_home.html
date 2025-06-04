@@ -1,0 +1,400 @@
+{% extends 'base_template.html' %}
+{% load static %}
+<<<<<<< HEAD
+{% block page_title %}
+Hostel
+{% endblock page_title %}
+{% block custom_css %}
+<style>
+    .avatar-img {
+        width: 210px; /* Set the desired width */
+        height: 210px; /* Set the desired height */
+        object-fit: cover; /* Maintain aspect ratio and cover the container */
+        border-radius: 80%; /* Ensure a circular shape for rounded avatars */
+    }
+</style>
+
+{% endblock custom_css %}
+{% block main_content %}
+<!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        
+<div class="container-fluid">
+  <div class="row mt-4">
+    <!-- Male Hostel Card -->
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Male Hostel</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Number of Rooms: {{ male_hostel.room_count }}<br>
+                    Capacity: {{ male_hostel.capacity }}<br>
+                    Supervisor 1: {{ male_hostel.hparent1.admin.last_name }} {{ male_hostel.hparent1.admin.first_name }}<br>
+                    Hostel Prefect: {{ male_hostel.hprefect.admin.last_name }} {{ male_hostel.hprefect.admin.first_name }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Female Hostel Card -->
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header bg-pink text-white">
+                <h5 class="mb-0">Female Hostel</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Number of Rooms: {{ female_hostel.room_count }}<br>
+                    Capacity: {{ female_hostel.capacity }}<br>
+                    Supervisor 1: {{ female_hostel.hparent1.admin.last_name }} {{ female_hostel.hparent1.admin.first_name }}<br>
+                    Hostel Prefect: {{ female_hostel.hprefect.admin.last_name }} {{ female_hostel.hprefect.admin.first_name }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <div class="row mt-4">
+        <!-- Bootstrap Accordion for Sections -->
+        <div class="col-md-12">
+            <div class="accordion" id="accordionSections">
+                <!-- Rooms Section -->
+                <div class="card">
+                    <div class="card-header" id="roomsSection">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseRooms" aria-expanded="true" aria-controls="collapseRooms">
+                                Rooms Section
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseRooms" class="collapse hide" aria-labelledby="roomsSection" data-parent="#accordionSections">
+                        <div class="card-body">
+                            <table id="roomsTable" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Room Name</th>
+                                        <th>Capacity</th>
+                                        <th>Hostel</th>
+                                        <th>Room Head</th>
+                                        <th>MEMBERS</th>
+                                    </tr>
+                                </thead>
+                                <!-- Inside the Rooms Section table body -->
+<!-- Inside the Rooms Section table body -->
+<tbody>
+    {% for room in rooms_data %}
+        <tr>
+            <td>{{ room.name }}</td>
+            <td>{{ room.capacity }}</td>
+            <td>{{ room.hostels.name }}</td>
+            <td>{{ room.roomhead.admin.last_name }} {{ room.roomhead.admin.first_name }}</td>
+            <td>
+                <button type="button" class="btn btn-primary view-members-btn" data-toggle="modal" data-target="#membersModal{{ room.id }}">
+                    View Members
+                    <span class="badge badge-danger right countid">{{ room.get_members_count }}</span>
+                </button>
+            </td>
+        </tr>
+
+               <!-- Members Modal -->
+        <div class="modal fade" id="membersModal{{ room.id }}" tabindex="-1" role="dialog" aria-labelledby="membersModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="membersModalLabel">Room Members</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            {% for allocation in room.get_members %}
+                                <div class="col-md-4 mb-3">
+                                    <img src="{{ allocation.student.profile_pic }}" alt="{{ allocation.student.admin.first_name }} {{ allocation.student.admin.last_name }}" class="img-fluid rounded-circle avatar-img">
+                                    <p class="text-center">{{ allocation.student.admin.first_name }} {{ allocation.student.admin.last_name }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+</tbody>
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Report Section -->
+               <div class="card">
+                    <div class="card-header" id="reportsSection">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseReports" aria-expanded="true" aria-controls="collapseReports">
+                                Report Section
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseReports" class="collapse hide" aria-labelledby="reportsSection" data-parent="#accordionSections">
+                        <div class="card-body">
+                            <table id="reportsTable" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date Created</th>
+                                        <th>Reporter</th>
+                                        <th>Preview</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for report in reports_data %}
+                                        <tr>
+                                            <td>{{ report.rdate }}</td>
+                                            <td>{{ report.reporter.admin.last_name }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reportModal{{ report.id }}">
+                                                    Preview
+                                                </button>
+                                            </td>
+                                        </tr>
+                
+                                        <!-- Report Modal -->
+                                        <div class="modal fade" id="reportModal{{ report.id }}" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="reportModalLabel">Report Preview</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>{{ report.rdate }}</p>
+                                                        <p>{{ report.report|safe }}</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </section>
+    <!-- /.content -->
+<!-- /.content -->
+{% endblock main_content %}
+{% block custom_js %}
+<!-- DataTables  & Plugins -->
+<script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/jszip/jszip.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/pdfmake.min.js" %}"></script>
+<script src="{% static "/plugins/pdfmake/vfs_fonts.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.print.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.colVis.min.js" %}"></script>
+<script>
+    // Add this script to initialize DataTable for the Rooms Section with filters and 40 items per page
+    $(document).ready(function () {
+        $('#roomsTable').DataTable({
+            responsive: true,
+            lengthChange: false,
+            autoWidth: false,
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
+            pageLength: 40, // Set the default number of rows per page to 40
+        });
+    });
+</script>
+
+<script>
+    // Add this script to initialize DataTable for the Reports Section
+    $(document).ready(function () {
+        $('#reportsTable').DataTable({
+           responsive: true,
+            lengthChange: false,
+            autoWidth: false,
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
+            pageLength: 40, 
+        });
+    });
+=======
+
+{% block page_title %}
+Home
+{% endblock page_title %}
+
+{% block main_content %}
+ <!-- Main content -->
+ <section class="content">
+   <div class="container-fluid">
+     <!-- Small boxes (Stat box) -->
+     <div class="row">
+       <div class="col-lg-3 col-6">
+         <!-- small box -->
+         <div class="small-box bg-info">
+           <div class="inner">
+             <h3>{{ all_students }}</h3>
+
+             <p>Total Students</p>
+           </div>
+           <div class="icon">
+             <i class="ion ion-person"></i>
+           </div>
+           <a href="{% url '' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+         </div>
+       </div>
+       <!-- ./col -->
+       <div class="col-lg-3 col-6">
+         <!-- small box -->
+         <div class="small-box bg-success">
+           <div class="inner">
+             <h3>{{ active_student }}</h3>
+
+             <p>Active Students</p>
+           </div>
+           <div class="icon">
+             <i class="ion ion-person"></i>
+           </div>
+           <a href="{% url 'student_view_attendance'%}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+         </div>
+       </div>
+       <!-- ./col -->
+       <div class="col-lg-3 col-6">
+         <!-- small box -->
+         <div class="small-box bg-warning">
+           <div class="inner">
+             <h3>{{ all_staff }}</h3>
+             <p>Staff</p>
+           </div>
+           <div class="icon">
+             <i class="ion ion-person-add"></i>
+           </div>
+           <a href="{% url 'student_view_attendance'%}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+         </div>
+       </div>
+       <!-- ./col -->
+       <div class="col-lg-3 col-6">
+         <!-- small box -->
+         <div class="small-box bg-danger">
+           <div class="inner">
+             <h3>{{ all_subjects }}</h3>
+
+             <p>Subjects</p>
+           </div>
+           <div class="icon">
+             <i class="ion ion-stats-bars"></i>
+           </div>
+           <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+         </div>
+       </div>
+       <!-- ./col -->
+     </div>
+     <!-- /.row -->
+     <!-- Main row -->
+     <!-- /.row (main row) -->
+   </div><!-- /.container-fluid -->
+ </section>
+ <!-- /.content -->
+{% endblock main_content %}
+{% block custom_js %}
+<script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-messaging.js"></script>
+
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyDtfwAKSON_fi5_bta3Cc8B0SDz24oSRos",
+        authDomain: "chswebsite-ebd88.firebaseapp.com",
+        projectId: "chswebsite-ebd88",
+        storageBucket: "chswebsite-ebd88.appspot.com",
+        messagingSenderId: "97644228824",
+        appId: "1:97644228824:web:da392dab4d7c222ff6e7ad",
+        measurementId: "G-XB1DDKLBG4"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const messaging=firebase.messaging();
+
+    function InitializeFireBaseMessaging(){
+        messaging
+            .requestPermission()
+            .then(function (){
+                console.log("Notification Permission")
+                return messaging.getToken();
+            })
+            .then(function (token){
+                console.log("Token : "+token)
+                sendToServer(token)
+            })
+        .catch(function (reason){
+            console.log(reason)
+        });
+    }
+    messaging.onMessage(function (payload){
+        console.log(payload)
+        const notificationOption={
+            body:payload.notification.body,
+            icon:payload.notification.icon
+        };
+        if (Notification.permission==="granted"){
+            var notification=new Notification(payload.notification.title,notificationOption);
+            notification.onclick=function (ev){
+                ev.preventDefault();
+                window.open(payload.notification.click_action,'_blank');
+                notification.close();
+            }
+        }
+    });
+    messaging.onTokenRefresh(function (){
+        messaging.getToken()
+        .then(function (newtoken){
+            console.log("new Token : "+newtoken)
+            sendToServer(token)
+        })
+        .catch(function (reason){
+            console.log(reason);
+        })
+    })
+    function sendToServer(token){
+            $.ajax({
+              url:'{% url 'student_fcmtoken_save' %}',
+              type:'POST',
+              data:{token:token},
+            })
+            .done(function(response){
+                if(response=="True"){
+                    console.log("Token Saved")
+                }
+                else{
+                    console.log("Error Saving Token")
+                }
+            });
+    }
+    InitializeFireBaseMessaging();
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+</script>
+{% endblock custom_js %}

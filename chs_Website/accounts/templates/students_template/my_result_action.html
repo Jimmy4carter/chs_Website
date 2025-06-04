@@ -1,0 +1,34 @@
+{% extends 'students_template/base_template.html' %}
+{% load static %}
+{% block page_title %}
+Actions To Perfom For/On Staff Records
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<div class="card card-success">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12 col-lg-6 col-xl-6">
+        <a href="my_results/midterm" class="info-box">
+            <div class="info-box-content">
+              <span class="info-box-text">View Mid-term Result</span>
+            </div>
+            <span class="info-box-icon"><img class="card-img-top" src="{% static "/dist/img/arrow.png" %}" alt="Dist Photo 2"></i></span>
+            <!-- /.info-box-content -->
+        </a>
+      </div>
+      <div class="col-md-12 col-lg-6 col-xl-6">
+        <a href="my_results/endterm" class="info-box">
+            <div class="info-box-content">
+              <span class="info-box-text">View End of Term Ressult</span>
+            </div>
+            <span class="info-box-icon"><img class="card-img-top" src="{% static "/dist/img/arrow.png" %}" alt="Dist Photo 2"></i></span>
+            <!-- /.info-box-content -->
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content -->
+{% endblock main_content %}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Question</title>
+  </head>
+  <body>
+    <h1>Edit Question</h1>
+    <form method="POST">
+      {% csrf_token %}
+      <label for="text">Question:</label>
+      <input type="text" name="text" id="text" value="{{ question.text }}">
+      <br>
+      {% for answer in answers %}
+        <label for="answer_{{ answer.id }}">Answer:</label>
+        <input type="text" name="answer_{{ answer.id }}" id="answer_{{ answer.id }}" value="{{ answer.text }}">
+        <input type="checkbox" name="correct_{{ answer.id }}" id="correct_{{ answer.id }}" {% if answer.correct %}checked{% endif %}>
+        <label for="correct_{{ answer.id }}">Correct?</label>
+        <br>
+      {% endfor %}
+      <input type="submit" value="Save Changes">
+    </form>
+  </body>
+</html>

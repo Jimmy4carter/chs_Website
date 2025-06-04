@@ -1,0 +1,101 @@
+{% extends 'adminsec_template/base_template.html' %}
+{% load static %}
+{% block page_title %}
+Compose/Send NewsLetter
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title">Compose New NewsLetter</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <form action="newsletter_compose" method="POST" role="form">
+               {% csrf_token %}
+
+               {% comment %} Display Messages {% endcomment %}
+                    {% if messages %}
+                    <div class="form-group">
+                    <div class="col-12">
+                        {% for message in messages %}
+                        {% if message.tags == "error" %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        {% elif message.tags == "success" %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    </div>
+                    {% endif %}
+
+               <div class="form-group">
+                <select name="title" class="form-control" id="subject">
+                  <option value="all" class="form-control">All</option>
+                  <option value="parent" class="form-control">Parent Only</option>
+                  <option value="non_parent" class="form-control">Subcribers Only</option>
+                  <option value="staff" class="form-control">Staff Only</option>
+                  <option value="test" class="form-control">Test Email: christhighschool2015@gmail.com</option>
+                </select>
+              </div>
+                <div class="form-group">
+                  <input name="subject" class="form-control" placeholder="Subject:">
+                </div>
+                <div class="form-group">
+                    <textarea name="message" id="compose-textarea" class="form-control" style="height: 250px">
+                    </textarea>
+                </div>
+                <div class="form-group">
+                  <div class="btn btn-default btn-file">
+                    <i class="fas fa-paperclip"></i> Attachment
+                    <input type="file" name="attachment">
+                  </div>
+                  <p class="help-block">Max. 20MB</p>
+                </div>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <div class="float-right">
+                  <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
+                </div>
+              </div>
+          </form>
+            <!-- /.card-footer -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content -->
+{% endblock main_content %}
+{% block custom_js %}
+<script>
+  $(function () {
+    //Add text editor
+    $('#compose-textarea').summernote()
+  })
+</script>
+{% endblock custom_js %}

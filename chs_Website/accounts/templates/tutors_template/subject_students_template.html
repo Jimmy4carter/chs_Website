@@ -1,0 +1,206 @@
+{% extends 'tutors_template/base_template.html' %}
+{% load static %}
+
+{% block custom_css %}
+ <!-- DataTables -->
+ <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-responsive/css/responsive.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-buttons/css/buttons.bootstrap4.min.css" %}">
+
+{% endblock custom_css %}
+
+{% block page_title %}
+Your Students
+{% endblock page_title %}
+
+{% block main_content %}
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
+<!-- Main content -->
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <form method="POST">
+                    {% csrf_token %}
+                <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Select Category</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-6 col-md-6">
+                            <!-- select -->
+                            <div class="form-group">
+                            <label>Session</label>
+                            <select class="form-control" name="session" id="session" disabled>
+                                <option value="">2020/2021</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-6 col-md-6">
+                        <!-- select -->
+                        <div class="form-group">
+                            <label>Select Subject</label>
+                            <select class="form-control" name="subject" id="subject">
+                                {% for form_subject in form_subjects %}
+                                <option value="{{ form_subject.id}}">{{ form_subject.outline }}: {{ form_subject.subject_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    <button type="button" class="btn btn-primary btn-block" id="fetch_student">Fetch Students</button>
+                    </div>
+
+                    <div class="row">
+                    {% if messages%}
+                        <div class="col-12">
+                        {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                            {% endif %}
+                            {% if message.tags == 'success' %}
+                            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                    </div>
+                    <div id="student_data">
+                        
+                    </div>
+                </div>
+               
+                <!-- /.card -->
+            </form>
+            </div>
+        <!--/.col (left) -->
+        </div>
+    
+
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+<!-- /.content -->
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<!-- DataTables  & Plugins -->
+<script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/jszip/jszip.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/pdfmake.min.js" %}"></script>
+<script src="{% static "/plugins/pdfmake/vfs_fonts.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.print.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.colVis.min.js" %}"></script>
+<script>
+    $(document).ready(function(){
+        $("#fetch_student").click(function(){
+            var subject=$("#subject").val()
+            var classid=$("#classid").val()
+            $('.modal').modal('show');
+                setTimeout(function () {
+                    console.log('hejsan');
+                    $('.modal').modal('hide');
+                }, 3000);
+
+            $.ajax({
+                url:'{% url 'get_tutor_students' %}',
+                type:'POST',
+                data:{subject:subject,classid:classid},
+            })
+            .done(function(response){
+                var json_data=JSON.parse(response);
+                var div_data="<div class='row'>";
+                    div_data+="<div class='col-12'>"
+                    div_data+="<div class='card'>"
+                    div_data+="<div class='card-header'>"
+                    div_data+="<h3 class='card-title'>DataTable with default features</h3>"
+                    div_data+="</div>"
+                    div_data+="<div class='card-body'>"
+                    div_data+="<table id='example1' class='table table-bordered table-striped'>"
+                    div_data+="<thead>"
+                    div_data+="<tr>"
+                    div_data+="<th style='width: 100px'>Photo ID</th>"
+                    div_data+="<th>Reg. No</th>"
+                    div_data+="<th>Name</th>"
+                    div_data+="<th>Gender</th>"
+                    div_data+="</tr>"
+                    div_data+="</thead>"
+                    div_data+="<tbody>"
+                    for(key in json_data)
+                    {
+                        div_data+="<tr>";
+                            div_data+="<td><img alt='Passport' src='"+json_data[key]['profile_pic']+"' style='max-width: 100px;''></td>";
+                            div_data+="<td>"+json_data[key]['reg_id']+"</td>";
+                            div_data+="<td>"+json_data[key]['name']+"</td>";
+                            div_data+="<td>"+json_data[key]['gender']+"</td>";
+                            //div_data+="</form>";
+                        div_data+="</tr>";
+                    }
+                    div_data+="</tbody>"
+                    div_data+="<tfoot>"
+                    div_data+="<tr>"
+                    div_data+="<th>Photo ID</th>"
+                    div_data+="<th>Reg. No</th>"
+                    div_data+="<th>Name</th>"
+                    div_data+="<th>Gender</th>"
+                    div_data+="</tr>"
+                    div_data+="</tfoot>"
+                    div_data+="</table>"
+                    div_data+="</div>"
+                    div_data+="</div>"
+                    div_data+="</div>"
+                    div_data+="</div>"
+
+                $("#student_data").html(div_data);
+
+                $(function () {
+                    $("#example1").DataTable({
+                      "responsive": true, "lengthChange": false,"pageLength": 40, "autoWidth": false,
+                      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                    $('#example2').DataTable({
+                      "paging": true,
+                      "lengthChange": false,
+                      "searching": false,
+                      "ordering": true,
+                      "info": true,
+                      "autoWidth": false,
+                      "responsive": true,
+                    });
+                  });
+                
+
+
+            })
+            .fail(function(){
+                alart("Error in Fetching Students")
+            })
+        });
+       
+    });
+   
+</script>
+{% endblock custom_js %}
+    

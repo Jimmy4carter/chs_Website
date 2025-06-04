@@ -1,0 +1,400 @@
+{% extends 'tutors_template/base_template.html' %}
+{% load static %}
+
+{% block custom_css %}
+ <!-- DataTables -->
+ <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-responsive/css/responsive.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-buttons/css/buttons.bootstrap4.min.css" %}">
+
+{% endblock custom_css %}
+
+{% block page_title %}
+View MidTerm Results
+{% endblock page_title %}
+
+{% block main_content %}
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
+<!-- Main content -->
+ <!-- Main content -->
+ <section class="content">
+       <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Select Category</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <!-- select -->
+                            <div class="form-group">
+                            <label>Session</label>
+                            <select class="form-control" name="session" id="session" disabled>
+                                <option value="{{current_session.id}}">{{ current_session.session_start_year }}/{{ current_session.session_end_year }}</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Term</label>
+                            <select class="form-control" name="classid" id="classid" disabled>
+                                <option value="{{ current_term.id}}">{{ current_term.name}}</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <form action="/tutorview_midterm_result" method="post">
+                                {% csrf_token %}
+                                <!-- select -->
+                                <div class="form-group">
+                                    <label>Select Subject</label>
+                                    <select class="form-control" name="subject" id="subject">
+                                        {% for subject in subjects %}
+                                        <option value="{{ subject.id}}">{{ subject.outline }}: {{ subject.subject_name}}</option>
+                                        {% endfor %}
+                                        {% for subject in combsub %}
+                                        <option value="{{ subject.subject_main.id}}">{{ subject.subject_main.outline }}: {{ subject.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-block" id="fetch_student">Fetch Sheet</button>
+                    </div>
+                    <div class="row">
+                        {% if messages%}
+                            <div class="col-12">
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                                {% if message.tags == 'success' %}
+                                <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                        </div>
+                </form>
+                    {% if viewtype == 1 %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                  
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Reg. No</th>
+                                                    <th>Name</th>
+                                                    <th style='width: 40px'>RT</th>
+                                                    <th style='width: 40px'>ASST</th>
+                                                    <th style='width: 40px'>CW</th>
+                                                    <th style='width: 40px'>Exam</th>
+                                                    <th style='width: 40px'>Total</th>
+                                                    <th style='width: 40px'>Grades</th>
+                                                    <th style='width: 40px'>Remark</th>
+                                                    <th style='width: 40px'>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for m in results %}
+                                                    <tr>
+                                                        <td>{{m.students_id.admin.username}}</td>
+                                                        <td>{{m.students_id.admin.first_name}} {{r.students_id.admin.last_name}}</td>
+                                                        <td> {{ m.resumption_text }} </td>
+                                                        <td>{{ m.assignment }}</td>
+                                                        <td>{{ m.class_work}}</td>
+                                                        <td>{{ m.midterm_exam}}</td>
+                                                        <td>{{ m.total_score}}</td>
+                                                        <td>{{ m.grades }}</td>
+                                                        <td>{{m.remark}}</td>
+                                                        <td><a href='{% url 'delete_score' restype=1 score_id=m.id %}' title="Delete Entry" class='btn btn-danger'><i class="nav-icon fas fa-trash"></i></a></td>
+                                                    </tr>
+                                                {% endfor %} 
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Reg. No</th>
+                                                    <th>Name</th>
+                                                    <th style='width: 40px'>RT</th>
+                                                    <th style='width: 40px'>ASST</th>
+                                                    <th style='width: 40px'>CW</th>
+                                                    <th style='width: 40px'>Exam</th>
+                                                    <th style='width: 40px'>Total</th>
+                                                    <th style='width: 40px'>Grades</th>
+                                                    <th style='width: 40px'>Remark</th>
+                                                    <th style='width: 40px'>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                         {% if atestation == 2 %}
+                                         <div class="row">
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class='card-header'>
+                                                        <h2 class='card-title'>ATTESTATION</h2>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <form method="post" action="/tutorattestation" >
+                                                            {% csrf_token %}
+                                                            <div class="form-group">
+                                                                {{ form.subjects }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ form.remark }}
+                                                            </div>
+                                                             <div class="form-group">
+                                                                {{ form.term }}
+                                                            </div>
+                                                             <div class="form-group">
+                                                                {{ form.result_type }}
+                                                            </div>
+                                                            
+                                                             <div class="form-group">
+                                                                {{ form.session_year }}
+                                                            </div>
+                                                            <button type="submit">Save</button>
+                                                        </form>
+                                                        
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% elif atestation == 1 %}
+                                        <h3>This result has alrady been attested</h3>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% elif viewtype == 2 %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class='card-header'>
+                                        <h2 class='card-title'>Combined Subjects Entry</h2>
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    {% for key in json_data.0 %}
+                                                        {% if key != 'student_id' and key != 'subject_id' %}
+                                                            <th>{{ key }}</th>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for student  in json_data %}
+                                                    <tr>
+                                                        {% for key, value in student.items %}
+                                                            {% if key != 'student_id' and key != 'subject_id' %}  <!-- Exclude 'student_id' and 'subject_id' keys from rendering -->
+                                                                <td>
+                                                                    {{ value|linebreaksbr|safe }}
+                                                                </td>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        <td>
+                                                            <form method="post" action="{% url 'combmidterm_save' %}">
+                                                                {% csrf_token %}
+                                                                {% if 'student_id' in student %}
+                                                                    <input type="hidden" name="student_id" value="{{ student.student_id }}">  <!-- Add hidden input field for student_id -->
+                                                                {% endif %}
+                                                                {% if 'subject_id' in student %}
+                                                                    <input type="hidden" name="subject_id" value="{{ student.subject_id }}">  <!-- Add hidden input field for subject_id -->
+                                                                {% endif %}
+                                                                <button type="submit" class="btn btn-success btn-block">Approve</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    {% for key in json_data.0 %}
+                                                        {% if key != 'student_id' and key != 'subject_id' %}
+                                                            <th>{{ key }}</th>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                  
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Reg. No</th>
+                                                    <th>Name</th>
+                                                    <th style='width: 40px'>RT</th>
+                                                    <th style='width: 40px'>ASST</th>
+                                                    <th style='width: 40px'>CW</th>
+                                                    <th style='width: 40px'>Exam</th>
+                                                    <th style='width: 40px'>Total</th>
+                                                    <th style='width: 40px'>Grades</th>
+                                                    <th style='width: 40px'>Remark</th>
+                                                    <th style='width: 40px'>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for m in results %}
+                                                    <tr>
+                                                        <td>{{m.students_id.admin.username}}</td>
+                                                        <td>{{m.students_id.admin.first_name}} {{r.students_id.admin.last_name}}</td>
+                                                        <td> {{ m.resumption_text }} </td>
+                                                        <td>{{ m.assignment }}</td>
+                                                        <td>{{ m.class_work}}</td>
+                                                        <td>{{ m.midterm_exam}}</td>
+                                                        <td>{{ m.total_score}}</td>
+                                                        <td>{{ m.grades }}</td>
+                                                        <td>{{m.remark}}</td>
+                                                        <td><a href='{% url 'delete_score' restype=1 score_id=m.id %}' title="Delete Entry" class='btn btn-danger'><i class="nav-icon fas fa-trash"></i></a></td>
+                                                    </tr>
+                                                {% endfor %} 
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Reg. No</th>
+                                                    <th>Name</th>
+                                                    <th style='width: 40px'>RT</th>
+                                                    <th style='width: 40px'>ASST</th>
+                                                    <th style='width: 40px'>CW</th>
+                                                    <th style='width: 40px'>Exam</th>
+                                                    <th style='width: 40px'>Total</th>
+                                                    <th style='width: 40px'>Grades</th>
+                                                    <th style='width: 40px'>Remark</th>
+                                                    <th style='width: 40px'>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                         {% if atestation == 2 %}
+                                         <div class="row">
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class='card-header'>
+                                                        <h2 class='card-title'>ATTESTATION</h2>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <form method="post" action="/tutorattestation" >
+                                                            {% csrf_token %}
+                                                            <div class="form-group">
+                                                                {{ form.subjects }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ form.remark }}
+                                                            </div>
+                                                             <div class="form-group">
+                                                                {{ form.term }}
+                                                            </div>
+                                                             <div class="form-group">
+                                                                {{ form.result_type }}
+                                                            </div>
+                                                            
+                                                             <div class="form-group">
+                                                                {{ form.session_year }}
+                                                            </div>
+                                                            <button type="submit">Save</button>
+                                                        </form>
+                                                        
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% elif atestation == 1 %}
+                                        <h3>This result has alrady been attested</h3>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    {% else %}
+
+                    
+                    {% endif %}
+                   
+                        
+                    </div>
+                </div>
+               
+            </div>
+        <!--/.col (left) -->
+        </div>
+    
+
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+<!-- /.content -->
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<!-- DataTables  & Plugins -->
+<script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/jszip/jszip.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/pdfmake.min.js" %}"></script>
+<script src="{% static "/plugins/pdfmake/vfs_fonts.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.print.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.colVis.min.js" %}"></script>
+<script>
+    $(document).ready(function(){
+                $(function () {
+                    $("#example1").DataTable({
+                      "responsive": true, "lengthChange": false, "autoWidth": false,
+                      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                    $('#example2').DataTable({
+                      "paging": true,
+                      "lengthChange": false,
+                      "searching": false,
+                      "ordering": true,
+                      "info": true,
+                      "autoWidth": false,
+                      "responsive": true,
+                    });
+                  });
+    });
+   
+</script>
+{% endblock custom_js %}
+    
+    

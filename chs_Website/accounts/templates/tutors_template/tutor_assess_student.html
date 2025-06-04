@@ -1,0 +1,363 @@
+{% extends 'tutors_template/base_template.html' %}
+
+{% block page_title %}
+Student Assessment Entry
+{% endblock page_title %}
+{% block main_content %}
+<!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        <form action="{% url 'save_assessment' %}" method="POST">
+                        {% csrf_token %}
+                        
+                        {% comment %} Display Messages {% endcomment %}
+                        {% if messages %}
+                        <div class="form-group">
+                        <div class="col-12">
+                            {% for message in messages %}
+                            {% if message.tags == "error" %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                            {% elif message.tags == "success" %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        </div>
+                        {% endif %}
+        <div class="container-fluid">
+                        <div class="row">
+                <div class="col-lg-6">
+                    <!-- PIE CHART -->
+                    <div class="card card-danger">
+                      <div class="card-header">
+                        <h3 class="card-title">First Half</h3>
+        
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                          </button>
+                          <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="table">
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>SN</th>
+                                        <th>Subject</th>
+                                        <th>RT</th>
+                                        <th>Asst</th>
+                                        <th>CW</th>
+                                        <th>Exam</th>
+                                        <th>T</th>
+                                        <th>G</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for m in mid %}
+                                    <tr>
+                                        
+                                          <td>{{ forloop.counter }}</td>
+                                          <td>{{ m.subjects_id.outline}}</td>
+                                          <td> {{ m.resumption_text }} </td>
+                                          <td>{{ m.assignment }}</td>
+                                          <td>{{ m.class_work}}</td>
+                                          <td>{{ m.midterm_exam}}</td>
+                                          <td>{{ m.total_score}}</td>
+                                          <td>{{ m.grades }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>SN</th>
+                                        <th>Subject</th>
+                                        <th>RT</th>
+                                        <th>Asst</th>
+                                        <th>CW</th>
+                                        <th>Exam</th>
+                                        <th>T</th>
+                                        <th>G</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <div class="col-lg-6">
+                      <!-- BAR CHART -->
+                      <div class="card card-success">
+                        <div class="card-header">
+                          <h3 class="card-title">End of Term</h3>
+          
+                          <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                              <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                              <i class="fas fa-times"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table">
+                                <table class="table table-hover text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>SN</th>
+                                            <th>Subject</th>
+                                            <th>Asst</th>
+                                            <th>Test</th>
+                                            <th>P</th>
+                                            <th>CW</th>
+                                            <th>Exam</th>
+                                            <th>T</th>
+                                            <th>G</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for m in enterm %}
+                                        <tr>
+                                            
+                                              <td>{{ forloop.counter }}</td>
+                                              <td>{{ m.subjects_id.outline}}</td>
+                                              <td>{{ m.ca1 }}</td>
+                                              <td>{{ m.ca2 }}</td>
+                                              <td>{{ m.project_practical }}</td>
+                                              <td>{{ m.class_work}}</td>
+                                              <td>{{ m.endterm_exam}}</td>
+                                              <td>{{ m.total}}</td>
+                                              <td>{{ m.grades }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>SN</th>
+                                            <th>Subject</th>
+                                            <th>Asst</th>
+                                            <th>Test</th>
+                                            <th>P</th>
+                                            <th>CW</th>
+                                            <th>Exam</th>
+                                            <th>T</th>
+                                            <th>G</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                      <!-- /.card -->
+                </div>
+              </div>
+            <div class="row">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <form action="{% url 'save_assessment' %}" method="POST">
+                        {% csrf_token %}
+                        
+                        {% comment %} Display Messages {% endcomment %}
+                        {% if messages %}
+                        <div class="form-group">
+                        <div class="col-12">
+                            {% for message in messages %}
+                            {% if message.tags == "error" %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                            {% elif message.tags == "success" %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        </div>
+                        {% endif %}
+                    <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Assess Student</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-12">
+                                <div class='col-lg-12 col-sm-12'>
+                                    <label>Select Result Type</label>
+                                    <select name="result_type" class='form-control'>
+                                        <option value="1">First Half</option>
+                                        <option value="2">Second Half</option>
+                                    </select>
+                                </div>
+                                <!-- select -->
+                                <div class="form-group">
+                                    <h3 class="text-primary"><i class="fas fa-id-card"></i> {{ student.username }}</h3>
+                                    <h3 class="text-primary"><i class="fas fa-graduation-cap"></i>{{student.last_name }} {{student.first_name }}</h3>
+                                </div>
+                            </div>    
+                        </div>
+
+                        <div class='row'>
+                            <div class="col-md-6">
+                                <div class="card card-secondary">
+                                    <div class="card-header">
+                                    <h3 class="card-title">Psychomotor Domain</h3>
+                                    </div>
+                                    <div class="card-body">
+                                    <div class="row">
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Handwriting : </label>
+                                            <input type='text' name='handwirting' class='form-control'>
+                                            <input type='hidden' value="{{ student.id }}" name='student_id' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Verbal Fluency : </label>
+                                            <input type='text' name='verbal' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Sport : </label>
+                                            <input type='text' name='sport' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Knitting : </label>
+                                            <input type='text' name='knitting' class='form-control'>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card card-info">
+                                    <div class="card-header">
+                                    <h3 class="card-title">Affective Domain</h3>
+                                    </div>
+                                    <div class="card-body">
+                                    <div class="row">
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Punctuality : </label>
+                                            <input type='text' name='punctuality' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Neatness : </label>
+                                            <input type='text' name='neatness' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Initiative : </label>
+                                            <input type='text' name='initiative' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Leadership Traits : </label>
+                                            <input type='text' name='leadership' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Health : </label>
+                                            <input type='text' name='health' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Attentiveness : </label>
+                                            <input type='text' name='attentiveness' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Cooperation With Others : </label>
+                                            <input type='text' name='cooperation' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Perseverance : </label>
+                                            <input type='text' name='perseverance' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Helping Others : </label>
+                                            <input type='text' name='helping' class='form-control'>
+                                        </div>
+                                        <div class='col-lg-12 col-sm-12'>
+                                            <label>Emotional Stability : </label>
+                                            <input type='text' name='emotional' class='form-control'>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-12">
+                                <div class='col-lg-12 col-sm-12'>
+                                    <label>Principal's Comments</label>
+                                    <select name="pcomment" class='form-control'>
+                                        <option value="Bravo!!! A wonderful result, I am proud of you">Bravo!!! A wonderful result, I am proud of you</option>
+                                        <option value="A very Good performance, continue to do your best.">A very Good performance, continue to do your best. </option>
+                                        <option value="This effort is highly commendable, keep it up">This effort is highly commendable, keep it up</option>
+                                        <option value="Good result but can be improved upon.">Good result but can be improved upon.</option>
+                                        <option value="You need to be more focused, you can do better.">You need to be more focused, you can do better.</option>
+                                        <option value="You will go places, remain focused.">You will go places, remain focused.</option>
+                                        <option value="A very good result, you have done well. ">A very good result, you have done well.</option>
+                                        <option value="A commendable effort, the sky is your starting point.">A commendable effort, the sky is your starting point.</option>
+                                        <option value="Good result, put in more effort for better performance">Good result, put in more effort for better performance</option>
+                                        <option value="This is a commendable effort, keep on trying">This is a commendable effort, keep on trying</option>
+                                        <option value="A well commendable effort, keep the flag flying.">A well commendable effort, keep the flag flying.</option>
+                                        <option value="This is highly impressive, keep it up">This is highly impressive, keep it up</option>
+                                        <option value="An excellent performance, keep it up.">An excellent performance, keep it up.</option>
+                                        <option value="This is a good effort but you can do better, work harder.">This is a good effort but you can do better, work harder.</option>
+                                        <option value="This is a commendable effort but you can do better, work harder.">This is a commendable effort but you can do better, work harder.</option>
+                                        <option value="You have done well but strive for the best.">You have done well but strive for the best.</option>
+                                        <option value="Continue to do your best, you have the potential to excel">Continue to do your best, you have the potential to excel</option>
+                                        <option value="You have done well, don’t relent. Put in more effort for the best result.">You have done well, don’t relent. Put in more effort for the best result.</option>
+                                        <option value="This effort is highly commendable, keep the flag flying.">This effort is highly commendable, keep the flag flying.</option>
+                                        <option value="You have the potentials to excel, push on for the best result">You have the potentials to excel, push on for the best result</option>
+                                        <option value="You have the potentials to excel, put in more effort for the best result.">You have the potentials to excel, put in more effort for the best result.</option>
+                                        <option value="A very good performance but push on for the best result.">A very good performance but push on for the best result.</option>
+                                    </select>
+                                </div>
+                                <div class='col-lg-12 col-sm-12'>
+                                    <label>Form Tutor's Comments</label>
+                                   <input type='text' name='tcomment' class='form-control'>
+                                </div>
+                            </div>    
+                        </div>
+                                    <!-- /.card-body -->
+                        
+                    </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-success btn-block" id="save_asses">Save Assessment</button>
+                        </div>
+                    </form>
+                    <!-- /.card -->
+                </div>
+            <!--/.col (left) -->
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<!-- /.content -->
+{% endblock main_content %}
+{% block  custom_js %}
+{% endblock custom_js %}

@@ -1,0 +1,50 @@
+<!-- quiz_result.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Result: {{ quiz_schedule.quiz.title }}</h1>
+        <div class="alert {% if result.is_passed %}alert-success{% else %}alert-danger{% endif %}">
+            {% if result.is_passed %}
+                Congratulations! You have passed the quiz.
+            {% else %}
+                You did not pass the quiz. Better luck next time!
+            {% endif %}
+        </div>
+        <p><strong>Score:</strong> {{ result.score }}</p>
+
+        <h3>Objective Answers</h3>
+        <ul>
+            {% for answer in objective_answers %}
+                <li>
+                    <strong>{{ answer.objective_question.question }}</strong><br>
+                    Your Answer: {{ answer.selected_option.option_value }}. {{ answer.selected_option.option_text }}<br>
+                    {% if answer.is_correct %}
+                        <span class="text-success">Correct</span>
+                    {% else %}
+                        <span class="text-danger">Incorrect</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h3>Theory Answers</h3>
+        <ul>
+            {% for answer in theory_answers %}
+                <li>
+                    <strong>{{ answer.theory_question.question }}</strong><br>
+                    Your Answer: {{ answer.theory_answer }}<br>
+                    <strong>Answer Summary:</strong> {{ answer.theory_question.answer_summary }}
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</body>
+</html>

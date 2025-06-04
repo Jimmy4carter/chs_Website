@@ -1,0 +1,94 @@
+{% extends 'adminsec_template/base_template.html' %}
+{% load static %}
+{% block page_title %}
+Billing Operations
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<div class="card card-success">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4 col-lg-4 col-xl-4">
+        <a href="{% url 'breakdown_action' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/billitems.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Add/Edit Breakdown</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+            <div class="card-body">
+                <strong><i class="fas fa-exclamation-circle"></i> Do Not</strong>
+
+                <p class="text-muted">
+                <span class="tag tag-danger">UI Design</span>
+                <span class="tag tag-success">Coding</span>
+                <span class="tag tag-info">Javascript</span>
+                <span class="tag tag-warning">PHP</span>
+                <span class="tag tag-primary">Node.js</span>
+                </p>
+
+                <hr>
+
+                <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+                <p class="text-muted">when new staff is added bla bla bla bal bla bla bla bal bla bla bla bal bla bla bla bal</p>
+            </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-xl-4">
+        <a href="{% url 'manual_bill' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/addbill.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Bill Students</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+        <div class="card-body">
+            <strong><i class="fas fa-exclamation-circle"></i> Do Not</strong>
+
+            <p class="text-muted">
+            <span class="tag tag-danger">UI Design</span>
+            <span class="tag tag-success">Coding</span>
+            <span class="tag tag-info">Javascript</span>
+            <span class="tag tag-warning">PHP</span>
+            <span class="tag tag-primary">Node.js</span>
+            </p>
+
+            <hr>
+
+            <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+            <p class="text-muted">when new staff is added bla bla bla bal bla bla bla bal bla bla bla bal bla bla bla bal.</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-xl-4">
+        <a href="{% url 'manual_pay' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/billitems.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Add Payments</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+        <div class="card-body">
+            <strong><i class="fas fa-exclamation-circle"></i> Do Not</strong>
+
+            <p class="text-muted">
+            <span class="tag tag-danger">UI Design</span>
+            <span class="tag tag-success">Coding</span>
+            <span class="tag tag-info">Javascript</span>
+            <span class="tag tag-warning">PHP</span>
+            <span class="tag tag-primary">Node.js</span>
+            </p>
+
+            <hr>
+
+            <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+            <p class="text-muted">when new staff is added bla bla bla bal bla bla bla bal bla bla bla bal bla bla bla bal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content -->
+{% endblock main_content %}

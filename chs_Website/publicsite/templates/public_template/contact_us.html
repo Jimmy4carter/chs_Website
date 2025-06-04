@@ -1,0 +1,100 @@
+{% extends 'public_template/public_base_template.html' %}
+{% load static %}
+{% block public_main_content %}
+    <!-- inner page banner -->
+    <div class="page-banner ovbl-dark" style="background-image:url('{% static 'assets/images/banner/banner3.jpg' %}');">
+        <div class="container">
+            <div class="page-banner-entry">
+                <h1 class="text-white">Contact Us</h1>
+                </div>
+        </div>
+    </div>
+    
+
+    <div class="breadcrumb-row">
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="/">Home</a></li>
+                <li>Contact Us</li>
+            </ul>
+        </div>
+    </div>
+
+    
+
+    <div class="page-banner contact-page section-sp2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 m-b30">
+                    <div class="bg-primary text-white contact-info-bx">
+                        <h2 class="m-b10 title-head">Contact <span>Information</span></h2>
+                        <p>you can get to us through any of the follwoing channels.</p>
+                        <p><a href="https://wa.me/message/TT6G4E73FUY4B1" class="btn-link"><img src="https://img.icons8.com/color/96/000000/whatsapp--v6.png"/></a></p>
+                        <div class="widget widget_getintuch">	
+                            <ul>
+                                <li><i class="ti-location-pin"></i>Chirst High School, Plot 5 CHS Street, KM32 Abuja Keffi Road, Nassarawa State</li>
+                                <li><a style="color: rgb(250, 250, 250);" href="tel:+2347066689916 "><i class="ti-mobile"></i>(+234) 07066689916 (24/7 Support Line)</a> </li>
+                                <li><a style="color: rgb(250, 250, 250);" href="tel:+2349130809073"><i class="ti-mobile"></i>(+234) 09130809073 (24/7 Support Line)</a> </li>
+                                <li><a style="color: rgb(250, 250, 250);" href="tel:+2348095545780"><i class="ti-mobile"></i>(+234) 08095545780 (24/7 Support Line)</a> </li>
+                                <li><a style="color: rgb(250, 250, 250);" href="mailto:info@christhighschool.com"><i class="ti-email"></i>info@christhighschool.com</a></li>
+                                <li><a style="color: rgb(250, 250, 250);" href="mailto:christhighschool2015@gmail.com"><i class="ti-email"></i>christhighschool2015@gmail.com</a></li>
+                            </ul>
+                        </div>
+                        <h5 class="m-t0 m-b20">Follow Us</h5>
+                        <ul class="list-inline contact-social-bx">
+                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7">
+                    <form class="contact-bx" role="form" action="{% url 'contact_us' %}" method="POST">
+                    {% csrf_token %}
+                         
+                        {% if messages %}
+                            <div class="form-group">
+                                <div class="col-12">
+                                    {% for message in messages %}
+                                        {% if message.tags == "error" %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                            {{ message }}
+                                            </div>
+                                        {% elif message.tags == "success" %}
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                            {{ message }}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+                        <div class="row placeani">
+                            {% for field in form %}
+                            <div class="col-lg-{% if 'form-control' in field.widget.attrs.class %}12{% else %}6{% endif %}">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label>{{ field.label }}</label>
+                                        {{ field }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn button-md"> Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- inner page banner END -->
+    <!-- In your template's head section -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock public_main_content %}

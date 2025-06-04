@@ -1,0 +1,49 @@
+{% extends 'principal_template/base_template.html' %}
+
+{% block page_title %}
+Staff Feedback
+{% endblock page_title %}
+
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Staff Feedback</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <div class="table">
+                            <table class="table">
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>Student Name</th>
+                                    <th>Message</th>
+                                    <th>Reply</th>
+                                    <th>Date</th>
+                                </tr>
+                                {% for feedback in feedbacks %}
+                                  <tr>
+                                      <td>{{ feedback.id }}</td>
+                                      <td>Name: {{ feedback.student_id.admin.first_name}}  {{ feedback.student_id.admin.last_name}} <br> ID : {{ feedback.student_id.admin.username }}</td>
+                                      <td>{{ feedback.feedback }}</td>
+                                      <td>{{ feedback.Feedback_reply }}</td>
+                                      <td>{{ feedback.created_at }}</td>
+                                  </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}

@@ -1,0 +1,245 @@
+{% extends 'admin_template/base_template.html' %}
+{% load static %}
+
+{% block custom_css %}
+ <!-- DataTables -->
+ <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-responsive/css/responsive.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-buttons/css/buttons.bootstrap4.min.css" %}">
+
+{% endblock custom_css %}
+
+{% block page_title %}
+Promote/Demote Student
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <form action="" method="POST">
+                    {% csrf_token %}
+
+                    {% comment %} Display Messages {% endcomment %}
+                    {% if messages %}
+                    <div class="form-group">
+                    <div class="col-12">
+                        {% for message in messages %}
+                        {% if message.tags == "error" %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        {% elif message.tags == "success" %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    </div>
+                    {% endif %}
+
+                    
+                <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Select Expected Student Class</h3>
+                </div>
+               
+                <!-- /.card-header -->
+                <!-- form start -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Class</label>
+                                <select class="form-control" name="claas_id" id="class_id">
+                                    {% for classes in classes %}
+                                    <option value="{{ classes.id }}">{{ classes.class_id.name }}      {{ classes.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    <button type="button" class="btn btn-primary btn-block" id="fetch_student">Fetch Students</button>
+                    </div>
+                </div>
+                <div id="student_data"></div>
+                <!-- /.card -->
+            </form>
+            </div>
+        <!--/.col (left) -->
+        </div>
+    
+
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+<!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        $("#fetch_student").click(function(){
+            var class_id=$("#class_id").val()
+
+            $.ajax({
+                url:'{% url 'get_students_promote' %}',
+                type:'POST',
+                data:{class_id:class_id},
+            })
+            .done(function(response){
+                var json_data=JSON.parse(response);
+                var div_data="<div class='row'>";
+                    div_data+="<div class='col-12'>"
+                    div_data+="<div class='card'>"
+                    div_data+="<div class='card-header'>"
+                    div_data+="<h3 class='card-title'>Complete List of "+json_data[0]['class_name']+" Students. Restoring student will take student to JS 3</h3>"
+                    div_data+="</div>"
+                    div_data+="<div class='card-body'>"
+                    div_data+="<table id='class_table' class='table table-bordered table-striped'>"
+                    div_data+="<thead>"
+                    div_data+="<tr>"
+                    div_data+="<th class='reg_no'>Reg. No</th>"
+                    div_data+="<th>Name</th>"
+                    div_data+="<th></th>"
+                    div_data+="<th></th>"
+                    div_data+="<th></th>"
+                    div_data+="</tr>"
+                    div_data+="</thead>"
+                    div_data+="<tbody>"
+                    for(key in json_data)
+                    {
+                        div_data+="<tr>";
+                            div_data+="<td>"+json_data[key]['reg_id']+"</td>";
+                            div_data+="<td>"+json_data[key]['name']+"</td>";
+                            div_data+="<td><button id='restore_student' class='btn btn-success btn-block' type='button'>Restore</button></td>"
+                            div_data+="<td><button id='left_student' class='btn btn-warning btn-block' type='button'>Left</button></td>"
+                            div_data+="<td><button id='expell_student' class='btn btn-danger btn-block' type='button'>Expelled</button></td>"
+
+                            //div_data+="</form>";
+                        div_data+="</tr>";
+                    }
+                    div_data+="</tbody>"
+                    div_data+="<tfoot>"
+                    div_data+="<tr>"
+                    div_data+="<th>Reg. No</th>"
+                    div_data+="<th>Name</th>"
+                    div_data+="<th></th>"
+                    div_data+="<th></th>"
+                    div_data+="</tr>"
+                    div_data+="</tfoot>"
+                    div_data+="</table>"
+                    div_data+="</div>"
+                    div_data+="</div>"
+                    div_data+="</div>"
+                    div_data+="</div>"
+
+                $("#student_data").html(div_data);
+
+
+
+
+
+                $("#class_table").on('click','#expell_student',function(){
+                    var currentRow=$(this).closest("tr");
+                    var reg_no=currentRow.find("td:eq(0)").text();
+                    var action_type=1
+        
+                    $.ajax({
+                        url:'{% url 'remove_student' %}',
+                        type:'POST',
+                        data:{reg_no:reg_no,action_type:action_type},
+                    })
+                    .done(function(response){
+                        if(response=="OK"){
+                            alert(reg_no+ " Expelled Successfully")
+                        }
+                        else{
+                            alert("Error")
+                        }
+                        location.reload()
+                    })
+                    .fail(function(){
+                        alart("Error Expelling Student")
+                    })
+                })
+
+
+                $("#class_table").on('click','#left_student',function(){
+                    var currentRow=$(this).closest("tr");
+                    var reg_no=currentRow.find("td:eq(0)").text();
+                    var action_type=2
+        
+                    $.ajax({
+                        url:'{% url 'remove_student' %}',
+                        type:'POST',
+                        data:{reg_no:reg_no,action_type:action_type},
+                    })
+                    .done(function(response){
+                        if(response=="OK"){
+                            alert(reg_no+ " Added to Left List Successfully")
+                        }
+                        else{
+                            alert("Error")
+                        }
+                        location.reload()
+                       
+                    })
+                    .fail(function(){
+                        alart("Error Excluding Student")
+                    })
+        
+                })
+                $("#class_table").on('click','#restore_student',function(){
+                    var currentRow=$(this).closest("tr");
+                    var reg_no=currentRow.find("td:eq(0)").text();
+                    var action_type=3
+        
+                    $.ajax({
+                        url:'{% url 'remove_student' %}',
+                        type:'POST',
+                        data:{reg_no:reg_no,action_type:action_type},
+                    })
+                    .done(function(response){
+                        if(response=="OK"){
+                            alert(reg_no+ " Restored Successfully")
+                        }
+                        else{
+                            alert("Error")
+                        }
+                        location.reload()
+                       
+                    })
+                    .fail(function(){
+                        alart("Error Restoring Student")
+                    })
+        
+                })
+
+
+
+
+
+            })
+            .fail(function(){
+                alart("Error in Fetching Students")
+            })
+           
+        })
+      
+    })
+</script>
+{% endblock custom_js %}

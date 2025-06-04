@@ -1,0 +1,85 @@
+<!-- quiz_result.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+        .container {
+            margin-top: 3rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        .header-icon {
+            font-size: 3rem;
+            color: #17a2b8;
+            margin-bottom: 1rem;
+        }
+        .motivational-quote {
+            font-style: italic;
+            color: #6c757d;
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        .btn-custom {
+            font-size: 1.1rem;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container text-center">
+    <i class="fas fa-check-circle header-icon"></i>
+    <h1 class="display-4">CBT Complete!</h1>
+    <p class="lead">You've completed your quiz successfully. Great job on pushing through!</p>
+
+    <div class="motivational-quote">
+        <p>"Success is not final, failure is not fatal: It is the courage to continue that counts." – Winston Churchill</p>
+    </div>
+
+    <h3 class="mt-5">Objective Answers <i class="fas fa-tasks"></i></h3>
+    <ul class="list-group list-group-flush text-left mb-4">
+        {% for answer in objective_answers %}
+            <li class="list-group-item">
+                <strong>Q:</strong> {{ answer.objective_question.question }}<br>
+                <strong>Your Answer:</strong> {{ answer.selected_option.option_value }}. {{ answer.selected_option.option_text }}<br>
+                {% if answer.is_correct %}
+                    <span class="text-success"><i class="fas fa-check-circle"></i> Correct</span>
+                {% else %}
+                    <span class="text-danger"><i class="fas fa-times-circle"></i> Incorrect</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3 class="mt-5">Theory Answers <i class="fas fa-book"></i></h3>
+    <ul class="list-group list-group-flush text-left mb-4">
+        {% for answer in theory_answers %}
+            <li class="list-group-item">
+                <strong>Q:</strong> {{ answer.theory_question.question }}<br>
+                <strong>Your Answer:</strong> {{ answer.theory_answer }}<br>
+                <strong>Answer Summary:</strong> {{ answer.theory_question.answer_summary }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="mt-5">
+        <a href="{% url 'cbt_view' %}" class="btn btn-primary btn-custom mr-3"><i class="fas fa-arrow-left"></i> Return to CBT List</a>
+        <a href="{% url 'students_home' %}" class="btn btn-secondary btn-custom"><i class="fas fa-home"></i> Home</a>
+    </div>
+</div>
+
+</body>
+</html>

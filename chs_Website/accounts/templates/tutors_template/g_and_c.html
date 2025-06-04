@@ -1,0 +1,366 @@
+{% extends 'tutors_template/base_template.html' %}
+{% load static %}
+
+{% block custom_css %}
+ <!-- DataTables -->
+ <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-responsive/css/responsive.bootstrap4.min.css" %}">
+ <link rel="stylesheet" href="{% static "plugins/datatables-buttons/css/buttons.bootstrap4.min.css" %}">
+{% endblock custom_css %}
+
+{% block main_content %}
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
+ <section class="content">
+    <div id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                RECORDS-Cummulative Analysis
+              </button>
+            </h5>
+          </div>
+      
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                <!-- Cummulative Average -->
+                    <div class='row mb-2'>
+                        <div class='col-12'>
+                            <div class='card'>
+                                <div class='card-body'>   
+                                    <table id='example2' class='table table-bordered table-striped'>
+                                        <thead>
+                                            <tr>
+                                                <th>SN</th>
+                                                <th>Student</th>
+                                                <th>Session</th>
+                                                <th>C_Average</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for old_result in old_results %}
+                                            <tr>
+                                                
+                                                <td>{{ old_result.id }}</td>
+                                                <td>{{ old_result.students.admin.first_name}} {{ old_result.students.admin.last_name}} : {{ old_result.students.admin.username}}</td>
+                                                <td>{{ old_result.session_year.session_start_year }}/{{ old_result.session_year.session_end_year }}</td>
+                                                <td><a href="{{ old_result.cummulative_file }}">View C.Average</a></td>
+                                                
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>SN</th>
+                                                <th>Student</th>
+                                                <th>Session</th>
+                                                <th>C_Average</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- /Cummulative Average -->
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                RECORDS-Subject Streaming
+              </button>
+            </h5>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+                <!-- Subject Streaming -->
+                    <div class='row mb-2'>
+                        <div class='col-12'>
+                            <div class='card'>
+                                <div class='card-body'>   
+                                    <table id='example1' class='table table-bordered table-striped'>
+                                        <thead>
+                                            <tr>
+                                                <th>SN</th>
+                                                <th>Student</th>
+                                                <th>Parent</th>
+                                                <th>Subjects Selected</th>
+                                                <th>Pass/Fail</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for old_result in subjstreaming %}
+                                            <tr>
+                                                
+                                                <td>{{ old_result.id }}</td>
+                                                <td>
+                                                    <strong>Name:</strong>  {{ old_result.students.admin.first_name}} {{ old_result.students.admin.last_name}} <br>
+                                                    <strong>Career1:</strong>   {{ old_result.career1}} <br>
+                                                    <strong>Career2: </strong>   {{ old_result.career2 }} <br>
+                                                    <strong>Career3: </strong>  {{ old_result.career3 }} <br>
+                                                    <strong>Reason: </strong> {{ old_result.reason1 }}
+                                                </td>
+                                                <td>
+                                                    <strong>Name:</strong>   {{ old_result.pname}} <br>
+                                                    <strong>Email: </strong>  {{ old_result.email}} <br>
+                                                    <strong>Phone: </strong>  {{ old_result.students.parent_phone}} <br>
+                                                    <strong>Career: </strong>  {{ old_result.pcareer }} <br>
+                                                    <strong>Reason: </strong>   {{ old_result.preason }}
+                                                </td>
+                                                <td>
+                                                    {% if old_result.subj_choice %}
+                                                        <ol>
+                                                            {% for item in old_result.subj_choice %}
+                                                                <li>{{ item }}</li>
+                                                            {% endfor %}
+                                                        </ol>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class='col-6'>
+                                                            <h5>Subject Easily Passed</h5>
+                                                            <ol>
+                                                                <li>{{ old_result.passsubj1 }}</li>
+                                                                <li>{{ old_result.passsubj2 }}</li>
+                                                                <li>{{ old_result.passsubj3 }}</li>
+                                                                <li>{{ old_result.passsubj4 }}</li>
+                                                                <li>{{ old_result.passsubj5 }}</li>
+                                                                <li>{{ old_result.passsubj6 }}</li>
+                                                            </ol>
+                                                        </div>
+                                                        <div class='col-6'>
+                                                            <h5>Subject Easily Failed</h5>
+                                                            <ol>
+                                                                <li>{{ old_result.failsubj1 }}</li>
+                                                                <li>{{ old_result.failsubj2 }}</li>
+                                                                <li>{{ old_result.failsubj3 }}</li>
+                                                                <li>{{ old_result.failsubj4 }}</li>
+                                                                <li>{{ old_result.failsubj5 }}</li>
+                                                                <li>{{ old_result.failsubj6 }}</li>
+                                                            </ol>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                
+                                                
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>SN</th>
+                                                <th>Student</th>
+                                                <th>Parent</th>
+                                                <th>Subjects Selected</th>
+                                                <th>Pass/Fail</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- /Subject Streaming -->
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                RECORDS-Interest Inventory
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+                    <!-- Interest Inventory -->
+                        <div class='row mb-2'>
+                            <div class='col-12'>
+                                <div class='card'>
+                                    <div class='card-body'>   
+                                        <h2>Add Question</h2>
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            {{ form.as_p }}
+                                            <button type="submit" class="btn btn-primary">Add Question</button>
+                                        </form>
+                                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- / Interest Inventory -->
+                    <table id='example1' class='table table-bordered table-striped'>
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Student</th>
+                                <th>Humanities | Humanities%</th>
+                                <th>Sc | Sc%</th>
+                                <th>Business | Business%</th>
+                                <th>Techy | Tech%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student_total in student_totals %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ student_total.student.admin.first_name }} {{ student_total.student.admin.last_name }}</td>
+                                    <td>{{ student_total.total_humanity }}    |    {{ student_total.percent_humanity }}</td>
+                                    <td>{{ student_total.total_science }}    |    {{ student_total.percent_science }}</td>
+                                    <td>{{ student_total.total_business }}    |    {{ student_total.percent_business }}</td>
+                                    <td>{{ student_total.total_technology }}    |    {{ student_total.percent_technology }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% comment %} <!-- selection form -->
+            <div class="row mb-2">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Select Category</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form action="{% url 'gandc' %}" method="post">
+                        {% csrf_token %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Students</label>
+                                    <select class="form-control" name="student" id="students">
+                                        {% for student in students%}
+                                        <option value="{{ student.id}}">{{student.admin.first_name}}  {{student.admin.last_name}}  ---------- {{student.admin.username}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                        <button type="submit" class="btn btn-primary btn-block" id="fetch_student">Generate</button>
+                        </div>
+
+                    </form>
+                    </div>
+                
+                </div>
+            </div>
+<!-- /selection form -->
+
+<!-- Cummulative Average -->
+            <div class='row mb-2'>
+                <div class='col-12'>
+                    <div class='card'>
+                        <div class='card-header'>
+                            <h2 class='card-title'>Cummulative Average</h2>
+                        </div>
+                        <div class='card-body'>   
+
+                                <table id="exampl1" class='table table-bordered table-striped'>
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2">S/N</th>
+                                            <th rowspan="2">Subjects</th>
+                                            <th colspan="4">JS One</th>
+                                            <th colspan="4">JS Two</th>
+                                            <th colspan="4">JS Three</th>
+                                            <th rowspan="2">Cummulative</th>
+                                        
+                                        </tr>
+                                        <tr>
+                                            <th>1st Term</th>
+                                            <th>2nd Term</th>
+                                            <th>3rd Term</th>
+                                            <th>Avg.</th>
+                                            <th>1st Term</th>
+                                            <th>2nd Term</th>
+                                            <th>3rd Term</th>
+                                            <th>Avg.</th>
+                                            <th>1st Term</th>
+                                            <th>2nd Term</th>
+                                            <th>3rd Term</th>
+                                            <th>Avg.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for student  in json_data %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            {% for key, value in student.items %}
+                                            
+                                            <td>
+                                                {{ value }}
+                                            </td>
+                                            {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- /Cummulative Average --> {% endcomment %}
+
+
+
+
+</section>
+ 
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<!-- DataTables  & Plugins -->
+<script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/jszip/jszip.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/pdfmake.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/vfs_fonts.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.print.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.colVis.min.js" %}"></script>
+<script>
+    $(document).ready(function(){
+                $(function () {
+                    $("#example1").DataTable({
+                      "responsive": true, "lengthChange": false,"pageLength": 40, "autoWidth": false,
+                      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+                    $("#example2").DataTable({
+                        "responsive": true, "lengthChange": false,"pageLength": 40, "autoWidth": false,
+                        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                      }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+                  });
+    });
+   
+</script>
+{% endblock custom_js %}

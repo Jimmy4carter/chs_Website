@@ -1,0 +1,213 @@
+{% extends 'tutors_template/base_template.html' %}
+
+{% block page_title %}
+Manage EndTerm Results
+{% endblock page_title %}
+
+{% block main_content %}
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
+<!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Manage EndTerm Result</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <!-- select -->
+                            <div class="form-group">
+                              <label>Session</label>
+                              <select class="form-control" name="session" id="session_year" disabled>
+                                  <option value="{{session_years.id}}">{{ session_years.session_start_year }}/{{session_years.session_end_year }}</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <!-- select -->
+                            <div class="form-group">
+                              <label>Term</label>
+                              <select class="form-control" name="term" id="term" disabled>
+                                <option value="{{ current_term.id}}">{{ current_term.name }}</option>
+                              </select>
+                            </div>
+                          </div>
+                        <div class="col-sm-6">
+                          <!-- select -->
+                          <div class="form-group">
+                            <label>Subject</label>
+                            <select class="form-control" name="subject" id="subject">
+                                {% for subject in subjects %}
+                                <option value="{{ subject.id}}">{{ subject.outline }}: {{ subject.subject_name}}</option>
+                                {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                        <button type="button" class="btn btn-primary btn-block" id="fetch_student">Fetch Students</button>
+                        </div>
+
+                        <div class="row">
+                        {% if messages%}
+                            <div class="col-12">
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                                {% if message.tags == 'success' %}
+                                <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                        </div>
+                        <div id="student_data">
+                            
+                        </div>
+                    </div>
+                   
+                    <!-- /.card -->
+                </div>
+            <!--/.col (left) -->
+            </div>
+        </form>
+
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<!-- /.content -->
+{% endblock main_content %}
+{% block  custom_js %}
+<script>
+    $(document).ready(function(){
+        $("#fetch_student").click(function(){
+            var subject=$("#subject").val()
+            var session_year=$("#session_year").val()
+            var term=$("#term").val()
+            
+            $('.modal').modal('show');
+                setTimeout(function () {
+                    console.log('hejsan');
+                    $('.modal').modal('hide');
+                }, 3000);
+
+            $.ajax({
+                url:'{% url 'get_endterm_result' %}',
+                type:'POST',
+                data:{subject:subject,session_year:session_year},
+            })
+            .done(function(response){
+                var json_data=JSON.parse(response);
+                console.log(json_data)
+                var div_data="</div>";
+                div_data+="<div class='col-md-12'>";
+                div_data+="<div class='card'>";
+                div_data+="<div class='card-header'>";
+                div_data+="<h3 class='card-title'>{{ current_term.name }} 2020/2021 Entry For /class/</h3>";
+                div_data+="</div>";
+                div_data+="<div class='card-body'>";
+                div_data+="<table class='table table-bordered' id='table_id'>";
+                div_data+="<thead>";
+                div_data+="<tr>";
+                div_data+="<th style='width: 100px'>Reg. No</th>";
+                div_data+="<th>Full Name</th>";
+                div_data+="<th style='width: 80px'>CA 1</th>";
+                div_data+="<th style='width: 80px'>CA 2</th>";
+                div_data+="<th style='width: 80px'>Exam</th>";
+                div_data+="<th style='width: 40px'>Total Score</th>";
+                div_data+="<th style='width: 40px'>Grades</th>";
+                div_data+="<th style='width: 40px'>Remark</th>";
+                div_data+="<th style='width: 40px'>Action</th>";
+                div_data+="</tr>";
+                div_data+="</thead>";
+                div_data+="<tbody>";
+                    for(key in json_data)
+                    {
+                        div_data+="<tr>";
+                            div_data+="<td>"+json_data[key]['reg_id']+"</td>";
+                            div_data+="<td>"+json_data[key]['name']+"</td>";
+                            div_data+="<td contenteditable >"+json_data[key]['ca1']+"</td>";
+                            div_data+="<td contenteditable >"+json_data[key]['ca2']+"</td>";
+                            div_data+="<td contenteditable >"+json_data[key]['endterm_exam']+"</td>";
+                            div_data+="<td>"+json_data[key]['total_score']+"</td>";
+                            div_data+="<td>"+json_data[key]['grades']+"</td>";
+                            div_data+="<td>"+json_data[key]['remark']+"</td>";
+                            div_data+="<td><button id='btnsave_result' class='btn-success' type='button'>update</button></td>";
+                        //div_data+="</form>";
+                        div_data+="</tr>";
+                    }
+                div_data+="</tbody>";
+                div_data+="</table>";
+                div_data+="</div>";
+                div_data+="<div class='card-footer clearfix'>";
+                div_data+="<p class='bg-danger'>No Chnages Can be Performed once Term is Closed</P>";
+                div_data+="</div>";
+                div_data+="</div>";
+                div_data+="</div>";
+
+                $("#student_data").html(div_data);
+  
+                
+                $("#table_id").on('click','.btn-success',function(){
+
+                    var currentRow=$(this).closest("tr");
+
+                    var username=currentRow.find("td:eq(0)").text();
+                    var resumption_test=currentRow.find("td:eq(2)").text();
+                    var class_work=currentRow.find("td:eq(3)").text();
+                    var assignment_score=currentRow.find("td:eq(4)").text();
+                    var midterm_exams=currentRow.find("td:eq(5)").text();
+                    
+                    $('.modal').modal('show');
+                    setTimeout(function () {
+                        console.log('hejsan');
+                        $('.modal').modal('hide');
+                    }, 3000);
+
+                    $.ajax({
+                        url:'{% url 'manage_save_endterm_result' %}',
+                        type:'POST',
+                        data:{subject:subject,session_year:session_year,term:term,username:username,resumption_test:resumption_test,class_work:class_work,assignment_score:assignment_score,midterm_exams:midterm_exams},
+                    })
+                    .done(function(response){
+                        if(response=="OK"){
+                            alert("Result Updated Successfully")
+                        }
+                        else{
+                            alert("Error Updating Result")
+                        }
+                        location.reload()
+                    })
+                    .fail(function(){
+                        alart("Error in Updating Result")
+                    })
+                });
+
+
+            })
+            .fail(function(){
+                alart("Error in Fetching Students")
+            })
+        });
+       
+    });
+</script>
+{% endblock custom_js %}

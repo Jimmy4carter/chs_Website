@@ -1,0 +1,72 @@
+{% extends 'students_template/base_template.html' %}
+{% load static %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static "library/style.css" %}">     
+{% endblock custom_css %}
+    
+
+{% block page_title %}
+E Library
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<section class="content">
+<!-- Start: Products Section -->
+<div id="content" class="site-content">
+    <div id="primary" class="content-area">
+        <main id="main" class="site-main">
+            <div class="books-full-width">
+                <div class="container">
+                    <!-- Start: Search Section -->
+                    <section class="search-filters">
+                        <div class="filter-box">
+                            <h3>What are you looking for at the library?</h3>
+                            <form action="#" method="get">
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Search by Keyword" id="keywords" name="keywords" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-group">
+                                        <select name="catalog" id="catalog" class="form-control">
+                                            <option>Search the Subject</option>
+                                            {% for subject in subjects  %}
+                                            <option>{{ subject.subject_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-group">
+                                        <select name="category" id="category" class="form-control">
+                                            <option>All Class</option>
+                                            {% for classs in classes  %}
+                                            <option>{{ classs.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control" type="submit" value="Search">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="clear"></div>
+                    </section>
+                    <!-- End: Search Section -->
+                    <div class="booksmedia-fullwidth">
+
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<!-- End: Products Section -->    
+</section>
+  <!-- /.content -->
+{% endblock main_content %}

@@ -1,0 +1,61 @@
+{% extends 'tutors_template/base_template.html' %}
+
+{% load static %}
+
+{% block custom_css %}
+
+{% endblock custom_css %}
+
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <h2>Add Theory Questions for {{ quiz.title }}</h2>
+
+        <form method="POST" enctype="multipart/form-data" id="theory-form">
+            {% csrf_token %}
+
+            <div id="question-container">
+                <div class="question-group">
+                    <label for="question_number">Question Number:</label>
+                    <input type="number" name="question_number[]" class="form-control" required>
+
+                    <label for="question">Question:</label>
+                    <textarea name="question[]" class="form-control" required></textarea>
+
+                    <label for="diagram">Diagram (Optional):</label>
+                    <input type="file" name="diagram[]" class="form-control">
+
+                    <label for="answer_summary">Answer Summary (Optional):</label>
+                    <textarea name="answer_summary[]" class="form-control"></textarea>
+
+                    <hr>
+                </div>
+            </div>
+
+            <button type="button" id="add-question" class="btn btn-primary">Add Another Question</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+
+    </div>
+</section>
+
+
+
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<script>
+    document.getElementById('add-question').addEventListener('click', function() {
+        const container = document.getElementById('question-container');
+        const questionGroup = document.querySelector('.question-group').cloneNode(true);
+
+        // Clear the cloned fields
+        questionGroup.querySelectorAll('input, textarea').forEach(function(input) {
+            input.value = '';
+        });
+
+        container.appendChild(questionGroup);
+    });
+</script>
+{% endblock custom_js %}

@@ -1,0 +1,136 @@
+{% extends 'admin_template/base_template.html' %}
+
+{% block page_title %}
+    View Quiz - {{ quiz.title }}
+{% endblock page_title %}
+
+{% block custom_css %}
+    <!-- Include SweetAlert2 CSS and JavaScript -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+{% endblock custom_css %}
+
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Quiz Details - {{ quiz.title }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5><strong>Quiz Title:</strong> {{ quiz.title }}</h5>
+                        <p><strong>Description:</strong> {{ quiz.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Objective Questions Section -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Objective Questions</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if objective_questions %}
+                            {% for question in objective_questions %}
+                                <div class="mb-4 border rounded p-3">
+                                    <h5>Question {{ forloop.counter }}</h5>
+                                    <p>{{ question.question }}</p>
+                                    
+                                    {% if question.diagram %}
+                                        <img src="{{ question.diagram.url }}" alt="Diagram for Question {{ forloop.counter }}" class="img-fluid rounded my-2" style="max-width: 200px;">
+                                    {% endif %}
+
+                                    <div class="options">
+                                        <ul class="list-group list-group-flush">
+                                            {% for option in question.options.all %}
+                                                <li class="list-group-item {% if option.is_correct %}list-group-item-success{% endif %}">
+                                                    <strong>{{ option.option_value }}:</strong> {{ option.option_text }}
+                                                    {% if option.is_correct %}
+                                                        <span class="badge badge-success float-right">Correct</span>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+
+                                    <div class="mt-2">
+                                        <button class="btn btn-danger btn-sm" onclick="confirmDelete(this)" data-url="{% url 'admin_delete_objective_question' question_id=question.id %}">Delete Question</button>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No objective questions available for this quiz.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theory Questions Section -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card card-secondary">
+                    <div class="card-header">
+                        <h3 class="card-title">Theory Questions</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if theory_questions %}
+                            {% for question in theory_questions %}
+                                <div class="mb-4 border rounded p-3">
+                                    <h5>Theory Question {{ question.question_number }}</h5>
+                                    <p>{{ question.question|linebreaksbr }}</p>
+                                    
+                                    {% if question.diagram %}
+                                        <img src="{{ question.diagram.url }}" alt="Diagram for Theory Question {{ question.question_number }}" class="img-fluid rounded my-2" style="max-width: 200px;">
+                                    {% endif %}
+
+                                    {% if question.answer_summary %}
+                                        <p><strong>Answer Summary:</strong> {{ question.answer_summary|linebreaksbr }}</p>
+                                    {% endif %}
+
+                                    <div class="mt-2">
+                                        <button class="btn btn-danger btn-sm" onclick="confirmDelete(this)" data-url="{% url 'admin_delete_theory_question' question_id=question.id %}">Delete Question</button>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No theory questions available for this quiz.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock main_content %}
+
+{% block custom_js %}
+    <!-- Include SweetAlert2 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+    <script>
+        function confirmDelete(button) {
+            const deleteUrl = button.getAttribute('data-url');
+            
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This will permanently delete the question.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the delete URL with the question ID
+                    window.location.href = deleteUrl;
+                }
+            });
+        }
+    </script>
+{% endblock custom_js %}

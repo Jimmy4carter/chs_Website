@@ -1,0 +1,49 @@
+{% extends 'tutors_template/base_template.html' %}
+
+{% block page_title %}
+Feedback Message
+{% endblock page_title %}
+
+{% block main_content %}
+  <h1>Add Quiz</h1>
+  <form method="post">
+    {% csrf_token %}
+    <div>
+      <label for="subject">Subject:</label>
+      <select name="subject" id="subject">
+        {% for subjects in subjects %}
+          <option value="{{ subjects.id }}">{{subjects.outline}}: {{ subjects.subject_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" name="name" id="name" required>
+    </div>
+    <div>
+      <label for="topic">Topic:</label>
+      <input type="text" name="topic" id="topic" required>
+    </div>
+    <div>
+      <label for="number_of_questions">Number of questions:</label>
+      <input type="number" name="number_of_questions" id="number_of_questions" required>
+    </div>
+    <div>
+      <label for="time">Time (in minutes):</label>
+      <input type="number" name="time" id="time" required>
+    </div>
+    <div>
+      <label for="required_score_to_pass">Required score to pass:</label>
+      <input type="number" name="required_score_to_pass" id="required_score_to_pass" required>
+    </div>
+    <div>
+      <label for="quiz_type">Quiz type:</label>
+      <select name="quiz_type" id="quiz_type">
+        {% for choice in QUIZ_CHOICES %}
+          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit">Add Quiz</button>
+  </form>
+  {% endblock main_content %}

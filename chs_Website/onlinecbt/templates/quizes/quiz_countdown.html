@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Countdown</title>
+    
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://source.unsplash.com/1600x900/?study,learning') no-repeat center center;
+            background-size: cover;
+            color: white;
+        }
+        .countdown-container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 10%;
+        }
+        h1, h3 {
+            font-weight: bold;
+        }
+        #countdown {
+            font-size: 48px;
+            font-weight: bold;
+        }
+        .icon-clock {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+    </style>
+    
+    <!-- jQuery for countdown functionality -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Font Awesome for clock icon -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+
+    <div class="container countdown-container">
+        <div class="icon-clock">
+            <i class="fas fa-clock"></i>
+        </div>
+        <h1>Quiz: {{ schedule.quiz.title }}</h1>
+        <h3>Quiz will start in:</h3>
+        <div id="countdown" class="alert alert-info">Loading...</div>
+    </div>
+
+    <script>
+        let timeRemaining = Math.floor({{ time_until_start }});  // Convert to an integer
+
+        function updateCountdown() {
+            let minutes = Math.floor(timeRemaining / 60);
+            let seconds = timeRemaining % 60;
+
+            // Display in MM:SS format
+            document.getElementById('countdown').innerText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                // Redirect to quiz start
+                window.location.href = "{% url 'quiz_view' schedule.id %}";
+            }
+            
+            timeRemaining--;
+        }
+
+        const timerInterval = setInterval(updateCountdown, 1000);  // Update every second
+    </script>
+
+</body>
+</html>

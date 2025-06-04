@@ -1,0 +1,70 @@
+   {% extends 'admin_template/base_template.html' %}
+
+    {% block page_title %}
+    Manage Classes
+    {% endblock page_title %}
+
+   {% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+            <div class="col-12">
+                <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Class Details</h3>
+
+                    <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                        <th>ID</th>
+                        <th>Class Name</th>
+                        <th>Class A</th>
+                        <th>Class B</th>
+                        <th>Class C</th>
+                        <th>Class D</th>
+                        <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for classe in classes %}
+                        <tr>
+                        <td>{{ classe.id}}</td>
+                        <td>{{ classe.name}}</td>
+                        {% for class_category in class_category %}
+                          
+                          {% if class_category.class_id == classe %}
+                            <td>{{ class_category.form_tutor.last_name }} {{ class_category.form_tutor.first_name }}</td>
+                          {% endif %}
+                              
+                        {% endfor %}   
+                        <td><a href="/edit_class/{{ classe.id }}" class="btn btn-success">Edit</a></td>
+                       </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    {% endblock main_content %}

@@ -1,0 +1,95 @@
+{% extends 'admin_template/base_template.html' %}
+
+{% block page_title %}
+Add Learning Materials
+{% endblock page_title %}
+
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+                <div class="container mt-5">
+                    <h2>Add Study Material</h2>
+                    <form id="materialForm">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Subject</label>
+                            <select class="form-control" name="subject">
+                                {% for subject in subjects %}
+                                <option value="{{ subject.id }}">{{ subject.outline }}: {{ subject.subject_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Material Type</label>
+                            <select class="form-control" name="material_type" id="materialType">
+                                <option value="note">Note</option>
+                                <option value="assignment">Assignment</option>
+                                <option value="textbook">Textbook</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="fileUpload">
+                            <label class="form-label">Upload File</label>
+                            <input type="file" class="form-control" name="file" accept="application/pdf">
+                        </div>
+                        <div class="mb-3" id="urlInput" style="display: none;">
+                            <label class="form-label">PDF URL</label>
+                            <input type="url" class="form-control" name="pdf_url">
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" name="status" checked>
+                            <label class="form-check-label">Visible to students</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                    <div id="message" class="mt-3"></div>
+                </div>
+
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}
+{% block custom_js %}
+<script>
+document.getElementById("materialType").addEventListener("change", function() {
+    let type = this.value;
+    if (type === "textbook") {
+        document.getElementById("fileUpload").style.display = "none";
+        document.getElementById("urlInput").style.display = "block";
+    } else {
+        document.getElementById("fileUpload").style.display = "block";
+        document.getElementById("urlInput").style.display = "none";
+    }
+});
+
+document.getElementById("materialForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    
+    let formData = new FormData(this);
+    
+    fetch("{% url 'add_material' %}", {
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-CSRFToken": document.getElementsByName("csrfmiddlewaretoken")[0].value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            document.getElementById("message").innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+            this.reset();
+            document.getElementById("fileUpload").style.display = "block";
+            document.getElementById("urlInput").style.display = "none";
+        } else if (data.errors) {
+            document.getElementById("message").innerHTML = `<div class="alert alert-danger">Error: ${JSON.stringify(data.errors)}</div>`;
+        }
+    });
+});
+</script>
+{% endblock custom_js %}

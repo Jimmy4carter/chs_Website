@@ -1,0 +1,503 @@
+{% extends 'students_template/base_template.html' %}
+{% load static %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="{% static "plugins/bs-stepper/css/bs-stepper.min.css" %}">
+<link rel="stylesheet" href="{% static "plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css" %}">
+<style>
+  .custom-height {
+    height: 350px; /* Adjust the height as per your requirement */
+  }
+  .miniP{
+        margin-top: -20px;
+        font-size: smaller;
+      }
+
+         .form-check {
+            margin-bottom: 0.5rem;
+        }
+        .tab-content .tab-pane {
+            padding: 1rem 0;
+        }
+  
+</style>
+{% endblock custom_css %}
+
+{% block main_content %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    {% comment %} Display Messages {% endcomment %}
+    {% if messages %}
+    <div class="form-group">
+    <div class="col-12">
+        {% for message in messages %}
+        {% if message.tags == "error" %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+        {% elif message.tags == "success" %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    </div>
+    {% endif %}
+    <div class="row">
+      <div class="col-12">
+        <div id="accordion">
+            <!-- Interst form -->
+          <div class="card">
+            {% if streamexist >= 0 %}
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Subject Steaming Form
+                    </button>
+                  </h5>
+                </div>
+            {% endif %}
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="card card-default">
+                      <div class="card-body p-0">
+                        <div class="bs-stepper" id="stepper1">
+                          <form role="form" action="/inter_records" method="post">
+                            {% csrf_token %}
+                            <div class="bs-stepper-header" role="tablist">
+                              <!-- your steps here -->
+                              <div class="step" data-target="#choice-part">
+                                <button type="button" class="step-trigger" role="tab" aria-controls="choice-part" id="choice-part-trigger">
+                                  <span class="bs-stepper-circle">1</span>
+                                  <span class="bs-stepper-label">Notice & Choice</span>
+                                </button>
+                              </div>
+                              <div class="line"></div>
+                              <div class="step" data-target="#subject-part">
+                                <button type="button" class="step-trigger" role="tab" aria-controls="subject-part" id="subject-part-trigger">
+                                  <span class="bs-stepper-circle">2</span>
+                                  <span class="bs-stepper-label">Subject Selection</span>
+                                </button>
+                              </div>
+                              <div class="line"></div>
+                              <div class="step" data-target="#interest-part">
+                                <button type="button" class="step-trigger" role="tab" aria-controls="interest-part" id="interest-part-trigger">
+                                  <span class="bs-stepper-circle">3</span>
+                                  <span class="bs-stepper-label">Student Interest</span>
+                                </button>
+                              </div>
+                              <div class="line"></div>
+                              <div class="step" data-target="#parent-part">
+                                <button type="button" class="step-trigger" role="tab" aria-controls="parent-part" id="parent-part-trigger">
+                                  <span class="bs-stepper-circle">4</span>
+                                  <span class="bs-stepper-label">Parents Interest</span>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="bs-stepper-content">
+                              
+                              <!-- your steps content here -->
+                              <div id="choice-part" class="content" role="tabpanel" aria-labelledby="choice-part-trigger">
+                                  <div class="form-group">
+                                      <h3>STREAMING FOR SENIOR SCHOOL/SUBJECT CHOICE FORM</h3>
+
+                                      <p><strong>Introduction:</strong></p>
+
+                                      <p>You are expected to carefully go through the under-listed subjects and make your choice based on your interest and ability, 
+                                        putting into consideration the following information:
+                                      </p>
+
+                                      <p><strong>General Information:</strong></p>
+                                      <ul>
+                                        <li>All Students are to offer 12 academic subjects.</li>
+                                        <li>All Students must offer all 5-compulsory cross - cutting core subjects (see group A).
+                                        </li>
+                                        <li>Students will offer 5 subjects from their field of specialization (see group C, D, and E)
+                                        </li>
+                                        <li>Science and Business Students are to offer the one school compulsory subject.
+                                        </li>
+                                        <li>Science and Business students will offer one (1) elective outside the field of specialization while humanities offer two (2) elective outside the field of specialization
+                                        </li>
+                                        <li> Students are to pick one trade subject from Group F (for No. 5 in Group A).
+                                        </li>
+                                      </ul>
+
+                                      <table class="table table-bordered table-striped">
+                                        <thead class="miniP">
+                                          <tr>
+                                            <th>A</th>
+                                            <th>B</th>
+                                            <th>C</th>
+                                            <th>D</th>
+                                            <th>E</th>
+                                            <th>F</th>
+                                          </tr>
+                                          <tr>
+                                            <th>Compulsory
+                                              Cross-cutting
+                                              Core Subjects
+                                              </th>
+                                            <th>School compulsory
+                                              Subject for science and
+                                              Business
+                                              students
+                                              </th>
+                                            <th>Science and Technology
+                                            </th>
+                                            <th>Business Studies
+                                            </th>
+                                            <th> Humanities</th>
+                                            <th>Trade Subjects
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody class="miniP">
+                                          <tr>
+                                            <td>Mathematics</td>
+                                            <td>Further Mathematics</td>
+                                            <td>Biology</td>
+                                            <td>Biology</td>
+                                            <td>Biology</td>
+                                            <td>Painting and Decoration </td>
+                                          </tr>
+                                          <tr>
+                                            <td>English Language</td>
+                                            <td></td>
+                                            <td>Economics</td>
+                                            <td>Economics</td>
+                                            <td>Economics</td>
+                                            <td>catering and craft practice</td>
+                                          </tr>
+                                          <tr>
+                                            <td>Computer Studies/ICT</td>
+                                            <td></td>
+                                            <td>Physics</td>
+                                            <td>Financial Accounting</td>
+                                            <td>Literature in English</td>
+                                            <td></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                            <td>Civic Education</td>
+                                            <td></td>
+                                            <td>Chemistry</td>
+                                            <td>Commerce</td>
+                                            <td>Government</td>
+                                            <td> </td>
+                                          </tr>
+                                          <tr>
+                                            <td>Trade</td>
+                                            <td></td>
+                                            <td>Geography</td>
+                                            <td>C R S</td>
+                                            <td>C R S</td>
+                                            <td></td>
+                                          </tr>
+                                          <tr>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th>Elective</th>
+                                            <th>Elective</th>
+                                            <th>Elective</th>
+                                            <th> </th>
+                                          </tr>
+                                          <tr>
+                                            <td> </td>
+                                            <td></td>
+                                            <td>Agric Science</td>
+                                            <td>Agric Science</td>
+                                            <td>Agric Science</td>
+                                            <td></td>
+                                          </tr>
+                                          <tr>
+                                            <td> </td>
+                                            <td></td>
+                                            <td>French</td>
+                                            <td>French</td>
+                                            <td>French</td>
+                                            <td> </td>
+                                          </tr>
+                                          <tr>
+                                            <td> </td>
+                                            <td></td>
+                                            <td>Technical Drawing</td>
+                                            <td>Geography</td>
+                                            <td>Geography</td>
+                                            <td></td>
+                                          </tr>
+                                          <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>Visual Art</td>
+                                            <td></td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+
+                                      <h4>Choose Your Preferred Class Category.</h4>
+                                      <div class="form-group clearfix">
+                                        <div class="icheck-success d-inline">
+                                          <input type="radio" id="radioSuccess1" name="choice" value="Science">
+                                          <label for="radioSuccess1">Science</label>
+                                        </div>
+                                      </div>
+                                      <div class="form-group clearfix">
+                                        <div class="icheck-success d-inline">
+                                          <input type="radio" id="radioSuccess2" name="choice" value="Art">
+                                          <label for="radioSuccess2">Art</label>
+                                        </div>
+                                      </div>
+                                      <div class="form-group clearfix">
+                                        <div class="icheck-success d-inline">
+                                          <input type="radio" id="radioSuccess3" name="choice" value="Commercial">
+                                          <label for="radioSuccess3">Commercial</label>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <button class="btn btn-primary" onclick="stepper1.next()">Next</button>
+                              </div>
+
+                              <div id="subject-part" class="content" role="tabpanel" aria-labelledby="subject-part-trigger">
+                                <h4>Subject Selection</h4>
+                                <div class="form-group">
+                                  <label>Multiple</label>
+                                  <select class="duallistbox custom-height" name="subj_coice" multiple="multiple">
+                                    <option value="Mathematics" selected>Mathematics</option>
+                                    <option value="Further Mathematics" selected>Further Mathematics</option>
+                                    <option value="English Language" selected>English Language</option>
+                                    <option value="Literature in English">Literature in English</option>
+                                    <option value="Catering and craft practice">Catering and craft practice</option>
+                                    <option value="Painting and Decoration">Painting and Decoration</option>
+                                    <option value="Technical Drawing">Technical Drawing</option>
+                                    <option value="Civic Education" selected>Civic Education</option>
+                                    <option value="Physics">Physics</option>
+                                    <option value="Chemistry">Chemistry</option>
+                                    <option value="Biology">Biology</option>
+                                    <option value="Agric Science">Agric Science</option>
+                                    <option value="Economics">Economics</option>
+                                    <option value="Geography">Geography</option>
+                                    <option value="Computer Studies/ICT">Computer Studies/ICT</option>
+                                    <option value="Financial Accounting">Financial Accounting</option>
+                                    <option value="Commerce">Commerce</option>
+                                    <option value="Government">Government</option>
+                                    <option value="French" >French</option>
+                                    <option value="C R S">C R S</option>
+                                  </select>
+                                </div>
+                                
+                                <button class="btn btn-primary" onclick="stepper1.previous()">Previous</button>
+                                <button class="btn btn-primary" onclick="stepper1.next()">Next</button>
+                              </div>
+
+                              <div id="interest-part" class="content" role="tabpanel" aria-labelledby="interest-part-trigger">
+                                  <div class="form-group">
+                                      <label for="exampleInputEmail1">What is your ambition or career? State three in Preference</label>
+                                      <input type="text" class="form-control" required name="career1" id="career1" placeholder="1">
+                                      <input type="text" class="form-control" required name="career2" id="career2" placeholder="2">
+                                      <input type="text" class="form-control required" name="career3" id="career3" placeholder="3">
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="exampleInputEmail1">State reason(s) for your choice:</label>
+                                      <input type="text" class="form-control" required name="reason1" id="reason1">
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label for="exampleInputEmail1">List subject(s) that you pass easily</label>
+                                          <input type="text" class="form-control" required name="passsubj1" id="career1" placeholder="1">
+                                          <input type="text" class="form-control" required name="passsubj2" id="career2" placeholder="2">
+                                          <input type="text" class="form-control" name="passsubj3" id="career3" placeholder="3">
+                                          <input type="text" class="form-control" name="passsubj4" id="career3" placeholder="4">
+                                          <input type="text" class="form-control" name="passsubj5" id="career3" placeholder="5">
+                                          <input type="text" class="form-control" name="passsubj6" id="career3" placeholder="6">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label for="exampleInputEmail1">List subject(s) that you Fail easily</label>
+                                        <input type="text" class="form-control" required name="failsubj1" id="career1" placeholder="1">
+                                        <input type="text" class="form-control" required name="failsubj2" id="career2" placeholder="2">
+                                        <input type="text" class="form-control" name="failsubj3" id="career3" placeholder="3">
+                                        <input type="text" class="form-control" name="failsubj4" id="career3" placeholder="4">
+                                        <input type="text" class="form-control" name="failsubj5" id="career3" placeholder="5">
+                                        <input type="text" class="form-control" name="failsubj6" id="career3" placeholder="6">
+                                      </div>
+                                    </div>
+                                  </div>
+                                <button class="btn btn-primary" onclick="stepper1.previous()">Previous</button>
+                                <button class="btn btn-primary" onclick="stepper1.next()">Next</button>
+                              </div>
+                            
+
+                              <div id="parent-part" class="content" role="tabpanel" aria-labelledby="parent-part-trigger">
+                                <div class="form-group">
+                                  <label for="exampleInputEmail1">What is yourchoice of career for you ward?</label>
+                                  <input type="text" class="form-control" required name="pcareer" id="career1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">State reason(s) for your choice:</label>
+                                    <input type="text" class="form-control" required name="preason" id="reason1">
+                                </div>
+                                  <div class="form-group">
+                                      <label for="pname">Parent/Guardian Name Validation</label>
+                                      <input type="text" class="form-control" name="pname" required id="pname" placeholder="Enter name">
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="emailaddress">Email address Validation</label>
+                                      <input type="email" class="form-control" name="email" required id="emailaddress" placeholder="Enter email">
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="parentcode">Signature Code</label>
+                                      <input type="text" name="parentcode" required class="form-control" id="parentcode" placeholder="Enter code sent to parent">
+                                  </div>
+                                  <br>
+                                  <p><Strong>Note: </Strong> Arbitrary change of subject will not be accepted except by a <br>
+                                          written application and consent of the subject teacher through the school counselor.</p>
+                                <button class="btn btn-primary" onclick="stepper1.previous()">Previous</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      <!-- /.card-body -->
+                      
+                    </div>
+                    <!-- /.card -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- streaming form -->
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Interest Inventory Form 
+                </button>
+              </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="card card-default">
+                      <div class="card-header">
+                        <h3 class="card-title">Form A to J should be filled by the student under suppervision</h3>
+                      </div>
+                      <div class="card-body p-0">
+                        <form method="post" action="/saveinterests">
+                            {% csrf_token %}
+                             {{ formset.management_form }}
+                             {% for formt in form_types %}
+                                <h1>Form {{ formt }}</h1>
+                                {% for form in formset %}
+                                    {% if form.initial.form_type == formt %}
+                                        <div class="form-group">
+                                            <label>{{ forloop.counter }} - {{ form.question_text.label }}</label>
+                                            {{ form.question }}
+                                            <div class="form-check">
+                                                {{ form.answer_choice }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            <button type="submit" class="btn btn-primary">Submit Responses</button>
+                        </form>
+                      </div>
+                      <!-- /.card-body -->
+                      
+                    </div>
+                    <!-- /.card -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- g and c notes -->
+          {% comment %} 
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                  Guardiance and Counciling
+                </button>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-default">
+                                <div class="card-body p-0">
+                                    <h4>Updates from G&C</h4>
+                                    Regular updates and notes from g and c regarding student
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div> {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+          <iframe src="{{pdffile.cummulative_file}}#zoom=100" width="100%" height="1300px"></iframe>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+</div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_js %}
+<script src="{% static "plugins/bs-stepper/js/bs-stepper.min.js" %}"></script>
+<script src="{% static "plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js" %}"></script>
+<script>
+  $(document).ready(function() {
+    $("#parentcode").keyup(function() {
+      var parentCode = $(this).val();
+      var theCode = "01072023";
+      var submitBtn = $("#save");
+  
+      if (parentCode != "") {
+        if (parentCode != theCode) {
+          // Code does not match, perform necessary actions (e.g., show error message)
+          $(".username_error").remove();
+          $("<span class='username_error' style='padding:5px;color:red;font-weight:bold;'>Entry not yet valid</span>").insertAfter("#parentcode");
+        } else {
+          // Code matches, perform necessary actions (e.g., show success message)
+          $(".username_error").remove();
+          $("<span class='username_error' style='padding:5px;color:green;font-weight:bold;'>Code Validated</span>").insertAfter("#parentcode");
+        }
+      } else {
+        // Empty input, remove any existing error message
+        $(".username_error").remove();
+      }
+    });
+  });
+</script>
+{% endblock custom_js %}

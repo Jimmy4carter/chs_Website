@@ -1,0 +1,106 @@
+{% extends 'tuckshop_template/base_template.html' %}
+{% load static %}
+
+{% block page_title %}
+Add Item
+{% endblock page_title %}
+
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Add Item</h3>
+                    </div>
+                    <form id="addItemForm" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="card-body">
+                            <!-- Your form fields go here -->
+                            {{ form.as_p }}
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" id="submitBtn">Add Item</button>
+                        </div>
+                    </form>
+                    <div class="card-body">
+                        <h3>Item List</h3>
+                        <table class="table table-hover text-nowrap" id="itemTable">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Name</th>
+                                    <th>Brand</th>
+                                    <th>Package Type</th>
+                                    <th>Description</th>
+                                    <th>Note</th>
+                                    <th>Expected Market Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                    <tr>
+                                         <td>{{ forloop.counter }}</td>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.brand }}</td>
+                                        <td>{{ item.get_package_type_display }}</td>
+                                        <td>{{ item.description }}</td>
+                                        <td>{{ item.note }}</td>
+                                        <td>{{ item.expected_marketprice }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<script>
+    $(document).ready(function() {
+        $("#submitBtn").click(function() {
+            var form = $("#addItemForm")[0];
+            var formData = new FormData(form);
+    
+            $.ajax({
+                url: '{% url "add_item" %}',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.success) {
+                        alert('Item added successfully!');
+                        // Update the table with the new item
+                        var newRow = `<tr>
+                                        <td>${response.item.name}</td>
+                                        <td>${response.item.brand}</td>
+                                        <td>${response.item.package_type}</td>
+                                        <td>${response.item.description}</td>
+                                        <td>${response.item.note}</td>
+                                        <td>${response.item.expected_marketprice}</td>
+                                      </tr>`;
+                        $("#itemTable tbody").append(newRow);
+                        // Clear the form
+                        form.reset();
+                    } else {
+                        alert('Error adding item. Please check your form.');
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+    </script>
+{% endblock custom_js %}
+    

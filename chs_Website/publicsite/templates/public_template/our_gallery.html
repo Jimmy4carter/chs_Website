@@ -1,0 +1,297 @@
+{% extends 'public_template/public_base_template.html' %}
+{% load static %}
+
+{% block public_main_content %}
+        <!-- inner page banner -->
+        <div class="page-banner ovbl-dark" style="background-image:url('{% static 'assets/images/banner/banner1.jpg' %}');">
+            <div class="container">
+                <div class="page-banner-entry">
+                    <h1 class="text-white">Gallery</h1>
+				 </div>
+            </div>
+        </div>
+		<!-- Breadcrumb row -->
+		<div class="breadcrumb-row">
+			<div class="container">
+				<ul class="list-inline">
+					<li><a href="/">Home</a></li>
+					<li>Gallery</li>
+				</ul>
+			</div>
+		</div>
+		<!-- Breadcrumb row END -->
+        <!-- contact area -->
+        <div class="content-block">
+			<!-- Portfolio  -->
+			<div class="section-area section-sp1 gallery-bx">
+				<div class="container">
+					<div class="feature-filters clearfix center m-b40">
+						<ul class="filters" data-toggle="buttons">
+							<li data-filter="" class="btn active">
+								<input type="radio">
+								<a href="#"><span>All</span></a> 
+							</li>
+							<li data-filter="book" class="btn">
+								<input type="radio">
+								<a href="#"><span>Book</span></a> 
+							</li>
+							<li data-filter="courses" class="btn">
+								<input type="radio">
+								<a href="#"><span>Courses</span></a> 
+							</li>
+							<li data-filter="education" class="btn">
+								<input type="radio">
+								<a href="#"><span>Education</span></a> 
+							</li>
+						</ul>
+					</div>
+					<div class="clearfix">
+						<ul id="masonry" class="ttr-gallery-listing magnific-image row">
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 book">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic1.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic1.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">SSS 3 2021</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 education book">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic2.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic2.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">Geography Garden</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 courses">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic3.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic3.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">Young Boys</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 book education">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic4.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic4.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">Football Training</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 courses">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic5.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic5.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">Football Training</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 education">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic6.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic6.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">Assembly Ground</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 book">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic7.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic7.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">Assembly Ground</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 courses">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic8.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic8.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">Library</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 education courses">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic9.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic9.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">A shoot In Library</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 book">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic10.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic10.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">Cultural Day</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 courses">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic11.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic11.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">Legacy class</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="action-card col-lg-3 col-md-4 col-sm-6 education book">
+								<div class="ttr-box portfolio-bx">
+									<div class="ttr-media media-ov2 media-effect">
+										<a href="javascript:void(0);">
+											<img src="{% static "assets/images/gallery/pic12.jpg" %}" alt=""> 
+										</a>
+										<div class="ov-box">
+											<div class="overlay-icon align-m"> 
+												<a href="{% static "assets/images/gallery/pic12.jpg" %}" class="magnific-anchor" title="Title Come Here">
+													<i class="ti-search"></i>
+												</a>
+											</div>
+											<div class="portfolio-info-bx bg-primary">
+												<h4><a href="#">Class Block</a></h4>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+        </div>
+		<!-- contact area END -->
+
+{% endblock public_main_content %}

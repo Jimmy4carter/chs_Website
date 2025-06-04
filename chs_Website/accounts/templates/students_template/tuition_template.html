@@ -1,0 +1,177 @@
+  {% extends 'students_template/base_template.html' %}
+  {% load static %}
+  
+  {% block main_content %}
+   <!-- Main content -->
+     <div class="container-fluid">
+         
+          <!-- =========================================================== -->
+          <h5 class="mb-2">Billing/Payment Preview and History</h5>
+          {% if messages %}
+              <div class="form-group">
+                  <div class="col-12">
+                      {% for message in messages %}
+                          {% if message.tags == "error" %}
+                              <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                              {{ message }}
+                              </div>
+                          {% elif message.tags == "success" %}
+                              <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                              {{ message }}
+                              </div>
+                          {% endif %}
+                      {% endfor %}
+                  </div>
+              </div>
+          {% endif %}
+          <div class="row">
+            <div class="col-md-3 col-sm-6 col-6">
+              <div class="info-box shadow-none">
+                <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+  
+                <div class="info-box-content">
+                  <span class="info-box-text"> Current Term/Session</span>
+                  <span class="info-box-number">None</span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>
+              <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-6">
+              <div class="info-box shadow-sm">
+                <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+  
+                <div class="info-box-content">
+                  <span class="info-box-text">Recent Bill</span>
+                  <span class="info-box-number">{{ acc.latest_bill }}</span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>
+              <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-6">
+              <div class="info-box shadow">
+                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+  
+                <div class="info-box-content">
+                  <span class="info-box-text">Surplus</span>
+                  <span class="info-box-number">{{ acc.surplus }}</span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>
+              <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-6">
+              <div class="info-box shadow-lg">
+                <span class="info-box-icon bg-danger"><i class="fas fa-money-bill-alt"></i></span>
+  
+                <div class="info-box-content">
+                  <span class="info-box-text">Outstanding</span>
+                  <span class="info-box-number">{{ acc.to_pay }}</span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>
+              <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+
+
+
+
+
+
+
+          <div class="row">
+            <div class="col-lg-6">
+              <!-- Input addon -->
+              <div class="card card-info">
+                <div class="card-header">
+                  <h3 class="card-title">Make Payments</h3>
+                </div>
+                <div class="card-body">
+                  <p>Enter Amount <code>payment will balance outstanding and when more will go to balance surplus</code></p>
+                  <div class="card-footer">
+                    <form method="post">
+                      <div class="input-group">
+                        {% csrf_token %}
+                        {{ payment_form}}
+                        <span class="input-group-append">
+                          <button type="submit" class="btn btn-success">Proceed to Pay</button>
+                        </span>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- /input-group -->
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+
+            <div class="col-lg-6">
+              <div class="card card-info">
+                  <div class="card-header">
+                    <h2 class="card-title">
+                      <i class="fas fa-text-width"></i>
+                      Payment History
+                    </h2>
+                  </div>
+                  <div class="card-body">
+                    <!-- The time line -->
+                      <div class="timeline">
+                        <!-- timeline time label -->
+                        {% for history  in pay_history %}
+                          
+                          {% if history.verified == 0 %}
+                            <div class="time-label">
+                              <span class="bg-red">{{ history.date_created }}</span>
+                            </div>
+                            <!-- /.timeline-label -->
+                            <!-- timeline item -->
+                            <div>
+                              <i class="fas fa-history bg-red"></i>
+                              <div class="timeline-item">
+                                <h3 class="timeline-header"><a>{{ history.amount }}</a> Paid Online</h3>
+                              </div>
+          
+                            </div>
+
+                          {% else %}
+                            <div class="time-label">
+                              <span class="bg-green">{{ history.date_created }}</span>
+                            </div>
+                            <!-- /.timeline-label -->
+                            <!-- timeline item -->
+                            <div>
+                              <i class="fas fa-history bg-blue"></i>
+                              <div class="timeline-item">
+                                <h3 class="timeline-header"><a href="#">{{ history.amount }}</a> Paid Online</h3>
+                              </div>
+          
+                            </div>
+                          {% endif %}
+                            
+                        {% endfor %}
+                        <!-- END timeline item -->
+                        <div>
+                          <i class="fas fa-clock bg-gray"></i>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          <!-- /.col -->
+          </div>
+     </div>
+
+   <!-- /.content -->
+  {% endblock main_content %}
+  {% block custom_js %}
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-messaging.js"></script>
+  {% endblock custom_js %}

@@ -1,0 +1,46 @@
+{% extends 'quizes/base_template.html' %}
+
+{% load static %}
+
+{% block custom_css %}
+
+{% endblock custom_css %}
+
+{% block main_content %}
+<h2>Theory Questions for {{ quiz.title }}</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Question Number</th>
+            <th>Question</th>
+            <th>Diagram</th>
+            <th>Answer Summary</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for question in theory_questions %}
+        <tr>
+            <td>{{ question.question_number }}</td>
+            <td>{{ question.question }}</td>
+            <td>
+                {% if question.diagram %}
+                    <img src="{{ question.diagram.url }}" alt="Diagram" style="max-width: 100px;">
+                {% else %}
+                    No diagram
+                {% endif %}
+            </td>
+            <td>{{ question.answer_summary|default:"No summary provided" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'add_theory_question' quiz.id %}" class="btn btn-primary">Add More Questions</a>
+
+
+{% endblock main_content %}
+
+
+{% block custom_js %}
+
+{% endblock custom_js %}

@@ -1,0 +1,383 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block page_title %}
+{{ result_type }} Student Ethos Records 
+{% endblock page_title %}
+{% block custom_css %}
+<style>
+.vertical-lr {
+    writing-mode: vertical-lr;
+  }
+  
+  .rotated {
+    transform: rotate(180deg);
+  }
+  
+  .sideways-lr {
+    writing-mode: sideways-lr;
+  }
+  
+  .only-rotate {
+    inline-size: fit-content;
+    transform: rotate(-90deg);
+  }
+  .pos-color {red;}
+  .neg-color {red;}
+</style>
+
+{% endblock custom_css %}
+{% block main_content %}
+<!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div id="accordion">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Grade Student
+                      </button>
+                    </h5>
+                  </div>
+                  {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Error:</strong> Please correct the following errors:
+                        <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                <div class="row">
+                        {% if messages%}
+                            <div class="col-12">
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                                {% if message.tags == 'success' %}
+                                <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                        </div>
+                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                                <div class="row">
+                                    <div class="card-body">
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="student_id">Student ID</label>
+                                                {{ form.student_id }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form.term }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form.session_year }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form.result_type }}
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="card card-success">
+                                                        <div class="card-header">
+                                                            <h3 class="card-title">Positive Ethos</h3>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="form-group">
+                                                                <label for="leadership">Display of Leadership Attributes</label>
+                                                                {{ form.leadership }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="neatness">Personal/Environmental Neatness</label>
+                                                                {{ form.neatness }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="leadership">Rep. Room Members in Internal Competition</label>
+                                                                {{ form.room_represent_compet }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="neatness">Rep. Room Members in Inspection</label>
+                                                                {{ form.room_represent_inspect }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="leadership">Self-Confidence/Improvement</label>
+                                                                {{ form.selfconfidence }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="neatness">Team Spirit</label>
+                                                                {{ form.team_spirit }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="leadership">Return of Lost Items</label>
+                                                                {{ form.return_lost_items }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="neatness">Obidience to Staff</label>
+                                                                {{ form.obidience_to_staff }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="leadership">Obidience to School Rules & Regulations</label>
+                                                                {{ form.obidience_to_rules }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="neatness">Volunteerism</label>
+                                                                {{ form.volunteerism }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="leadership">Reporting of Unacceptable Behavior</label>
+                                                                {{ form.reporting_unacceptable_behavior }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="neatness">Prayerfulness</label>
+                                                                {{ form.prayerfullness }}
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="card card-danger">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Negative Ethos</h3>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <label for="leadership">Loitering after Light Out</label>
+                                                            {{ form.loitering }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="neatness">Immoral Relationship/Conduct</label>
+                                                            {{ form.immoral_relation_conduct }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="leadership">Timing Management</label>
+                                                            {{ form.poor_timing }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="neatness">Negative Influence</label>
+                                                            {{ form.negative_influence }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="leadership">Noise Making, Distracting Other @Lunch,Prep,Siesta</label>
+                                                            {{ form.noise_making }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="neatness">Disobeying Hostel Rules & Regulations</label>
+                                                            {{ form.hostel_disobidience }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="leadership">Bullying & Fighting</label>
+                                                            {{ form.bullying_fighting }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="neatness">Negative Civil (not greeting, talking back & such)</label>
+                                                            {{ form.negative_civil }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="leadership">Gossip</label>
+                                                            {{ form.gossip }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="neatness">Avoiding Meals Without Good Reason</label>
+                                                            {{ form.avoiding_meals }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="leadership">Careless Handling of Personal Property</label>
+                                                            {{ form.carelessness_personal }}
+                                                        </div>
+
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label for="remark">Remark</label>
+                                                {{ form.remark }}
+                                            </div>
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                            </div>
+                                        </form>
+                                        
+
+                                    </div>
+                                    
+                                </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          View Ethos Record
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                      <div class="card-body">
+                                <div class="row">
+                                    <table id='example1' class='table table-bordered'>
+                                        <thead>
+                                            <tr>
+                                                <th>sn</th>
+                                                <th>Student</th>
+                                                <th class="vertical-lr rotated pos-color">Leadership</th>
+                                                <th class="vertical-lr rotated pos-color">Neatness</th>
+                                                <th class="vertical-lr rotated  pos-color">Rep. Room Compet</th>
+                                                <th class="vertical-lr rotated pos-color">Rep. Room Inspect</th>
+                                                <th class="vertical-lr rotated pos-color">Self-Confidence</th>
+                                                <th class="vertical-lr rotated pos-color">Team Spirit</th>
+                                                <th class="vertical-lr rotated pos-color">Return Lost items</th>
+                                                <th class="vertical-lr rotated pos-color">Obidence to Staff</th>
+                                                <th class="vertical-lr rotated pos-color">Obidience to Rules</th>
+                                                <th class="vertical-lr rotated pos-color">volunteerism</th>
+                                                <th class="vertical-lr rotated pos-color">Reporting Behaviors</th>
+                                                <th class="vertical-lr rotated pos-color">Prayfulness</th>
+                                                <th class="vertical-lr rotated neg-color">Loitering</th>
+                                                <th class="vertical-lr rotated neg-color">Imoral Conduct</th>
+                                                <th class="vertical-lr rotated neg-color">Time Management</th>
+                                                <th class="vertical-lr rotated neg-color">Negative Influence</th>
+                                                <th class="vertical-lr rotated neg-color">Noise Making</th>
+                                                <th class="vertical-lr rotated neg-color">Hostel Rules</th>
+                                                <th class="vertical-lr rotated neg-color">Bullying/Fighting</th>
+                                                <th class="vertical-lr rotated neg-color">Negative Civil</th>
+                                                <th class="vertical-lr rotated neg-color">Total Gossip Ethos</th>
+                                                <th class="vertical-lr rotated neg-color">Avoiding Meals</th>
+                                                <th class="vertical-lr rotated neg-color">Carelessness Personal</th>
+                                                <th class="vertical-lr rotated neg-color">Total Positive Ethos</th>
+                                                <th class="vertical-lr rotated pos-color">Total Negative Ethos</th>
+                                                <th class="vertical-lr rotated">Total Ethos</th>
+                                                <th>Hostl Parent Comment</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for record in ethos_records %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ record.student_id.admin.first_name }} {{ record.student_id.admin.last_name }}</td>
+                                                    <td>{{ record.leadership }}</td>
+                                                    <td>{{ record.neatness }}</td>
+                                                    <td>{{ record.room_represent_compet }}</td>
+                                                    <td>{{ record.room_represent_inspect }}</td>
+                                                    <td>{{ record.selfconfidence }}</td>
+                                                    <td>{{ record.team_spirit }}</td>
+                                                    <td>{{ record.return_lost_items }}</td>
+                                                    <td>{{ record.obidience_to_staff }}</td>
+                                                    <td>{{ record.obidience_to_rules }}</td>
+                                                    <td>{{ record.volunteerism }}</td>
+                                                    <td>{{ record.reporting_unacceptable_behavior }}</td>
+                                                    <td>{{ record.prayerfullness }}</td>
+                                                    <td>{{ record.loitering }}</td>
+                                                    <td>{{ record.immoral_relation_conduct }}</td>
+                                                    <td>{{ record.poor_timing }}</td>
+                                                    <td>{{ record.negative_influence }}</td>
+                                                    <td>{{ record.noise_making }}</td>
+                                                    <td>{{ record.hostel_disobidience }}</td>
+                                                    <td>{{ record.bullying_fighting }}</td>
+                                                    <td>{{ record.negative_civil }}</td>
+                                                    <td>{{ record.gossip }}</td>
+                                                    <td>{{ record.avoiding_meals }}</td>
+                                                    <td>{{ record.carelessness_personal }}</td>
+                                                    <td>{{ record.total_positive_ethos }}</td> <!-- Display total positive ethos -->
+                                                    <td>{{ record.total_negative_ethos }}</td> <!-- Display total negative ethos -->
+                                                    <td>{{ record.total_ethos }}</td>
+                                                    <td>{{ record.remark }}</td><!-- Display total ethos -->
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>sn</th>
+                                                <th>Student</th>
+                                                <th class="vertical-lr rotated pos-color">Leadership</th>
+                                                <th class="vertical-lr rotated pos-color">Neatness</th>
+                                                <th class="vertical-lr rotated  pos-color">Rep. Room Compet</th>
+                                                <th class="vertical-lr rotated pos-color">Rep. Room Inspect</th>
+                                                <th class="vertical-lr rotated pos-color">Self-Confidence</th>
+                                                <th class="vertical-lr rotated pos-color">Team Spirit</th>
+                                                <th class="vertical-lr rotated pos-color">Return Lost items</th>
+                                                <th class="vertical-lr rotated pos-color">Obidence to Staff</th>
+                                                <th class="vertical-lr rotated pos-color">Obidience to Rules</th>
+                                                <th class="vertical-lr rotated pos-color">volunteerism</th>
+                                                <th class="vertical-lr rotated pos-color">Reporting Behaviors</th>
+                                                <th class="vertical-lr rotated pos-color">Prayfulness</th>
+                                                <th class="vertical-lr rotated neg-color">Loitering</th>
+                                                <th class="vertical-lr rotated neg-color">Imoral Conduct</th>
+                                                <th class="vertical-lr rotated neg-color">Time Management</th>
+                                                <th class="vertical-lr rotated neg-color">Negative Influence</th>
+                                                <th class="vertical-lr rotated neg-color">Noise Making</th>
+                                                <th class="vertical-lr rotated neg-color">Hostel Rules</th>
+                                                <th class="vertical-lr rotated neg-color">Bullying/Fighting</th>
+                                                <th class="vertical-lr rotated neg-color">Negative Civil</th>
+                                                <th class="vertical-lr rotated neg-color">Total Gossip Ethos</th>
+                                                <th class="vertical-lr rotated neg-color">Avoiding Meals</th>
+                                                <th class="vertical-lr rotated neg-color">Carelessness Personal</th>
+                                                <th class="vertical-lr rotated neg-color">Total Positive Ethos</th>
+                                                <th class="vertical-lr rotated pos-color">Total Negative Ethos</th>
+                                                <th class="vertical-lr rotated">Total Ethos</th>
+                                                <th>Hostl Parent Comment</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<!-- /.content -->
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<!-- DataTables  & Plugins -->
+<script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.bootstrap4.min.js" %}"></script>
+<script src="{% static "plugins/jszip/jszip.min.js" %}"></script>
+<script src="{% static "plugins/pdfmake/pdfmake.min.js" %}"></script>
+<script src="{% static "/plugins/pdfmake/vfs_fonts.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.print.min.js" %}"></script>
+<script src="{% static "plugins/datatables-buttons/js/buttons.colVis.min.js" %}"></script>
+<script>
+    $(document).ready(function(){
+                $(function () {
+                    $("#example1").DataTable({
+                      "responsive": true, "lengthChange": false, "pageLength": 50, "autoWidth": false,
+                      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                    $('#example2').DataTable({
+                      "paging": true,
+                      "lengthChange": false,
+                      "searching": false,
+                      "ordering": true,
+                      "info": true,
+                      "autoWidth": false,
+                      "responsive": true,
+                    });
+                  });
+    });
+   
+</script>
+{% endblock custom_js %}

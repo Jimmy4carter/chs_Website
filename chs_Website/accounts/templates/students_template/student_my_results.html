@@ -1,0 +1,59 @@
+{% extends 'students_template/base_template.html' %}
+{% load static %}
+
+{% block page_title %}
+Results
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-12">
+            <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ theader }}</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table text-nowrap">
+                <thead>
+                    <tr>
+                    <th>1st Term Result</th>
+                    <th>2st Term Result</th>
+                    <th>3st Term Result</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    {% for valid_res in valid_old %}
+                    <tr>
+                        {% for res in valid_res %}
+
+                            <td><a href="{{ res.result_file }}">Class: {{ res.classes.name }} <br> Session: {{ res.session_year.session_start_year }}/{{ res.session_year.session_end_year }} <br> Click to view</a></td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                    {% for valid_se in valid_ses %}
+                   
+                    <tr>
+                        {% for res in valid_se %}
+                            <td><a href="{% url 'result_preview' res.id %}">Class: {{ res.student_class.name }} <br> Session: {{ res.session_year.session_start_year }}/{{ res.session_year.session_end_year }} <br> Click to view</a></td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock main_content %}

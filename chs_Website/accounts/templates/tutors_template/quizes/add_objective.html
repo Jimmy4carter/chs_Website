@@ -1,0 +1,153 @@
+{% extends 'tutors_template/base_template.html' %}
+
+{% load static %}
+
+{% block custom_css %}
+
+{% endblock custom_css %}
+
+{% block main_content %}
+
+<section class="content">
+    <div class="container-fluid">
+        <h2>Add Objective Questions for {{ quiz.title }}</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form id="objectiveQuestionsForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div id="questionsContainer">
+                <div class="question-set mb-4">
+                    <h4>Question 1</h4>
+                    <textarea name="question[]" class="form-control" rows="3" placeholder="Enter the objective question" required></textarea>
+                    <input type="file" name="diagram[]" class="form-control mt-2" placeholder="Upload diagram (optional)">
+                    
+                    <div class="options mt-3">
+                        <label>Options:</label>
+                        <div>
+                            <label>A: <input type="text" name="option_text_0[]" class="form-control" required></label>
+                            <input type="radio" name="correct_option[0]" value="A" required> Correct
+                        </div>
+                        <div>
+                            <label>B: <input type="text" name="option_text_0[]" class="form-control" required></label>
+                            <input type="radio" name="correct_option[0]" value="B" required> Correct
+                        </div>
+                        <div>
+                            <label>C: <input type="text" name="option_text_0[]" class="form-control" required></label>
+                            <input type="radio" name="correct_option[0]" value="C" required> Correct
+                        </div>
+                        <div>
+                            <label>D: <input type="text" name="option_text_0[]" class="form-control" required></label>
+                            <input type="radio" name="correct_option[0]" value="D" required> Correct
+                        </div>
+                        <div>
+                            <label>E: <input type="text" name="option_text_0[]" class="form-control" required></label>
+                            <input type="radio" name="correct_option[0]" value="E" required> Correct
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-danger mt-2 remove-question">Remove Question</button>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-secondary" id="addQuestion">Add Another Question</button>
+            <button type="submit" class="btn btn-success mt-3">Save All Questions</button>
+        </form>
+    </div>
+</section>
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<script>
+    let questionCount = 1;
+
+    // Function to update question numbering and names
+    function updateQuestionNumbers() {
+        const questionSets = document.querySelectorAll('.question-set');
+        questionSets.forEach((questionSet, index) => {
+            questionSet.querySelector('h4').innerText = `Question ${index + 1}`;
+            const optionInputs = questionSet.querySelectorAll('input[type="text"]');
+            const radioInputs = questionSet.querySelectorAll('input[type="radio"]');
+
+            optionInputs.forEach((input, optionIndex) => {
+                input.setAttribute('name', `option_text_${index}[]`);
+            });
+
+            radioInputs.forEach((input) => {
+                input.setAttribute('name', `correct_option[${index}]`);
+            });
+        });
+
+        questionCount = questionSets.length;
+    }
+
+    // Add new question set dynamically
+    document.getElementById('addQuestion').addEventListener('click', function () {
+        questionCount++;
+
+        const questionContainer = document.getElementById('questionsContainer');
+        const newQuestionSet = document.createElement('div');
+        newQuestionSet.classList.add('question-set', 'mb-4');
+        
+        newQuestionSet.innerHTML = `
+            <h4>Question ${questionCount}</h4>
+            <textarea name="question[]" class="form-control" rows="3" placeholder="Enter the objective question" required></textarea>
+            <input type="file" name="diagram[]" class="form-control mt-2" placeholder="Upload diagram (optional)">
+            
+            <div class="options mt-3">
+                <label>Options:</label>
+                <div>
+                    <label>A: <input type="text" name="option_text_${questionCount - 1}[]" class="form-control" required></label>
+                    <input type="radio" name="correct_option[${questionCount - 1}]" value="A" required> Correct
+                </div>
+                <div>
+                    <label>B: <input type="text" name="option_text_${questionCount - 1}[]" class="form-control" required></label>
+                    <input type="radio" name="correct_option[${questionCount - 1}]" value="B" required> Correct
+                </div>
+                <div>
+                    <label>C: <input type="text" name="option_text_${questionCount - 1}[]" class="form-control" required></label>
+                    <input type="radio" name="correct_option[${questionCount - 1}]" value="C" required> Correct
+                </div>
+                <div>
+                    <label>D: <input type="text" name="option_text_${questionCount - 1}[]" class="form-control" required></label>
+                    <input type="radio" name="correct_option[${questionCount - 1}]" value="D" required> Correct
+                </div>
+                <div>
+                    <label>E: <input type="text" name="option_text_${questionCount - 1}[]" class="form-control" required></label>
+                    <input type="radio" name="correct_option[${questionCount - 1}]" value="E" required> Correct
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-danger mt-2 remove-question">Remove Question</button>
+        `;
+
+        questionContainer.appendChild(newQuestionSet);
+
+        // Reattach the remove button event listeners
+        addRemoveButtonListener();
+
+        // Update question numbers
+        updateQuestionNumbers();
+    });
+
+    // Function to add event listener to remove buttons
+    function addRemoveButtonListener() {
+        const removeButtons = document.querySelectorAll('.remove-question');
+        removeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                this.parentElement.remove();
+                updateQuestionNumbers();
+            });
+        });
+    }
+
+    // Initial call to attach remove button event listener
+    addRemoveButtonListener();
+</script>
+{% endblock custom_js %}

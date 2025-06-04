@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Report - {{ selected_date }} ({{ selected_type }})</title>
+</head>
+<body>
+    <h1>Stock Report - {{ selected_date }} ({{ selected_type }})</h1>
+
+    {% if stock_logs %}
+        <p>This report provides a detailed overview of stock transactions for the selected date and type.</p>
+
+        <!-- Additional context and analytics -->
+        <p>Total Quantity: {{ total_quantity }}</p>
+        <p>Total Price: #{{ total_price }}</p>
+
+        <h3>{{ stock_logs.first.general_note }}</h3>
+
+        <!-- Table to display stock logs -->
+        <table border="1">
+            <thead>
+                <tr>
+                     <th>SN</th>
+                    <th>Stock</th>
+                    <th>Quantity at Entry</th>
+                    <th>Quantity After Entry</th>
+                    <th>Unit Price at Entry</th>
+                    <th>Unit Price After Entry</th>
+                    <th>Difference</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in stock_logs %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ log.stock.item.name }}</td>
+                        <td>{{ log.quantity_at_entry }}</td>
+                        <td>{{ log.quantity_after_entry }}</td>
+                        <td>#{{ log.unit_price_at_entry }}</td>
+                        <td>#{{ log.unit_price_after_entry }}</td>
+                       <td>#{{ log.price_difference|floatformat:"2" }}</td>
+                      
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Additional notes and key factors -->
+        <p>Notes: This report provides a comprehensive view of stock transactions on the specified date. Key factors to consider include...</p>
+
+    {% else %}
+        <p>No stock transactions found for the selected date and type.</p>
+    {% endif %}
+</body>
+</html>

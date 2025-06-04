@@ -1,0 +1,137 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block page_title %}
+Compose Daily Report
+{% endblock page_title %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="{% static "plugins/summernote/summernote-bs4.min.css" %}">
+{% endblock custom_css %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-outline card-info">
+              <div class="card-header">
+                <h3 class="card-title">
+                  Summernote
+                </h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form action="#">
+                    {% csrf_token %}
+     
+                    {% comment %} Display Messages {% endcomment %}
+                         {% if messages %}
+                         <div class="form-group">
+                         <div class="col-12">
+                             {% for message in messages %}
+                             {% if message.tags == "error" %}
+                                 <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                 {{ message }}
+                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                     <span aria-hidden="true">&times;</span>
+                                 </button>
+                                 </div>
+                             {% elif message.tags == "success" %}
+                                 <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                 {{ message }}
+                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                     <span aria-hidden="true">&times;</span>
+                                 </button>
+                                 </div>
+                             {% endif %}
+                             {% endfor %}
+                         </div>
+                         </div>
+                         {% endif %}
+
+                         <div class="col-sm-12">
+                            <!-- select -->
+                            <div class="form-group">
+                                <label>Report Date</label>
+                                <input type="date" class="form-control" id="dateof" name="dateof" required>
+                            </div>
+                        </div>
+            
+                        <textarea id="summernote">
+                        
+                        </textarea>
+                    </div>
+                <div class="card-footer">
+<<<<<<< HEAD
+                    Carefully Formate report and check before submission. On submission no futher correction can be made
+=======
+                    Visit <a href="https://github.com/summernote/summernote/">Summernote</a> documentation for more examples and information about the plugin.
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+                    <button type="submit" class="btn btn-danger btn-block" id="report">SUBMIT REPORT</button>
+                </div>
+            </form>
+            </div>
+          </div>
+          <!-- /.col-->
+        </div>
+        <!-- ./row -->
+      </section>
+{% endblock main_content %}
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        $('#summernote').summernote({
+            height: 400,
+        });
+
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+<<<<<<< HEAD
+            var cod = $('#summernote').summernote('code');
+            var dateof = $("#dateof").val();
+
+            // Show confirmation dialog
+            if (confirm("Once submitted, no changes can be made. Are you sure?")) {
+                $.ajax({
+                    url: '{% url 'create_log' %}',
+                    type: 'POST',
+                    data: {cod: cod, dateof: dateof},
+                    success: function () {
+                        alert('Report was successfully added!');
+                        window.location.reload();
+                    },
+                    error: function (xhr) {
+                    // Display error message received from the backend
+                    var errorMessage = xhr.responseText ? xhr.responseText : 'Unknown error occurred.';
+                    alert('Failed to add report: ' + errorMessage);
+                }
+                });
+            }
+        });
+    });
+</script>
+
+=======
+            var cod=$('#summernote').summernote('code');
+            var dateof=$("#dateof").val()
+            console.log(cod)
+
+            $.ajax({
+                url:'{% url 'create_log' %}',
+                type: 'POST',
+                data:{cod:cod,dateof:dateof},
+                beforeSend:function(){
+                    return confirm("Ones Submitted, No changes can be made. \n Are you sure?")},
+                    success: function () {
+                        alert('Report was successfully Added!');
+                        window.location.reload();
+                      },
+                      error: function () {
+                             alert('Failed to add report please try again');
+                      }
+            });
+        });
+        
+    });
+  </script>
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+{% endblock custom_js %}

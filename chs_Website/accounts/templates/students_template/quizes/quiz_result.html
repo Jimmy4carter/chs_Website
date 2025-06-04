@@ -1,0 +1,94 @@
+{% extends 'students_template/base_template.html' %}
+
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <h2 class="text-center my-4">Results for {{ quiz_title }}</h2>
+
+        <!-- Score Section -->
+        <div class="score-section text-center mb-4">
+            <div class="score-card border rounded p-4 shadow">
+                <h4 class="text-primary">Your Score</h4>
+                <p class="display-4">{{ result.score }} / {{ objective_questions|length }}
+                </p>
+                <div class="d-flex justify-content-around mt-3">
+                    <div>
+                        <h5><i class="fas fa-check-circle text-success"></i> Total Objective Questions: {{ objective_questions|length }}
+                        </h5>
+                    </div>
+                    <div>
+                        <h5><i class="fas fa-question-circle text-info"></i> Total Theory Questions: {{ theory_questions|length }}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Objective Questions Section -->
+        <div class="objective-questions-section">
+            <h3>Objective Questions</h3>
+            <div class="question-list">
+                {% for question in objective_questions %}
+                    <div class="question-item mb-4 border rounded p-3 shadow-sm">
+                        <h4 class="font-weight-bold">{{ forloop.counter }}. {{ question.question_text }}</h4>
+                        
+                        {% if question.diagram %}
+                            <img src="{{ question.diagram }}" alt="Question Diagram" style="max-width: 100px;" class="img-fluid question-diagram mb-2">
+                        {% endif %}
+
+                        <ul class="options-list mt-2">
+                            {% for option in question.options %}
+                                <li class="{% if option.is_correct %}text-success{% endif %} 
+                                            {% if question.selected_option == option.id %}font-weight-bold text-info{% endif %}">
+                                    {{ option.value }}: {{ option.text }}
+                                    {% if question.selected_option == option.id %}
+                                        <span class="badge badge-primary ml-2">Selected</span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Theory Questions Section -->
+        <div class="theory-questions-section">
+            <h3>Theory Questions</h3>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Question Number</th>
+                        <th>Question</th>
+                        <th>Diagram</th>
+                        <th>Your Answer</th>
+                        <th>Answer Summary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for question in theory_questions %}
+                        <tr>
+                            <td>{{ question.question_number }}</td>
+                            <td>{{ question.question_text }}</td>
+                            <td>
+                                {% if question.diagram %}
+                                    <img src="{{ question.diagram }}" alt="Diagram" style="max-width: 100px;">
+                                {% else %}
+                                    No diagram
+                                {% endif %}
+                            </td>
+                            <td>{{ question.theory_answer }}</td>
+                            <td>{{ question.answer_summary }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'cbt_view' %}" class="btn btn-primary mt-4">Back to Quiz Management</a>
+    </div>
+</section>
+
+<!-- Include Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{% endblock main_content %}

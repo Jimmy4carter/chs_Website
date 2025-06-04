@@ -1,0 +1,236 @@
+{% load static  %}
+ <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'admin_home' %}" class="brand-link">
+      <img src="{% static "dist/img/AdminLTELogo.png" %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">CHS Student</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{ user.students.profile_pic }}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="{% url 'student_profile' %}" class="d-block">{{ user.first_name }} {{ user.last_name }}</a>
+          <a href="{% url 'student_profile' %}" class="d-block">{{ user.username }}</a>
+        </div>
+      </div>
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            {% url 'students_home' as students_home %}
+            <a href="{% url 'students_home' %}" class="nav-link {% if request.path == students_home %} active {% endif %}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+<<<<<<< HEAD
+            {% url 'cbt_view' as cbt_view %}
+            <a href="{% url 'cbt_view' %}" class="nav-link {% if request.path == cbt_view %} active {% endif %}">
+              <i class="nav-icon fa fa-desktop"></i>
+=======
+            {% url 'my_results' as my_results %}
+            {% url 'my_results' as my_result_action %}
+            <a href="{% url 'my_result_action' %}" class="nav-link {% if request.path == my_results %} active {% endif %} {% if request.path == my_result_action %} active {% endif %}">
+              <i class="nav-icon fas fa-copy"></i>
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+              <p>
+                CBT
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+<<<<<<< HEAD
+            {% url 'my_results' as my_results %}
+            {% url 'my_results' as my_result_action %}
+            <a href="{% url 'my_result_action' %}" class="nav-link {% if request.path == my_results %} active {% endif %} {% if request.path == my_result_action %} active {% endif %}">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Results
+                
+              </p>
+            </a>
+          </li>
+          {% if user.students.class_id.id == 6 %}
+              <li class="nav-item">
+                {% url 'jambcbt' as jambcbt %}
+                <a href="{% url 'jambcbt' %}" target="_blank" class="nav-link {% if request.path == jambcbt %} active {% endif %}">
+                  <i class="nav-icon fas fa-file"></i>
+                  <p>
+                    CBT Records
+                    <span class="right badge badge-danger">New</span>
+                  </p>
+                </a>
+              </li>
+          {% endif %}
+          {% if user.students.class_id.id == 3 %}
+            <li class="nav-item">
+              {% url 'inter_records' as inter_records %}
+              <a href="{% url 'inter_records' %}" class="nav-link {% if request.path == inter_records %} active {% endif %}">
+                <i class="nav-icon fas fa-copy"></i>
+                <p>
+                  Interactive Records
+                  <span class="right badge badge-danger">New</span>
+                </p>
+              </a>
+            </li>
+          {% endif %}
+=======
+            {% url 'cbt_view' as cbt_view %}
+            <a href="{% url 'cbt_view' %}" class="nav-link {% if request.path == cbt_view %} active {% endif %}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                CBT
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+          <li class="nav-item">
+            {% url 'tuition_preview' as tuition_preview %}
+            <a href="{% url 'tuition_preview' %}" class="nav-link {% if request.path == tuition_preview %} active {% endif %}">
+              <i class="nav-icon fas fa-money-bill-alt"></i>
+              <p>
+                Tuition
+                
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'student_subjects' as student_subjects %}
+            <a href="{% url 'student_subjects' %}" class="nav-link {% if request.path == student_subjects %} active {% endif %}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Subjects
+              </p>
+            </a>
+          </li>
+          
+           <li class="nav-item {% if request.path in student_assignments or request.path in student_notes or request.path in student_textbooks %} menu-open {% endif %}">
+                <a href="#" class="nav-link {% if request.path in student_assignments or request.path in student_notes or request.path in student_textbooks %} active {% endif %}">
+                    <i class="nav-icon fas fa-book"></i>
+                    <p>
+                        Study Materials
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        {% url 'student_assignments' as student_assignments %}
+                        <a href="{% url 'student_assignments' %}" class="nav-link {% if request.path == student_assignments %} active {% endif %}">
+                            <i class="nav-icon fas fa-tasks"></i>
+                            <p>Assignments</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        {% url 'student_notes' as student_notes %}
+                        <a href="{% url 'student_notes' %}" class="nav-link {% if request.path == student_notes %} active {% endif %}">
+                            <i class="nav-icon fas fa-sticky-note"></i>
+                            <p>Notes</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        {% url 'student_textbooks' as student_textbooks %}
+                        <a href="{% url 'student_textbooks' %}" class="nav-link {% if request.path == student_textbooks %} active {% endif %}">
+                            <i class="nav-icon fas fa-book-open"></i>
+                            <p>Textbooks</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+          
+          <li class="nav-item">
+            {% url 'student_view_attendance' as student_view_attendance %}
+            {% url 'student_view_attendance_post' as student_view_attendance_post %}
+            <a href="{% url 'student_view_attendance' %}" class="nav-link {% if request.path == student_view_attendance %} active {% endif %}{% if request.path == student_view_attendance_post %} active {% endif %}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Attendance
+                
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'e_library' as e_library %}
+            <a href="{% url 'e_library' %}" class="nav-link {% if request.path == e_library %} active {% endif %}">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                E Library
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'online_class' as online_class %}
+            <a href="{% url 'online_class' %}" class="nav-link {% if request.path == online_class %} active {% endif %}">
+              <i class="nav-icon fas fa-columns"></i>
+              <p>
+                Online Classes
+                
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'student_feedback' as student_feedback %}
+            <a href="{% url 'student_feedback' %}" class="nav-link {% if request.path == student_feedback %} active {% endif %}">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+                Feedback
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'student_leave' as student_leave %}
+            <a href="{% url 'student_leave' %}" class="nav-link {% if request.path == student_leave %} active {% endif %}">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Request For Exit
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'student_all_notification' as student_all_notification %}
+            <a href="{% url 'student_all_notification' %}" class="nav-link {% if request.path == student_all_notification %} active {% endif %}">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Notifications
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'student_profile' as student_profile %}
+            <a href="{% url 'student_profile' %}" class="nav-link {% if request.path == student_profile %} active {% endif %}">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Profile
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'student_faq' as student_faq %}
+            <a href="{% url 'student_faq' %}" class="nav-link {% if request.path == student_faq %} active {% endif %}">
+              <i class="fas fa-question"></i>
+              <p>
+                Faq
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->

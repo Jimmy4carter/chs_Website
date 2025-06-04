@@ -1,0 +1,110 @@
+{% extends 'admin_template/base_template.html' %}
+
+{% block page_title %}
+JAMB CBT Practice
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Result Entry</h3>
+                </div>
+                
+                <a href="{% url 'jambcbt' %}" target="_blank" class="nav-link">
+                  <i class="nav-icon far fa-file"></i>
+                    View CBT Results
+                </a>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form role="form" action="cbtentry" method="post">
+                    {% csrf_token %}
+
+                    <div class="card-body">
+                    <div class="form-group">
+                        <label>Students</label>
+                        <select class="form-control" name="student">
+                            {% for class in student %}
+                            <option value="{{ class.id}}">{{ class.admin.first_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" autocomplete="off" class="form-control" name="cbtdate" placeholder="Enter Date">
+                    </div>
+                    <div class="form-group">
+                        <label>Subject 1</label>
+                        <select class="form-control" name="subj1">
+                            {% for class in subjects %}
+                            <option value="{{ class.id}}">{{ class.subject_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Score</label>
+                        <input type="text" autocomplete="off" class="form-control" name="score1" placeholder="Enter Score">
+                    </div>
+                    <div class="form-group">
+                        <label>Subject 2</label>
+                        <select class="form-control" name="subj2">
+                            {% for class in subjects %}
+                            <option value="{{ class.id}}">{{ class.subject_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Score</label>
+                        <input type="text" autocomplete="off" class="form-control" name="score2" placeholder="Enter Score">
+                    </div>
+                    <div class="form-group">
+                        <label>Subject 3</label>
+                        <select class="form-control" name="subj3">
+                            {% for class in subjects%}
+                            <option value="{{ class.id}}">{{ class.subject_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Score</label>
+                        <input type="text" autocomplete="off" class="form-control" name="score3" placeholder="Enter Score">
+                    </div>
+                    <div class="form-group">
+                        <label>Subject 4</label>
+                        <select class="form-control" name="subj4">
+                            {% for class in subjects%}
+                            <option value="{{ class.id}}">{{ class.subject_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Score</label>
+                        <input type="text" autocomplete="off" class="form-control" name="score4" placeholder="Enter Score">
+                    </div>
+                    
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-block">Add Score</button>
+                    </div>
+
+                            <div class="row">
+                            {% if messages%}
+                                <div class="col-12">
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                    <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                    {% endif %}
+                                    {% if message.tags == 'success' %}
+                                    <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                            {% endif %}
+                            </div>
+                </form>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!--/.col (left) -->
+        </div>
+</section>
+<!-- /.content -->
+{% endblock main_content %}

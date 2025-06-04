@@ -1,0 +1,176 @@
+{% extends 'tuckshop_template/base_template.html' %}
+{% load static %}
+
+{% block page_title %}
+Incoming stocks
+{% endblock page_title %}
+
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        {% if messages%}
+            <div class="col-12">
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                {% endif %}
+                {% if message.tags == 'success' %}
+                <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+            </div>
+        {% endif %}
+
+        <div id="accordion">
+            <div class="card">
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Add new items
+                </button>
+                </h5>
+              </div>
+          
+              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="row">
+                        
+
+                        <form method="post" action="{% url 'add_stock' %}">
+                            {% csrf_token %}
+                            {{ date_form.as_p }}
+                            {{ stock_formset.management_form }}
+                            <div id="formset-container">
+                            {% for form in stock_formset %}
+                                {{ form.as_table }}
+                            {% endfor %}
+                            </div>
+                            <button type="button" id="add-form">Add Another Item</button>
+                            <input type="submit" value="Add Stock">
+                        </form>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Update Existing Items
+                </button>
+                </h5>
+              </div>
+              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                    <form method="post" action="{% url 'add_quantity' %}">
+                        {% csrf_token %}
+                        {{ date_form.as_p }}
+                        {{ formset.management_form }}
+                        <div id="custom-formset-container">
+                          {% for form in formset %}
+                              {{ form.as_table }}
+                          {% endfor %}
+                      </div>
+                        <button type="button" id="add-more-items">Add More Items</button>
+                        <button type="submit">Add Quantity</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Entry Logs
+                </button>
+                </h5>
+              </div>
+              <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <table class="table table-hover text-nowrap" id="itemTable">
+                        <thead>
+                            <tr>
+                                <th>Stock Type</th>
+                                <th>Date</th>
+                                <th>General Note</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stock_log in stock_logs %}
+                                <tr>
+                                    <td>{{ stock_log.stock_type }}</td>
+                                    <td>{{ stock_log.general_date }}</td>
+                                    <td>{{ stock_log.general_note }}</td>
+                                    <td>
+                                        <form method="post" action="{% url 'view_report' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="selected_date" value="{{ stock_log.general_date|date:'Y-m-d' }}">
+                                            <input type="hidden" name="selected_type" value="incoming">
+                                            <button type="submit" class="btn btn-primary">View Details</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+    </div>
+</section>
+
+
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<!-- your_template_name.html -->
+
+<!-- ... (previous code) ... -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const formsetContainer = document.getElementById('formset-container');
+        const addFormButton = document.getElementById('add-form');
+        const managementForm = document.getElementsByName('stock-TOTAL_FORMS')[0];
+      
+        let formIndex = {{ stock_formset.total_form_count }};
+        
+        addFormButton.addEventListener('click', function() {
+          const newForm = document.createElement('div');
+          newForm.innerHTML = '{{ stock_formset.empty_form.as_table|escapejs }}'.replace(/__prefix__/g, formIndex);
+          formsetContainer.appendChild(newForm);
+          formIndex++;
+          managementForm.value = formIndex;  // Update the total form count
+        });
+      });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const formsetContainer = document.getElementById('custom-formset-container');
+    const addFormButton = document.getElementById('add-more-items');
+    const managementForm = document.getElementsByName('quantity-TOTAL_FORMS')[0];
+
+    let formIndex = {{ formset.total_form_count }};
+    
+    addFormButton.addEventListener('click', function() {
+        const newForm = document.createElement('div');
+        newForm.innerHTML = '{{ formset.empty_form.as_table|escapejs }}'.replace(/__prefix__/g, formIndex);
+        newForm.id = 'custom-form-' + formIndex;
+        formsetContainer.appendChild(newForm);
+        formIndex++;
+        managementForm.value = formIndex;  // Update the total form count
+    });
+});
+
+
+</script>
+
+<!-- ... (remaining code) ... -->
+
+{% endblock custom_js %}
+    

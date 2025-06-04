@@ -1,0 +1,82 @@
+{% extends 'adminsec_template/base_template.html' %}
+
+{% block page_title %}
+Feedback Message
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Give a Feedback</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form action="{% url 'adminsec_feedback_save' %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                {% if messages%}
+                                    <div class="col-12">
+                                    {% for message in messages %}
+                                        {% if message.tags == 'error' %}
+                                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                        {% endif %}
+                                        {% if message.tags == 'success' %}
+                                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Feedback</label>
+                                    <textarea name="feedback_msg" id="feedback_msg" rows="6" class="form-control"></textarea>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary btn-block" id="fetch_student">Leave a Feedback</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Feedback History</h3>
+                        </div>
+                        
+                        <div class="table">
+                            <table class="table">
+                                <tr>
+                                    <th>ID</th>  
+                                    <th>Feedback Response</th>
+                                    <th>Feedback Message</th>
+                                    <th>Feedback Response</th>
+                                </tr>
+                                {% for row in feedback_data %}
+                                    <tr>
+                                        <td>{{ row.id }}</td>
+                                        <td>{{ row.created_at }}</td>
+                                        <td>{{ row.feedback }}</td>
+                                        <td>{{ row.feedback_reply }}</td>
+                                    </tr>                          
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--/.col (left) -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<!-- /.content -->
+{% endblock main_content %}

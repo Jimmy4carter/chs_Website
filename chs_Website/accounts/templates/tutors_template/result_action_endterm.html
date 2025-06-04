@@ -1,0 +1,70 @@
+{% extends 'tutors_template/base_template.html' %}
+{% load static %}
+{% block page_title %}
+EndTerm Result Processing Actions
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<div class="card card-success">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 col-lg-6 col-xl-4">
+          <a href="{% url 'tutor_add_endterm_result' %}" class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/addresult.png" %}" alt="Dist Photo 2"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Add New EndTerm Results</span>
+              </div>
+              <!-- /.info-box-content -->
+          </a>
+              <div class="card-body">
+                  <strong><i class="fas fa-question-circle"></i> New Results</strong>
+  
+                  <p class="text-muted">
+                    ...
+                  </p>
+  
+                  <hr>
+              </div>
+        </div>
+        <div class="col-md-12 col-lg-6 col-xl-4">
+          <a href="{% url 'manage_endterm_result' %}" class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/editresult.png" %}" alt="icon"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Manage Existing EndTerm Results</span>
+              </div>
+              <!-- /.info-box-content -->
+          </a>
+          <div class="card-body">
+              <strong><i class="fas fa-question-circle"></i> Existing Results</strong>
+  
+              <p class="text-muted">
+                ....
+              </p>
+  
+              <hr>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-6 col-xl-4">
+          <a href="{% url 'tutorview_endterm_result' %}" class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/viewresult.png" %}" alt="Dist Photo 2"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">View All EndTerm Results</span>
+              </div>
+              <!-- /.info-box-content -->
+          </a>
+          <div class="card-body">
+              <strong><i class="fas fa-question-circle"></i> View Result</strong>
+  
+              <p class="text-muted">
+                .....
+              </p>
+  
+              <hr>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+  <!-- /.content -->
+{% endblock main_content %}

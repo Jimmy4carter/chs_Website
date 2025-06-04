@@ -1,0 +1,43 @@
+{% extends 'adminsec_template/base_template.html' %}
+{% load static %}
+{% block page_title %}
+Actions To Perfom For/On Staff Records
+{% endblock page_title %}
+
+{% block main_content %}
+<!-- Main content -->
+<div class="card card-success">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4 col-lg-4 col-xl-4">
+        <a href="{% url 'add_posts' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/thumsup.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Add/Update Posts</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+      </div>
+      <div class="col-md-4 col-lg-4 col-xl-4">
+        <a href="{% url 'assign_post' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/handshake.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Add/Manage Staff Posts</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+      </div>
+      <div class="col-md-4 col-lg-4 col-xl-4">
+        <a href="{% url 'adminsec_staff' %}" class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><img class="card-img-top" src="{% static "/dist/img/bispeople.png" %}" alt="Dist Photo 2"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">View All Staffs</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.content -->
+{% endblock main_content %}

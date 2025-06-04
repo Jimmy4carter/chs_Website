@@ -1,0 +1,344 @@
+{% extends 'tutors_template/base_template.html' %}
+
+{% block page_title %}
+MidTerm Results Entry
+{% endblock page_title %}
+
+{% block main_content %}
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
+<!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        {% if site_control.status == 0 %}
+        <div class="container-fluid">
+            
+            <div id="accordion">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Non-Combined Subjects
+                      </button>
+                    </h5>
+                  </div>
+              
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <form action="{% url 'save_midterm_result' %}" method="POST">
+                        {% csrf_token %}
+                    <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Add Result</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <!-- select -->
+                            <div class="form-group">
+                              <label>Session</label>
+                              <select class="form-control" name="session_year" id="session_year" disabled>
+                                  <option value="{{ session_years.id }}">{{ session_years.session_start_year }}/{{ session_years.session_end_year }}</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <!-- select -->
+                            <div class="form-group">
+                              <label>Term</label>
+                              <select class="form-control" name="term" id="term" disabled>
+                                <option value="{{ current_term.id}}">{{ current_term.name }}</option>
+                              </select>
+                            </div>
+                          </div>
+                        <div class="col-sm-6">
+                          <!-- select -->
+                          <div class="form-group">
+                            <label>Subject</label>
+                            <select class="form-control" name="subject" id="subject">
+                                {% for subject in subjects %}
+                                    {% if subject.outline != 'NVE1' and subject.outline != 'NVE2' and subject.outline != 'NVE3' and subject.outline != 'BST1' and subject.outline != 'BST2' and subject.outline != 'BST3' and subject.outline != 'PVS1' and subject.outline != 'PVS2' and subject.outline != 'PVS3' and subject.outline != 'CCA1' and subject.outline != 'CCA2' and subject.outline != 'CCA3'%}
+                                        <option value="{{ subject.id }}">{{ subject.outline }}: {{ subject.subject_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                        <button type="button" class="btn btn-primary btn-block" id="fetch_student">Fetch Students</button>
+                        </div>
+
+                        <div class="row">
+                        {% if messages%}
+                            <div class="col-12">
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                                {% if message.tags == 'success' %}
+                                <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                        </div>
+                        <div id="student_data">
+                            
+                        </div>
+                    </div>
+                    </form>
+                    <!-- /.card -->
+                </div>
+            <!--/.col (left) -->
+            </div>
+            
+                    </div>
+                    </div>
+                </div>
+                
+                
+                <div class="card">
+                  <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Combined Subjects
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                                        <div class="row">
+                                            <!-- left column -->
+                                            <div class="col-md-12">
+                                                <!-- general form elements -->
+                                                <form action="{% url 'save_midterm_result' %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="card card-danger">
+                                                        <div class="card-header">
+                                                            <h3 class="card-title">Combined Subject Only</h3>
+                                                        </div>
+                                                    <div class="card-body">
+                                
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                            <label>Session</label>
+                                                            <select class="form-control" name="session_year" id="session_year" disabled>
+                                                                <option value="{{ session_years.id }}">{{ session_years.session_start_year }}/{{ session_years.session_end_year }}</option>
+                                                            </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                            <label>Term</label>
+                                                            <select class="form-control" name="term" id="term" disabled>
+                                                                <option value="{{ current_term.id}}">{{ current_term.name }}</option>
+                                                            </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Subject</label>
+                                                            <select class="form-control" name="subjectcomb" id="subjectcomb">
+                                                                {% for combsub in combsub %}
+                                                                <option value="{{ combsub.id}}">{{ combsub.name}} {{combsub.subject_main.outline}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                        <!-- /.card-body -->
+                                                        <div class="card-footer">
+                                                        <button type="button" class="btn btn-danger btn-block" id="fetch_student_combine">Fetch Students</button>
+                                                        </div>
+                                
+                                                        <div class="row">
+                                                            {% if messages%}
+                                                                <div class="col-12">
+                                                                    {% for message in messages %}
+                                                                        {% if message.tags == 'error' %}
+                                                                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                                                        {% endif %}
+                                                                        {% if message.tags == 'success' %}
+                                                                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div id="combstudent_data">
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <!-- /.card -->
+                                            </div>
+                                        <!--/.col (left) -->
+                                        </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+        {% elif site_control.status == 1 %}
+            <h3 style="color: red;">First half entry is not available</h3>
+            <p>This could be as a result of;</p>
+            <ol>
+              <li>Deadline reached</li>
+              <li>Site maintenance</li>
+              <li>Entry not started</li>
+            </ol>
+        {% endif %}
+    </section>
+    <!-- /.content -->
+<!-- /.content -->
+{% endblock main_content %}
+{% block  custom_js %}
+<script>
+    $(document).ready(function(){
+        $("#fetch_student").click(function(){
+            var subject=$("#subject").val()
+            var session_year=$("#session_year").val()
+            var subtype=1
+            
+            $('.modal').modal('show');
+                setTimeout(function () {
+                    $('.modal').modal('hide');
+                }, 2000);
+
+            $.ajax({
+                url:'{% url 'result_get_students' %}',
+                type:'POST',
+                data:{subject:subject,session_year:session_year,subtype:subtype},
+            })
+            .done(function(response){
+                var json_data=JSON.parse(response);
+                console.log(json_data)
+                var div_data="<div class='form-group'><label>Student List</label> <select class='student_list form-control'name='student_list'>";
+                for(key in json_data)
+                {
+                    div_data+="<option value='"+json_data[key]['id']+"'>"+json_data[key]['name']+" -- "+json_data[key]['reg']+"</option>";
+                }
+                div_data+="</select>";
+                div_data+="</div>";
+                div_data+="<div class='row'>";
+                div_data+="<div class='col-lg-6'>";
+                div_data+="<label> Resumption Test(5 Marks) : </label>";
+                div_data+="<input name='resumption_test'  class='form-control'  title='Most be 0.0-5.0 numbers only'>"
+                div_data+="</div>"
+                div_data+="<div class='col-lg-6'>";
+                div_data+="<label> Evaluation/ClassWork(5 Marks) : </label>";
+<<<<<<< HEAD
+                div_data+="<input name='class_work'  class='form-control'    title='Most be 0.0-5.0 numbers only'>"
+                div_data+="<input name='entrytype' type='hidden'  value='1'>"
+=======
+                div_data+="<input name='class_work'   class='form-control' pattern='10|[0-9](\.[0-9])?' step='0.01'  title='Most be 0.0-5.0 numbers only'>"
+>>>>>>> 869102c69b442947ca113121ce958681c2b69674
+                div_data+="</div>";
+                div_data+="</div>";
+                div_data+="<div class='row'>";
+                div_data+="<div class='col-lg-6'>";
+                div_data+="<label> Assignment(5 Marks) : </label>";
+                div_data+="<input name='assignment'  class='form-control'    title='Most be 0.0-5.0 numbers only'>"
+                div_data+="</div>";
+                div_data+="<div class='col-lg-6'>";
+                div_data+="<label> Test(15 Marks) : </label>";
+                div_data+="<input name='midterm_exam'  class='form-control'  title='Most be 0.0-5.0 numbers only'>"
+                div_data+="<input hidden type='text' name='class_id' value='"+json_data[key]['class_ids']+"' class='form-control' placeholder='"+json_data[key]['class_ids']+"'>";
+                div_data+="</div>";
+                div_data+="</div>";
+                div_data+="<br>";
+                div_data+="<div class='form-group'>";
+                div_data+="<button id='save_attendance' class='btn btn-success btn-block' type='submit'>Save Result</button>";
+                div_data+="</div>";
+
+                $("#student_data").html(div_data);
+            })
+            .fail(function(){
+                alart("Error in Fetching Students")
+            })
+        })
+    });
+
+    $(document).ready(function(){
+        $("#fetch_student_combine").click(function(){
+            var subject=$("#subjectcomb").val()
+            var session_year=$("#session_year").val()
+            var subtype=2
+            
+            $('.modal').modal('show');
+                setTimeout(function () {
+                    $('.modal').modal('hide');
+                }, 2000);
+
+            $.ajax({
+                url:'{% url 'result_get_students' %}',
+                type:'POST',
+                data:{subject:subject,session_year:session_year,subtype:subtype},
+            })
+            .done(function(response){
+                var json_data=JSON.parse(response);
+                console.log(json_data)
+                var div_data="<div class='form-group'><label>Student List</label> <select class='student_list form-control'name='student_list'>";
+                for(key in json_data)
+                {
+                    div_data+="<option value='"+json_data[key]['id']+"'>"+json_data[key]['name']+" -- "+json_data[key]['reg']+"</option>";
+                }
+                div_data+="</select>";
+                div_data+="</div>";
+                div_data+="<div class='row'>";
+                div_data+="<div class='col-lg-6'>";
+                div_data+="<label> Resumption Test(5 Marks) : </label>";
+                div_data+="<input name='resumption_test'  class='form-control'  title='Most be 0.0-5.0 numbers only'>"
+                div_data+="</div>"
+                div_data+="<div class='col-lg-6'>";
+                div_data+="<label> Evaluation/ClassWork(5 Marks) : </label>";
+                div_data+="<input name='class_work'  class='form-control'    title='Most be 0.0-5.0 numbers only'>"
+                div_data+="<input name='entrytype' type='hidden'  value='2'>"
+                div_data+="</div>";
+                div_data+="</div>";
+                div_data+="<div class='row'>";
+                div_data+="<div class='col-lg-6'>";
+                div_data+="<label> Assignment(5 Marks) : </label>";
+                div_data+="<input name='assignment'  class='form-control'    title='Most be 0.0-5.0 numbers only'>"
+                div_data+="</div>";
+                div_data+="<div class='col-lg-6'>";
+                div_data+="<label> Test(15 Marks) : </label>";
+                div_data+="<input name='midterm_exam'  class='form-control'  title='Most be 0.0-5.0 numbers only'>"
+                div_data+="<input hidden type='text' name='class_id' value='"+json_data[key]['class_ids']+"' class='form-control' placeholder='"+json_data[key]['class_ids']+"'>";
+                div_data+="</div>";
+                div_data+="</div>";
+                div_data+="<br>";
+                div_data+="<div class='form-group'>";
+                div_data+="<button id='save_attendance' class='btn btn-success btn-block' type='submit'>Save Result</button>";
+                div_data+="</div>";
+
+                $("#combstudent_data").html(div_data);
+            })
+            .fail(function(){
+                alart("Error in Fetching Students")
+            })
+        })
+    })
+</script>
+{% endblock custom_js %}
