@@ -4,17 +4,12 @@ from django.contrib import messages
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.urls.base import reverse
-
 from accounts.models import AffectiveDomain, Attendance, AttendanceReport, ClassAverage, ClassCategories, Classes, CustomUser, EndTerm, FeedBackStudent, GncQuestion, GncResponse, MidTerm, NotificationStudent, OldCummulative, OldResults, Psycomotor, SessionYearModel, StudentAccount, StudentExitReport, Students, StudyMaterial, SubjectStream, Subjects, Terms
 from hostel.models import StudentEthosRecords
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import cache_control
 from django.utils import timezone
 from django.db import transaction
-
-from accounts.models import AffectiveDomain, Attendance, AttendanceReport, ClassAverage, ClassCategories, Classes, CustomUser, EndTerm, FeedBackStudent, MidTerm, NotificationStudent, OldResults, Psycomotor, SessionYearModel, StudentAccount, StudentExitReport, Students, Subjects, Terms
-from django.shortcuts import render
-
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import datetime
@@ -166,18 +161,11 @@ def student_profile_save(request):
             messages.error(request,"Failed To Update")
             return HttpResponseRedirect(reverse("student_profile"))
 
-
 @login_required
 def my_result_action(request,):
     return render(request,"students_template/my_result_action.html")
    
 @login_required    
-
-
-def my_result_action(request,):
-    return render(request,"students_template/my_result_action.html")
-    
-
 def my_results(request,res_type):
     
     student_id=Students.objects.get(admin=request.user.id)
@@ -220,10 +208,7 @@ def my_results(request,res_type):
 
 
 
-
 @login_required
-
-
 def result_preview(request,res_id):
     avg_id=ClassAverage.objects.get(id=res_id)
     psychomotor=Psycomotor.objects.get(student_id=avg_id.students_id,session_year=avg_id.session_year,term=avg_id.term,result_type=avg_id.result_type)
@@ -244,7 +229,6 @@ def result_preview(request,res_id):
 
     elif avg_id.result_type == 2:
         endterm_result=EndTerm.objects.filter(students_id=avg_id.students_id,session_year=avg_id.session_year,term=avg_id.term)
-
         endterms=[]
         for entry in endterm_result:
             detres=EndTerm.objects.filter(subjects_id=entry.subjects_id,session_year=avg_id.session_year,term=avg_id.term)
@@ -258,14 +242,6 @@ def result_preview(request,res_id):
             r={"subject":entry.subjects_id.subject_name,"ca1":entry.ca1,"ca2":entry.ca2,"clss":entry.class_work,"pp":entry.project_practical,"first_total":entry.first_total,"second_total":entry.second_total,"endterm_exam":entry.endterm_exam,"total":entry.total,"highest":da.total,"lowest":dat.total,"grades":entry.grades,"effort":entry.effort}
             endterms.append(r)
         return render(request,"students_template/endterm_result_preview.html",{"avg_id":avg_id,"psycomotor":psychomotor,"affective":affective,"endterm":endterms,"ethos_records":ethos_records})
-
-        rr=[]
-        for entry in endterm_result:
-            r={"subject":entry.subjects_id.subject_name,"ca1":entry.ca1,"ca2":entry.ca2,"exam":entry.endterm_exam,"total":entry.total,"grades":entry.grades,"effort":entry.effort}
-            rr.append(r)
-        print(rr)
-        return render(request,"students_template/endterm_result_preview.html",{"avg_id":avg_id,"psycomotor":psychomotor,"affective":affective,"endterm":endterm_result})
-
     else:
         return HttpResponseRedirect(reverse("my_results"))
 
@@ -315,7 +291,6 @@ def tuition_preview(request):
         payment_form.fields['fullName'].initial=students.admin.first_name
         payment_form.fields['reg_no'].initial=students.admin.username
         payment_form.fields['email'].initial=students.admin.email
-
 
         return render(request,"students_template/tuition_template.html",{"acc":acc,'payment_form':payment_form,"pay_history":pay_history})
     except:
@@ -737,17 +712,3 @@ def quiz_result_view(request, schedule_id):
 
     return render(request, 'students_template/quizes/quiz_result.html', context)
         
-
-
-        return render(request,"students_template/tuition_template.html",{"acc":acc,'payment_form':payment_form,"pay_history":pay_history})
-    except:
-        messages.error(request,"No payment records found, if you consider this an error please contact the school admin.")
-        return HttpResponseRedirect(reverse("tuition_preview"))
-
-def cbt_view (request):
-    student=Students.objects.get(admin=request.user.id)
-    student_subjects=Subjects.objects.filter(class_id=student.class_id)
-    
-    return render(request,"students_template/cbt_subjects.html",{"student_subjects":student_subjects})
-
-

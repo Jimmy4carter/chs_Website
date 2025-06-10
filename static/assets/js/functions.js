@@ -179,7 +179,7 @@ Theme Version:	1.0.0
 					$('.header').css({ 'height': getActualHeaderRecentHeight }).animate({ 'height': getActualHeaderFullHeight }, 200);
 				}
 				
-				/* Magnific Popup ===== */
+				/* Magnific Popup ============ */
 				var magnificPopupImageView = function(){
 						
 					/* magnificPopup function */
@@ -237,7 +237,7 @@ Theme Version:	1.0.0
 				}
 				
 				
-				/* Page Scroll To Top ===== */
+				/* Page Scroll To Top ============ */
 				var pageScrollToTop = function (){
 					/* page scroll top on click function */	
 					jQuery("button.back-to-top").on('click',function() { 
@@ -473,7 +473,7 @@ Theme Version:	1.0.0
                     });
 				}
 				
-				/* Function ===== */
+				/* Function ============ */
 				return {
 					initialHelper:function(){
 						wowAnimation();

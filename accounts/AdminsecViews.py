@@ -4,20 +4,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
-from django.template.loader import render_to_string
 from django.urls.base import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
-
-
-from django.http import HttpResponse
-
 from django.core.mail import send_mass_mail, send_mail, EmailMultiAlternatives
 import requests
 from accounts.models import BilItems, Classes, ContactForm, CustomUser, FeedBackStaff, JuniorCost, MailMessage, SeniorCost, SessionYearModel, Staff, StaffPost, StudentAccount, StudentApplication, Students, Subjects, Subscribers, Terms
 from chs_Website import settings
 from publicsite.models import Events, JobApp
-from django_pandas.io import read_frame
 
 @login_required
 def adminsec_home(request):
@@ -31,19 +25,6 @@ def adminsec_home(request):
 
 @csrf_exempt
 def payment_history(request):
-
-
-
-    headers = {
-    'Content-type': 'application/json',
-    'Authorization': 'Bearer sk_test_d208030e48844de7fa38521c170827f11e7a8766'
-    }
-
-    response = requests.get('https://api.paystack.co/transaction', headers=headers)
-
-    response=response.json()['data']
-    return render(request,"adminsec_template/payment_history.html",{"response":response})
-
 
     headers = {
     'Content-type': 'application/json',
@@ -438,9 +419,7 @@ def newsletter_compose(request):
         subject=request.POST.get('subject')
         message=request.POST.get('message')
 
-
         messsage_emails=settings.EMAIL_HOST_USER
-
 
         try:
             if title=="all":
@@ -493,66 +472,9 @@ def newsletter_compose(request):
             messages.success(request,"Mail Sent")
             return HttpResponseRedirect(reverse("newsletter_compose"))
 
-        # try:
-        res=[]
-        if title=="all":
-            parent=Students.objects.all()       
-            df = read_frame(parent, fieldnames=['parent_email'])
-            p_list = df['parent_email'].values.tolist()
-
-            none=Subscribers.objects.all()
-            df = read_frame(none, fieldnames=['email'])
-            s_list = df['email'].values.tolist()
-            mail_list=p_list+s_list
-            
-            html_content=message
-            msg = EmailMultiAlternatives(subject, message, messsage_emails, bcc=mail_list,)                                      
-            msg.attach_alternative(html_content, "text/html")                                                                                                                                                                             
-            msg.send()
-            
-
-        elif title=="parent":
-            parent=Students.objects.all()       
-            df = read_frame(parent, fieldnames=['parent_email'])
-            mail_list = df['parent_email'].values.tolist()
-            html_content=message
-            msg = EmailMultiAlternatives(subject, message, messsage_emails, bcc=mail_list,)                                      
-            msg.attach_alternative(html_content, "text/html")                                                                                                                                                                             
-            msg.send() 
-
-
-        elif title=="non_parent":
-            none=Subscribers.objects.all()
-            df = read_frame(none, fieldnames=['email'])
-            mail_list = df['email'].values.tolist()
-            html_content=message
-            msg = EmailMultiAlternatives(subject, message, messsage_emails, bcc=mail_list,)                                      
-            msg.attach_alternative(html_content, "text/html")                                                                                                                                                                             
-            msg.send() 
-        
-        elif title=="staff":
-            none=CustomUser.objects.exclude(user_type =3)
-            df = read_frame(none, fieldnames=['email'])
-            mail_list = df['email'].values.tolist()
-            html_content=message
-            msg = EmailMultiAlternatives(subject, message, messsage_emails, bcc=mail_list,)                                      
-            msg.attach_alternative(html_content, "text/html")                                                                                                                                                                             
-            msg.send() 
-        
-        elif title=="test":
-            mail_list=['christhighschool2015@gmail.com','jimmy4carter@gmail.com']
-            html_content=message
-            msg = EmailMultiAlternatives(subject, message, messsage_emails, mail_list,)                                      
-            msg.attach_alternative(html_content, "text/html")                                                                                                                                                                             
-            msg.send()
-
-
-        messages.success(request,"Mail Sent")
-        return HttpResponseRedirect(reverse("newsletter_compose"))
-
-        # except:
-        #     messages.error(request,"Failed to send mail")
-        #     return HttpResponseRedirect(reverse("newsletter_compose"))
+        except:
+            messages.error(request,"Failed to send mail")
+            return HttpResponseRedirect(reverse("newsletter_compose"))
 
 
 @csrf_exempt
@@ -673,9 +595,5 @@ def assign_post(request):
 
 @login_required
 def adminsec_staff(request):
-    staff=Staff.objects.all()
-    return render(request,"adminsec_template/adminsec_staff.html",{"staff":staff})
-
-def assign_task(request):
     staff=Staff.objects.all()
     return render(request,"adminsec_template/adminsec_staff.html",{"staff":staff})

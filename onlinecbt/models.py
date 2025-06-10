@@ -3,14 +3,10 @@ from accounts.models import Students, Subjects
 from django.conf import settings
 import random
 from django.utils import timezone
-
 from django.contrib.auth import get_user_model
 
 
-
-
 # Create your models here.
-
 
 
 
@@ -121,67 +117,4 @@ class QuizResult(models.Model):
         self.score = correct_answers  # Assuming 1 point per correct answer
         self.is_passed = self.score >= (total_questions * 0.5)  # Example: pass if >= 50%
         self.save()
-
-
-QUIZ_CHOICES= (
-    ('Resumption Test', 'Resumption Test'),
-    ('Assignment', 'Assignment'),
-    ('Project', 'Project'),
-    ('Exam', 'Exam'),
-)
-class Quiz(models.Model):
-    subject = models.ForeignKey(Subjects,on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
-    topic = models.CharField(max_length=200)
-    number_of_questions = models.IntegerField()
-    time = models.IntegerField(help_text="duration of the quiz in minutes")
-    required_score_to_pass = models.IntegerField(help_text="Required score to pass in %")
-    quiz_type = models.CharField(max_length=30, choices=QUIZ_CHOICES)
-    start_datetime = models.DateTimeField(help_text="Starting date and time of the quiz", default=timezone.now)
-    end_datetime = models.DateTimeField(help_text="Ending date and time of the quiz")
-
-    def __str__(self):
-        return f"{self.name}-{self.topic}"
-
-    def get_questions(self):
-        questions = list(self.question_set.all())
-        random.shuffle(questions)
-        return questions[:self.number_of_questions]
-    
-    def is_available(self):
-        now = timezone.now()
-        return self.start_datetime <= now <= self.end_datetime
-
-    class Meta:
-        verbose_name_plural = 'Quizes'
-
-class Question(models.Model):
-    text = models.CharField(max_length=200)
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return str(self.text)
-
-    def get_answers(self):
-        return self.answer_set.all()
-
-class Answer(models.Model):
-    text = models.CharField(max_length=200)
-    correct = models.BooleanField(default=False)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"question: {self.question.text}, answer: {self.text}, correct: {self.correct}"
-
-
-class Result(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    score = models.FloatField()
-
-    def __str__(self):
-        return str(self.pk)
-    
 

@@ -76,44 +76,6 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">              
-              <i class="nav-icon fas fa-file-export"></i>
-              <p>
-                Task Management
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                {% url 'student_application' as student_application %}
-                <a href="{% url 'student_application' %}" class="nav-link {% if request.path == student_application %} active {% endif %}">    
-                  <i class="nav-icon fas fa-graduation-cap"></i>
-                  <p>Asign Task</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                {% url 'job_application' as job_application %}
-                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
-                  <i class="nav-icon fas fa-id-card-alt"></i>
-                  <p>Progrss Report</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                {% url 'job_application' as job_application %}
-                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
-                  <i class="nav-icon fas fa-id-card-alt"></i>
-                  <p>Completed Task</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                {% url 'job_application' as job_application %}
-                <a href="{% url 'job_application' %}" class="nav-link {% if request.path == job_application %} active {% endif %}">
-                  <i class="nav-icon fas fa-id-card-alt"></i>
-                  <p>Failed Task</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
             {% url 'adminsec_message' as adminsec_message %}
             <a href="{% url 'adminsec_message' %}" class="nav-link {% if request.path == adminsec_message %} active {% endif %}">
               <i class=" nav-icon fas fa-comment-dots"></i>

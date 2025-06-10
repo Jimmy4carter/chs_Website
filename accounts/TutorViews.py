@@ -5,28 +5,18 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.http.response import HttpResponse, HttpResponseRedirect, JsonResponse
-
 from accounts.models import AffectiveDomain, Attendance, AttendanceReport, ClassAverage, ClassCategories, Classes, CombineEndTerm, CombineMidTerm, CombineSubjects, CustomUser, GncResponse, EndTerm, EntryAttestation, FeedBackStaff, LeaveReport, LessionPlan, MidTerm, NotificationStaff, OldCummulative, Psycomotor, SessionYearModel, Staff, Students, SiteControls, Subjects, SubjectStream, Terms
 from hostel.models import StudentEthosRecords
 from django.shortcuts import get_object_or_404, render, redirect, render
-
-from accounts.models import AffectiveDomain, Attendance, AttendanceReport, ClassAverage, ClassCategories, Classes, CustomUser, EndTerm, FeedBackStaff, LeaveReport, LessionPlan, MidTerm, NotificationStaff, Psycomotor, SessionYearModel, Staff, Students, Subjects, Terms
-from django.shortcuts import render, redirect
-
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.core import serializers
-
 from django.template.defaultfilters import linebreaksbr
 from django.db.models import Q, Sum
 import os
 from accounts.forms import EntryAttestationForm, QuestionForm
 from onlinecbt.forms import QuizForm, QuizScheduleForm
 from onlinecbt.models import ObjectiveOption, ObjectiveQuestion, Quiz, QuizResult, QuizSchedule, TheoryQuestion
-
-from onlinecbt.models import Quiz, Question, Answer, QUIZ_CHOICES
-from django.views import View
-
 
 
 @login_required
@@ -793,73 +783,6 @@ def delete_score(request,restype,score_id):
 def save_midterm_result(request):
     if request.method!='POST':
         return HttpResponse(reverse,"tutor_add_midterm_result")
-
-
-
-    student_admin_id=request.POST.get('student_list')
-    resumption_test=request.POST.get('resumption_test')
-    class_work=request.POST.get('class_work')
-    assignment_score=request.POST.get('assignment')
-    midterm_exams=request.POST.get('midterm_exam')
-    subject_id=request.POST.get('subject')
-    class_id =int(request.POST.get('class_id'))
-
-    student_obj=Students.objects.get(admin=student_admin_id)
-    subject_obj=Subjects.objects.get(id=subject_id)
-    term_obj=Terms.objects.get(status=1)
-    session_id=SessionYearModel.objects.get(status=1)
-
-    if class_id >= 4:
-        total_score=int(resumption_test)+float(class_work)+int(assignment_score)+int(midterm_exams)
-        average_score=total_score/2
-        if average_score >=13:
-            grade='A'
-            remark='Excellent'
-        elif average_score >=10:
-            grade='B'
-            remark='Very Good'
-        elif average_score >=8:
-            grade='C'
-            remark='Good'
-        elif average_score >=6:
-            grade='P'
-            remark='Pass'
-        else:
-            grade='F'
-            remark='Fail'
-    elif class_id <= 3:
-        average_score=int(resumption_test)+float(class_work)+int(assignment_score)+int(midterm_exams)
-        if average_score >=25:
-            grade='A'
-            remark='Excellent'
-        elif average_score >=20:
-            grade='B'
-            remark='Very Good'
-        elif average_score >=15:
-            grade='C'
-            remark='Good'
-        elif average_score >=10:
-            grade='P'
-            remark='Pass'
-        else:
-            grade='F'
-            remark='Fail'
-
-    # try:
-    check_exist=MidTerm.objects.filter(subjects_id=subject_obj,students_id=student_obj,term=term_obj.id,session_year=session_id).exists()
-    if check_exist:
-        result=MidTerm.objects.get(subjects_id=subject_obj,students_id=student_obj)
-        result.resumption_text=resumption_test
-        result.class_work=class_work
-        result.assignment=assignment_score
-        result.midterm_exam=midterm_exams
-        result.total_score=average_score
-        result.grades=grade
-        result.remark=remark
-        result.save()
-        messages.success(request,"Successfully Updated Result")
-        return HttpResponseRedirect(reverse("tutor_add_midterm_result"))
-
     else:
 
         student_admin_id=request.POST.get('student_list')
@@ -1494,10 +1417,7 @@ def save_assessment (request):
     session_year=SessionYearModel.objects.get(status=1)
 
     if result_type==1:
-
         if student_obj.class_id.id <= 3:
-
-        if student_obj.class_id <= 3:
             totals=MidTerm.objects.filter(students_id=student_obj,term=term,session_year=session_year)
             subjects=totals.count()
             subject_sum=0
@@ -1505,18 +1425,6 @@ def save_assessment (request):
                 subject_sum=subject_sum+total.total_score
 
             subject_total=subjects*30
-            average=subject_sum/subject_total*100
-
-        elif student_obj.class_id >=4:
-
-
-            totals=MidTerm.objects.filter(students_id=student_obj,term=term,session_year=session_year)
-            subjects=totals.count()
-            subject_sum=0
-            for total in totals:
-                subject_sum=subject_sum+total.total_score
-
-            subject_total=subjects*15
             average=subject_sum/subject_total*100
 
         elif student_obj.class_id.id >=4:
@@ -1541,7 +1449,6 @@ def save_assessment (request):
             subject_sum=subject_sum+total.total
 
         subject_total=subjects*100
-
         averages=subject_sum/subject_total*100
         average=round(averages,2)
         
@@ -1600,55 +1507,11 @@ def save_assessment (request):
             return HttpResponseRedirect(reverse("tutor_assess_student",kwargs={"students_id":student_id}))
     except:
         messages.error(request,"Failed to Assess Student, try again or contact ICT support")
-
-        average=subject_sum/subject_total*100
-        
-    # try:
-    checks=ClassAverage.objects.filter(students_id=student_obj,term=term,session_year=session_year,result_type=result_type).exists()
-    if checks:
-        class_average=ClassAverage.objects.get(students_id=student_obj,term=term,session_year=session_year,result_type=result_type)
-        class_average.avg_percent=average
-        class_average.save()
-    else:
-        class_average=ClassAverage(student_class=student_obj.class_id,students_id=student_obj,term=term,session_year=session_year,result_type=result_type,avg_percent=average)
-        class_average.save()
-    # except:
-    #     messages.error(request,"Ensure all first half scores are correctly entered and complet")
-    #     return HttpResponseRedirect(reverse("tutor_assess_student",kwargs={"students_id":student_id}))
-
-
-    check_exist=Psycomotor.objects.filter(student_id=student_obj,term=term,session_year=session_year).exists()
-    if check_exist:
-        result_psychomotor=Psycomotor.objects.get(student_id=student_obj,term=term,session_year=session_year)
-        result_psychomotor.handwriting=handwriting
-        result_psychomotor.verbal=verbal
-        result_psychomotor.sport=sport
-        result_psychomotor.knitting=knitting 
-        result_psychomotor.result_type=result_type    
-
-        result_affective=AffectiveDomain.objects.get(student_id=student_obj,term=term,session_year=session_year)
-        result_affective.punctuality=punctuality
-        result_affective.neatness=neatness
-        result_affective.initiative=initiative
-        result_affective.leadership=leadership
-        result_affective.health=health
-        result_affective.attentiveness=attentiveness
-        result_affective.perseverance=perseverance
-        result_affective.helping=helping
-        result_affective.emotional=emotional
-        result_affective.result_type=result_type
-
-        result_psychomotor.save()
-        result_affective.save()
-
-        messages.success(request,"Assessment Successfully Updated")
-
         return HttpResponseRedirect(reverse("tutor_assess_student",kwargs={"students_id":student_id}))
 @login_required
 def form_students(request, class_id):
     form_students=Students.objects.filter(class_category=class_id)
     return render(request,"tutors_template/view_form_student.html",{"form_students":form_students})
-
 
 @login_required
 @csrf_exempt
@@ -1719,32 +1582,11 @@ def submit_plan(request):
 
         try:
             LessionPlan.objects.create(weeks=week,session_year=current_sessions,notes=notes,term=current_term,subjects=subject,plan_file=plan_file_url)
-
-def submit_plan(request):
-    current_term=Terms.objects.get(status=1)
-    tutor_subjects=Subjects.objects.filter(tutor=request.user.id)
-    if request.method!="POST":
-        leplans=LessionPlan.objects.all()
-        return render(request,"tutors_template/submit_plat_template.html",{"subjects":tutor_subjects, "current_term":current_term,"leplans":leplans})
-    else:
-        week=request.POST.get('weeks')
-        subject=int(request.POST.get('subject'))
-        subject=tutor_subjects.get(id=subject)
-        
-        plan_file = request.FILES['plan_file']
-        fs=FileSystemStorage()
-        filename=fs.save(plan_file.name,plan_file)
-        plan_file_url=fs.url(filename)
-
-        try:
-            LessionPlan.objects.create(weeks=week,term=current_term,subjects=subject,plan_file=plan_file_url)
-
             messages.success(request,"Lession Plan Submitted Successfully, Check List Below TO Confirm")
             return HttpResponseRedirect(reverse("submit_plan"))
         except:
             messages.error(request,"Failed To Submit Lession Plan, Please Check and Try Again")
             return HttpResponseRedirect(reverse("submit_plan"))
-
 
 @login_required            
 def delete_plan(request,item_id):
@@ -2590,145 +2432,3 @@ def result_details(request, schedule_id, student_id):
     }
 
     return render(request, 'tutors_template/quizes/student_cbt_result.html', context)
-
-
-def tutor_cbt(request):
-    form_subjects=Subjects.objects.filter(tutor=request.user.id)
-    return render(request,"tutors_template/cbtest.html",{"form_subjects":form_subjects})
-
-
-
-class AddQuizView(View):
-    model = Quiz
-    template_name = 'tutors_template/addquiz.html'
-    def get(self, request):
-        form_subjects=Subjects.objects.filter(tutor=request.user.id)
-        quizes = []
-        for subject in form_subjects:
-            quiz = Quiz.objects.filter(subject=subject.id)
-            quizes.extend(quiz)
-        return render(request, self.template_name,{"QUIZ_CHOICES":QUIZ_CHOICES,"subjects":form_subjects, 'obj':quizes})
-
-    def post(self, request):
-        subject_id = request.POST.get('subject')
-        name = request.POST.get('name')
-        topic = request.POST.get('topic')
-        number_of_questions = int(request.POST.get('number_of_questions'))
-        time = int(request.POST.get('time'))
-        required_score_to_pass = int(request.POST.get('required_score_to_pass'))
-        quiz_type = request.POST.get('quiz_type')
-        subject = Subjects.objects.get(pk=subject_id)
-
-        quiz = Quiz.objects.create(
-            subject=subject,
-            name=name,
-            topic=topic,
-            number_of_questions=number_of_questions,
-            time=time,
-            required_score_to_pass=required_score_to_pass,
-            quiz_type=quiz_type
-        )
-        messages.success(request,"Successfully Added")
-        return HttpResponseRedirect(reverse("addquiz"))
-
-
-
-def add_questions(request, quiz_id):
-    quiz = Quiz.objects.get(pk=quiz_id)
-    if request.method == 'POST':
-        for i in range(quiz.number_of_questions):
-            question_text = request.POST.get('question_{}'.format(i))
-            correct_answer_text = request.POST.get('correct_answer_{}'.format(i))
-            answer1_text = request.POST.get('answer_{}_1'.format(i))
-            answer2_text = request.POST.get('answer_{}_2'.format(i))
-            answer3_text = request.POST.get('answer_{}_3'.format(i))
-            print(question_text)
-            print(correct_answer_text)
-
-            question = Question.objects.create(quiz=quiz, text=question_text)
-            Answer.objects.create(question=question, text=correct_answer_text, correct=True)
-            Answer.objects.create(question=question, text=answer1_text)
-            Answer.objects.create(question=question, text=answer2_text)
-            Answer.objects.create(question=question, text=answer3_text)
-
-        return HttpResponse('Questions added to {}'.format(quiz.name))
-    else:
-        question_count = range(quiz.number_of_questions)
-
-        questions = []
-        for q in quiz.get_questions():
-            answers = []
-            for a in q.get_answers():
-                answers.append(a.text)
-            questions.append({str(q): answers})
-        return render(request, 'tutors_template/add_questions.html', {'quiz': quiz, 'question_count': question_count,'questions':questions})
-    # quiz = Quiz.objects.get(pk=quiz_id)
-    # if request.method == 'POST':
-    #     for i in range(1, quiz.number_of_questions + 1):
-    #         text = request.POST.get(f'text_{i}')
-    #         correct_answer_text = request.POST.get(f'correct_answer_{i}')
-    #         wrong_answer_texts = [
-    #             request.POST.get(f'wrong_answer_{j}_{i}')
-    #             for j in range(1, 4)
-    #         ]
-    #         question = Question.objects.create(text=text, quiz=quiz)
-    #         answers = [
-    #             Answer(text=correct_answer_text, correct=True, question=question),
-    #             Answer(text=wrong_answer_texts[0], correct=False, question=question),
-    #             Answer(text=wrong_answer_texts[1], correct=False, question=question),
-    #             Answer(text=wrong_answer_texts[2], correct=False, question=question),
-    #         ]
-    #         Answer.objects.bulk_create(answers)
-    #     return redirect('quiz_detail', quiz_id=quiz.id)
-    # else:
-    #     no_question = range(quiz.number_of_questions)
-    #     return render(request, 'tutors_template/add_questions.html', {'quiz': quiz,'no_question':no_question})
-
-
-def edit_question(request, question_id):
-    question = Question.objects.get(pk=question_id)
-    if request.method == 'POST':
-        text = request.POST.get('text')
-        question.text = text
-        question.save()
-        answers = question.get_answers()
-        for answer in answers:
-            answer_text = request.POST.get(f'answer_{answer.id}')
-            is_correct = request.POST.get(f'correct_{answer.id}') == 'on'
-            answer.text = answer_text
-            answer.correct = is_correct
-            answer.save()
-        return redirect('quiz_detail', quiz_id=question.quiz.id)
-    else:
-        answers = question.get_answers()
-        return render(request, 'edit_question.html', {'question': question, 'answers': answers})
-
-class AddQuestionView(View):
-    template_name = 'quizes/add_question.html'
-
-    def get(self, request, quiz_id):
-        quiz = Quiz.objects.get(pk=quiz_id)
-        return render(request, self.template_name, {'quiz': quiz})
-
-    def post(self, request, quiz_id):
-        quiz = Quiz.objects.get(pk=quiz_id)
-        question_text = request.POST.get('question_text')
-        question = Question.objects.create(
-            text=question_text,
-            quiz=quiz
-        )
-        for i in range(4):
-            answer_text = request.POST.get(f'answer_{i}')
-            is_correct = request.POST.get(f'answer_{i}_correct')
-            if is_correct == 'on':
-                is_correct = True
-            else:
-                is_correct = False
-            answer = Answer.objects.create(
-                text=answer_text,
-                correct=is_correct,
-                question=question
-            )
-        return redirect('quiz_detail', pk=quiz.pk)
-
-

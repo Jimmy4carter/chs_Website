@@ -43,11 +43,8 @@ def doLogin(request):
                 return HttpResponseRedirect(reverse("management_home"))
             elif user.user_type=="7":
                 return HttpResponseRedirect(reverse("hostel_home"))
-
             elif user.user_type=="8":
                 return HttpResponseRedirect(reverse("tuckshop_home"))
-
-
             else:
                 messages.error(request,"You Are Not Authorised For Login")
                 return HttpResponseRedirect("/login")

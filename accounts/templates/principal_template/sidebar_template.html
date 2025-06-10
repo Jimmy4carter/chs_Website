@@ -56,23 +56,15 @@
           <li class="nav-item">
             {% url 'lession_plan' as lession_plan %}
             {% url 'principal_view_subjects' as principal_view_subjects %}
-
             <a href="{% url 'principal_view_subjects' %}" class="nav-link {% if request.path == lession_plan %} active {% endif %} {% if request.path == principal_view_subjects %} active {% endif %}">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Subjects
                 <span class="right badge badge-danger">New</span>
-
-            <a href="{% url 'principal_view_subjects' %}" class="nav-link {% if request.path == lession_plan %} active {% endif %}  {% if request.path == principal_view_subjects %} active {% endif %}">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Subjects
-
               </p>
             </a>
           </li> 
           <li class="nav-item">
-
             {% url 'management_result' as management_result %}
             <a href="{% url 'management_result' %}" class="nav-link {% if request.path == management_result %} active {% endif %} {% if request.path == management_studentresults %} active {% endif %} {% if request.path == thebroadsheet_analysis %} active {% endif %} {% if request.path == management_studentresults %} active {% endif %}">
               <i class="nav-icon fas fa-file"></i>
@@ -102,8 +94,6 @@
             </a>
           </li>
           <li class="nav-item">
-
-
             {% url 'job_applications' as job_applications %}
             {% url 'student_applications' as student_applications %}
             <a href="#" class="nav-link {% if request.path == job_applications %} active {% endif %} {% if request.path == student_applications %} active {% endif %} ">              

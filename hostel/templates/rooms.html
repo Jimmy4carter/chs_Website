@@ -80,7 +80,6 @@ Room Management
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
-
                                      <div class="form-group">
                                     <label>Room Head</label>
                                     <select class="form-control" name="roomhead" id="roomhead">
@@ -89,12 +88,6 @@ Room Management
                                         {% endfor %}
                                     </select>
                                 </div>
-
-                                    <div class="form-group">
-                                        <label>Room Head</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" name="roomhead" placeholder="Room Head">
-                                    </div>
-
                                 </div>
                             </div>
                              <!-- /.card-body -->
@@ -130,11 +123,7 @@ Room Management
                                           <td> {{ rooms.capacity }} </td>
                                           <td>{{ rooms.hostels.name }}</td>
                                           <td>Name: {{ rooms.roomhead.admin.first_name }}  {{ rooms.roomhead.admin.last_name }} <br>{{ rooms.roomhead.admin.username }} </td>
-
                                            <td><a href='{% url 'delete_room' item_id=rooms.id %}' title="Delete Entry" class='btn btn-danger'><i class="nav-icon fas fa-trash"></i></a></td>
-
-                                          <td></td>
-
                                         
                                     </tr>
                                     {% endfor %}

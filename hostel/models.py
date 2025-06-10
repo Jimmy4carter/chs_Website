@@ -1,11 +1,6 @@
-from tkinter import CASCADE
 from django.db import models
 
-
 from accounts.models import CustomUser, SessionYearModel, Staff, Students, Terms
-
-from accounts.models import CustomUser, SessionYearModel, Staff, Students
-
 
 # Create your models here.
 class Hostel(models.Model):
@@ -30,7 +25,6 @@ class Rooms(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
-
     
     def get_members(self):
         # Filter allocations for active session (status=1)
@@ -41,8 +35,6 @@ class Rooms(models.Model):
 
     def get_members_count(self):
         return self.get_members().count()
-
-
 
 class Allocations(models.Model):
     id=models.AutoField(primary_key=True)
@@ -63,7 +55,6 @@ class Logbook(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
-
     
 
 class StudentEthosRecords(models.Model):
@@ -278,7 +269,5 @@ class StudentEthosRecords(models.Model):
         
     class Meta:
         unique_together = ('student_id', 'term', 'session_year', 'result_type')
-
-
 
 

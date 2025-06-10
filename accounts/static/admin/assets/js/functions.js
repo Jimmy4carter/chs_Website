@@ -179,7 +179,7 @@ Theme Version:	1.0.0
 					$('.header').css({ 'height': getActualHeaderRecentHeight }).animate({ 'height': getActualHeaderFullHeight }, 200);
 				}
 				
-				/* Load File ===== */
+				/* Load File ============ */
 				var controlLeftSideMenu = function(){
 					 /******  Remove This Function and Set double logo in html or remove logo from left side menu******/
 					 if(windowSize < 991)
@@ -197,7 +197,7 @@ Theme Version:	1.0.0
 					/******  Remove This Function and Set double logo in html or remove logo from left side menu******/
 				}
 				
-				/* Magnific Popup ===== */
+				/* Magnific Popup ============ */
 				var magnificPopupImageView = function(){
 						
 					/* magnificPopup function */
@@ -255,7 +255,7 @@ Theme Version:	1.0.0
 				}
 				
 				
-				/* Page Scroll To Top ===== */
+				/* Page Scroll To Top ============ */
 				var pageScrollToTop = function (){
 					/* page scroll top on click function */	
 					jQuery("button.back-to-top").on('click',function() { /* change back-to-top to scrollToTop*/
@@ -481,7 +481,7 @@ Theme Version:	1.0.0
 					}, 0);
 				}
 				
-				/* Function ===== */
+				/* Function ============ */
 				return {
 					initialHelper:function(){
 						wowAnimation();

@@ -10,18 +10,10 @@
 {% endblock custom_css %}
 
 {% block page_title %}
-
 Subject Based Results
 {% endblock page_title %}
 
 {% block main_content %}
-
-View Results
-{% endblock page_title %}
-
-{% block main_content %}
-<a href="{% url 'class_result' %}">Other View</a>
-
 <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-sm">
         <div class="modal-content" style="width: 48px">
@@ -43,7 +35,6 @@ View Results
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-
                 <form action="/admin_results" method="post">
                     {% csrf_token %}
                     <div class="card-body">
@@ -488,63 +479,6 @@ View Results
 
                     
                 </div>
-
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <!-- select -->
-                            <div class="form-group">
-                            <label>Session</label>
-                            <select class="form-control" name="session" id="session">
-                                {% for sessions in sessions %}
-                                    <option value="{{sessions.id}}">{{ sessions.session_start_year }}/{{ sessions.session_end_year }}</option>
-                                {% endfor %}
-                            </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label>Term</label>
-                                <select class="form-control" name="term" id="term">
-                                    {% for all_terms in all_terms %}
-                                        <option value="{{ all_terms.id}}">{{ all_terms.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                         <div class="col-sm-3">
-                            <div class="form-group">
-                                <label>Type</label>
-                                <select class="form-control" name="result_type" id="result_type">
-                                    <option value="1">First Half</option>
-                                    <option value="2">End of Term</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                        <!-- select -->
-                        <div class="form-group">
-                            <label>Select Subject</label>
-                            <select class="form-control" name="subject" id="subject">
-                                {% for all_subj in all_subj %}
-                                <option value="{{ all_subj.id}}">{{ all_subj.outline}}: {{ all_subj.subject_name}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                    <button type="button" class="btn btn-primary btn-block" id="fetch_student">Fetch Results</button>
-                    </div>
-
-                    <div id="student_data">
-                        
-                    </div>
-                </div>
-               
-
             </div>
         <!--/.col (left) -->
         </div>
@@ -574,90 +508,12 @@ View Results
 <script>
     $(document).ready(function(){
         $("#fetch_student").click(function(){
-
             $('.modal').modal('show');
                 setTimeout(function () {
                     $('.modal').modal('hide');
                 }, 5000);
 
             
-
-            var subject=$("#subject").val()
-            var result_type=$("#result_type").val()
-            var term=$("#term").val()
-            var session=$("#session").val()
-            $('.modal').modal('show');
-                setTimeout(function () {
-                    $('.modal').modal('hide');
-                }, 3000);
-
-            $.ajax({
-                url:'{% url 'admin_results' %}',
-                type:'POST',
-                data:{subject:subject,result_type:result_type,term:term,session:session},
-            })
-            .done(function(response){
-                var json_data=JSON.parse(response);
-                console.log(json_data)
-                var div_data="<div class='row'>";
-                    div_data+="<div class='col-12'>"
-                    div_data+="<div class='card'>"
-                    div_data+="<div class='card-header'>"
-                    div_data+="<h3 class='card-title'>DataTable with default features</h3>"
-                    div_data+="</div>"
-                    div_data+="<div class='card-body'>"
-                    div_data+="<table id='example1' class='table table-bordered table-striped'>"
-                    div_data+="<thead>"
-                    div_data+="<tr>"
-                    div_data+="<th>Reg. No</th>"
-                    div_data+="<th>Name</th>"
-                    div_data+="<th style='width: 80px'>Resumption Test</th>";
-                    div_data+="<th style='width: 80px'>Class Work</th>";
-                    div_data+="<th style='width: 80px'>Assignment</th>";
-                    div_data+="<th style='width: 40px'>MidTerm Exam</th>";
-                    div_data+="<th style='width: 40px'>Total Score</th>";
-                    div_data+="<th style='width: 40px'>Grades</th>";
-                    div_data+="<th style='width: 40px'>Remark</th>";
-                    div_data+="</tr>"
-                    div_data+="</thead>"
-                    div_data+="<tbody>"
-                    for(key in json_data)
-                    {
-                        div_data+="<tr>";
-                            div_data+="<td>"+json_data[key]['reg_id']+"</td>";
-                            div_data+="<td>"+json_data[key]['name']+"</td>";
-                            div_data+="<td>"+json_data[key]['resumption_test']+"</td>";
-                            div_data+="<td>"+json_data[key]['class_work']+"</td>";
-                            div_data+="<td>"+json_data[key]['assignment']+"</td>";
-                            div_data+="<td>"+json_data[key]['midterm_exam']+"</td>";
-                            div_data+="<td>"+json_data[key]['total_score']+"</td>";
-                            div_data+="<td>"+json_data[key]['grades']+"</td>";
-                            div_data+="<td>"+json_data[key]['remark']+"</td>";
-                            //div_data+="</form>";
-                        div_data+="</tr>";
-                    }
-                    div_data+="</tbody>"
-                    div_data+="<tfoot>"
-                    div_data+="<tr>"
-                    div_data+="<th>Reg. No</th>"
-                    div_data+="<th>Name</th>"
-                    div_data+="<th style='width: 80px'>Resumption Test</th>";
-                    div_data+="<th style='width: 80px'>Class Work</th>";
-                    div_data+="<th style='width: 80px'>Assignment</th>";
-                    div_data+="<th style='width: 40px'>MidTerm Exam</th>";
-                    div_data+="<th style='width: 40px'>Total Score</th>";
-                    div_data+="<th style='width: 40px'>Grades</th>";
-                    div_data+="<th style='width: 40px'>Remark</th>";
-                    div_data+="</tr>"
-                    div_data+="</tfoot>"
-                    div_data+="</table>"
-                    div_data+="</div>"
-                    div_data+="</div>"
-                    div_data+="</div>"
-                    div_data+="</div>"
-                
-                $("#student_data").html(div_data);
-
 
                 $(function () {
                     $("#example1").DataTable({
@@ -678,13 +534,6 @@ View Results
 
 
             })
-
-
-            .fail(function(){
-                alart("Error in Fetching Students")
-            })
-        });
-
        
     });
    

@@ -1,8 +1,5 @@
 {% extends 'base_template.html' %}
-
 {% load static %}
-
-
 
 {% block page_title %}
 Allocation
@@ -60,7 +57,6 @@ Allocation
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
-
                                 <!-- select -->
                                 <div class="form-group">
                                     <label>Hostel</label>
@@ -95,34 +91,6 @@ Allocation
                                 </div>
                                 </div>
 
-
-                                    <!-- select -->
-                                    <div class="form-group">
-                                    <label>Hostel</label>
-                                        <select class="form-control" id="hostel" name="hostel">
-                                            <option value="0">--select hostel--</option required>
-                                            {% for hostel in hostel %}
-                                                <option value="{{ hostel.id}}">{{ hostel.name}}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <!-- select -->
-                                    <div class="form-group">
-                                    <label>Rooms</label>
-                                        <select class="form-control" id="rooms" name="room" required>
-                                            <option value=>--Select room --</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label>Student Reg.</label>
-                                        <input type="text" class="form-control" id="id_username" name="studentid" placeholder="Enter Student Reg. No." required>
-                                    </div>
-                                </div>
-
                             </div>
                              <!-- /.card-body -->
                              <div class="card-footer">
@@ -137,11 +105,7 @@ Allocation
                         </div>
                         
                         <div class="table">
-
                             <table id='example1' class='table table-bordered table-striped'>
-
-                            <table class="table table-hover text-nowrap">
-
                                 <thead>
                                     <tr>
                                         <th>S/N</th>
@@ -181,7 +145,6 @@ Allocation
 {% endblock main_content %}
 {% block custom_js %}
 <script>
-
     function updateRooms() {
         var selectedHostel = $('#hostel').val();
 
@@ -232,61 +195,5 @@ Allocation
                   });
     });
    
-
-    $(document).ready(function(){
-        $("#hostel").on('change',function(){
-
-            var hostel=$("#hostel").val()
-            $.ajax({
-                url:'{% url 'get_rooms' %}',
-                type: 'POST',
-                data:{hostel:hostel}
-            })
-            .done(function(response){
-                var json_data=JSON.parse(response);
-                $("#rooms").empty();
-                $.each(json_data, function (index, value){
-                    $('<option value="'+ value.id +'" id="ops">' + value.name + '</option>').appendTo('#rooms');
-                });
-
-                
-            })
-            .fail(function(){
-               
-
-            })
-
-        
-        });
-
-        $("#id_username").keyup(function(){
-            var username=$(this).val();
-
-            if(username!=""){
-                $.ajax({
-                    url:'{% url 'check_username_exis' %}',
-                    type: 'POST',
-                    data:{username:username}
-                })
-                .done(function(response){
-                    if(response=="True"){
-                        $(".username_error").remove();
-                        $("<span class='username_error' style='padding:5px;color:green;font-weight:bold;'>Valid Reg. Number</span>").insertAfter("#id_username");
-                    }
-                    else{
-                        $(".username_error").remove();
-                        $("<span class='username_error' style='padding:5px;color:red;font-weight:bold;'>Invalid Reg. Number</span>").insertAfter("#id_username");
-                    }
-                })
-                .fail(function(){
-
-                })
-            }
-            else{
-                $(".username_error").remove();
-            }
-        });
-    })
-
 </script>
 {% endblock custom_js %}

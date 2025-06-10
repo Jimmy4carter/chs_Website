@@ -103,11 +103,7 @@ Old Results Entry
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Result PDF</label>
-
                                     <input type="file" class="form-control" name="res_file" id="result"  accept="application/pdf, application/vnd.ms-excel"  placeholder="Select Result PDF File">
-
-                                    <input type="file" class="form-control" name="res_file" id="photo" placeholder="Select Passport Photograph">
-
                                 </div>
                             </div>
                         </div>
@@ -138,15 +134,9 @@ Old Results Entry
                                     <tr>
                                         
                                         <td>{{ old_result.id }}</td>
-
                                         <td>Name: {{ old_result.students.admin.last_name }} {{ old_result.students.admin.first_name }}<br>Reg. No: {{ old_result.students.admin.username}} <br>CLass: {{ old_result.classes.name }}</td>
                                         <td>Sess.: {{ old_result.session_year.session_start_year }}/{{ old_result.session_year.session_end_year }} <br>Term: {{ old_result.term.name }} </td>
                                         <td><a href="{{ old_result.result_file }}" target="_blank">View Result</a></td>
-
-                                        <td>Reg. No: {{ old_result.students.admin.username}} <br>CLass: {{ old_result.classes.name }}</td>
-                                        <td>Sess.: {{ old_result.session }} <br>Term: {{ old_result.term }} </td>
-                                        <td>{{ old_result.result_file }}</td>
-
                                         
                                     </tr>
                                     {% endfor %}
@@ -216,19 +206,11 @@ Old Results Entry
                             console.log(response);
                             if(response=="True"){
                                 $(".username_error").remove();
-
                                 $("<span class='username_error' style='padding:5px;color:green;font-weight:bold;'>Reg. No. is valid...</span>").insertAfter("#id_username");
                             }
                             else{
                                 $(".username_error").remove();
                                 $("<span class='username_error' style='padding:5px;color:red;font-weight:bold;'>Invalid Reg. No. check again...</span>").insertAfter("#id_username");
-
-                                $("<span class='username_error' style='padding:5px;color:red;font-weight:bold;'>ID Already In Use</span>").insertAfter("#id_username");
-                            }
-                            else{
-                                $(".username_error").remove();
-                                $("<span class='username_error' style='padding:5px;color:green;font-weight:bold;'>ID Available</span>").insertAfter("#id_username");
-
                             }
                         })
                         .fail(function(){

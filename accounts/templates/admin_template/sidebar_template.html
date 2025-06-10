@@ -198,30 +198,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">              
-              <i class="nav-icon fas fa-file-export"></i>
-              <p>
-                Hostel
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                {% url 'manage_hostels' as manage_hostels %}
-                <a href="{% url 'manage_hostels' %}" class="nav-link {% if request.path == manage_hostels %} active {% endif %}">    
-                  <i class="nav-icon fas fa-graduation-cap"></i>
-                  <p>Hostels</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                {% url 'manage_rooms' as manage_rooms %}
-                <a href="{% url 'manage_rooms' %}" class="nav-link {% if request.path == manage_rooms %} active {% endif %}">
-                  <i class="nav-icon fas fa-id-card-alt"></i>
-                  <p>Rooms</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
             {% url 'library_action' as library_action %}
             <a href="{% url 'library_action' %}" class="nav-link {% if request.path == library_action %} active {% endif %}">
               <i class="nav-icon fas fa-book"></i>
@@ -335,28 +311,7 @@
               </p>
             </a>
           </li>
-
          
-
-          <li class="nav-item">
-            {% url 'admin_results' as admin_results %}
-            <a href="{% url 'admin_results' %}" class="nav-link {% if request.path == admin_results %} active {% endif %}">
-              <i class="nav-icon fas fa-file"></i>
-              <p>
-                Results
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            {% url 'old_results' as old_results %}
-            <a href="{% url 'old_results' %}" class="nav-link {% if request.path == old_results %} active {% endif %}">
-              <i class="nav-icon fas fa-file"></i>
-              <p>
-                Old Results
-              </p>
-            </a>
-          </li>
-
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

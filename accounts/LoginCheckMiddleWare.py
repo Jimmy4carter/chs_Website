@@ -28,7 +28,7 @@ class LoginCheckMiddleware(MiddlewareMixin):
             elif user.user_type == "3":
                 if modulename == "accounts.StudentViews" :
                     pass
-                elif modulename == "accounts.views" or modulename == "django.views.static" or modulename == "publicsite.PublicViews" or modulename == "paystackpayments.views" or modulename == "onlinecbt.views":
+                elif modulename == "accounts.views" or modulename == "django.views.static" or modulename == "publicsite.PublicViews" or modulename == "paystackpayments.views":
                     pass
                 else:
                     return HttpResponseRedirect(reverse("students_home"))
@@ -63,14 +63,6 @@ class LoginCheckMiddleware(MiddlewareMixin):
                     pass
                 else:
                     return HttpResponseRedirect(reverse("tuckshop_home"))
-
-            elif user.user_type == "7":
-                if modulename == "hostel.HostelViews" :
-                    pass
-                elif modulename == "accounts.views" or modulename == "django.views.static" or modulename == "publicsite.PublicViews":
-                    pass
-                else:
-                    return HttpResponseRedirect(reverse("hostel_home"))
 
         else:
             if request.path == reverse("login") or request.path == reverse("doLogin") or "publicsite.PublicViews" or modulename == "django.contrib.auth.views" or modulename == "paystackpayments.views":

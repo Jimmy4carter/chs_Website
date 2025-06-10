@@ -18,11 +18,7 @@ from os import name
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
 from accounts import  ManagementViews, AdminsecViews, PrincipalViews, TuckshopViews, TutorViews, StudentViews, views, AdminViews
-
-from accounts import  ManagementViews, AdminsecViews, PrincipalViews, TutorViews, StudentViews, views, AdminViews
-
 import accounts
 from publicsite import PublicViews
 from hostel import HostelViews
@@ -59,11 +55,7 @@ urlpatterns = [
     #Admin URLs
     path('admin/', admin.site.urls),
     path('admin_home',AdminViews.admin_home,name="admin_home"),
-
     path('cbtentry',AdminViews.cbtentry,name="cbtentry"),
-
-    path('class_result',AdminViews.viewclass_result,name="class_result"),
-
 
     #staff Actions
     path('staff_action',AdminViews.staff_action,name="staff_action"),
@@ -107,7 +99,6 @@ urlpatterns = [
     path('add_session_save',AdminViews.add_session_save,name="add_session_save"),
     path('check_email_exist',AdminViews.check_email_exist,name="check_email_exist"),
     path('check_username_exist',AdminViews.check_username_exist,name="check_username_exist"),
-    path('check_username_exis',HostelViews.check_username_exis,name="check_username_exis"),
 
     #Feedback Actions
     path('student_feedback_message',AdminViews.student_feedback_message,name="student_feedback_message"),
@@ -220,27 +211,6 @@ urlpatterns = [
     
 
 
-    #old results
-    path('admin_results',AdminViews.admin_results,name="admin_results"),
-    path('old_results',AdminViews.old_results,name="old_results"),
-    path('my_result_action',StudentViews.my_result_action,name="my_result_action"),
-    
-    #hostel
-    path('hostel_home',HostelViews.hostel_home,name="hostel_home"),
-    path('hostel_profile',HostelViews.hostel_profile,name="hostel_profile"),
-    path('manage_hostels',AdminViews.manage_hostels,name="manage_hostels"),
-    path('hostels_manage',HostelViews.hostels_manage,name="hostels_manage"),
-    path('manage_rooms',AdminViews.manage_rooms,name="manage_rooms"),
-    path('rooms_manage',HostelViews.rooms_manage,name="rooms_manage"),
-    path('hostel_all_notification',HostelViews.hostel_all_notification,name="hostel_all_notification"),
-    path('hostel_feedback',HostelViews.hostel_feedback,name="hostel_feedback"),
-    path('allocate_room',HostelViews.allocate_room,name="allocate_room"),
-    path('get_rooms',HostelViews.get_rooms,name="get_rooms"),
-    path('create_log',HostelViews.create_log,name="create_log"),
-    path('view_logs',HostelViews.view_logs,name="view_logs"),
-    path('report_preview/<str:report_id>',HostelViews.report_preview,name="report_preview"),
-
-
 
 
 
@@ -269,7 +239,6 @@ urlpatterns = [
     path('staff_all_notification',TutorViews.staff_all_notification,name="staff_all_notification"),
     path('form_students/<str:class_id>',TutorViews.form_students,name="form_students"),
     path('submit_plan',TutorViews.submit_plan,name="submit_plan"),
-
     path('delete_plan/<str:item_id>',TutorViews.delete_plan,name="delete_plan"),
     path('delete_mid/<str:item_id>',TutorViews.delete_mid,name="delete_mid"),
     path('delete_end/<str:item_id>',TutorViews.delete_end,name="delete_end"),
@@ -292,10 +261,6 @@ urlpatterns = [
     path('tutor_view_questions/<int:quiz_id>/', TutorViews.question_view, name='tutor_question_view'),
     path('schedule/<int:schedule_id>/students/', TutorViews.schedule_students, name='schedule_students'),
     path('results/<int:schedule_id>/<int:student_id>/', TutorViews.result_details, name='result_details'),
-
-
-    path('addquiz/', TutorViews.AddQuizView.as_view(), name='addquiz'),
-    path('addquestion/<quiz_id>/', TutorViews.add_questions, name='addquestion'),
 
 
         #  Result Actions
@@ -347,7 +312,6 @@ urlpatterns = [
     path('student_faq',StudentViews.student_faq,name="student_faq"),
     path('result_preview/<int:res_id>',StudentViews.result_preview,name="result_preview"),
     path('tuition_preview',StudentViews.tuition_preview,name="tuition_preview"),
-
     path('inter_records',StudentViews.inter_records,name="inter_records"),
     path('saveinterests',StudentViews.saveinterests,name="saveinterests"),
     
@@ -365,9 +329,6 @@ urlpatterns = [
     path('save_answer/<int:schedule_id>/', StudentViews.save_answer, name='save_answer'),
     path('cbt_result/<int:schedule_id>/', StudentViews.quiz_result_view, name='cbt_result'),
     path('cbt_complete/<int:schedule_id>/', StudentViews.quiz_complete, name='quiz_complete'),
-
-
-    path('cbt_view',StudentViews.cbt_view,name="cbt_view"),
 
 
 
@@ -391,7 +352,6 @@ urlpatterns = [
     path('job_applications',PrincipalViews.job_applications,name="job_applications"),
     path('student_applications',PrincipalViews.student_applications,name="student_applications"),
     path('lession_plan/<str:subject_id>',PrincipalViews.lession_plan,name="lession_plan"),
-
     
     # principal result
     path('management_result',PrincipalViews.management_result,name="management_result"),
@@ -399,8 +359,6 @@ urlpatterns = [
     path('thebroadsheet_analysis',PrincipalViews.thebroadsheet_analysis,name="thebroadsheet_analysis"),
     path('management_subjectresults',PrincipalViews.management_subjectresults,name="management_subjectresults"),
     path('host_analytics',PrincipalViews.hostel_analytics,name="host_analytics"),
-
-
 
 
 
@@ -425,7 +383,6 @@ urlpatterns = [
     path('add_posts',AdminsecViews.add_posts,name="add_posts"),
     path('assign_post',AdminsecViews.assign_post,name="assign_post"),
     path('adminsec_staff',AdminsecViews.adminsec_staff,name="adminsec_staff"),
-    path('assign_task',AdminsecViews.assign_task,name="assign_task"),
 
 
    # Tuck shop urls
@@ -479,8 +436,6 @@ urlpatterns = [
     #Accounts
     path('', include('accounts.urls')),
 
-    #Online CBT URLS
-    path('', include('onlinecbt.urls', namespace='quiz')),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 

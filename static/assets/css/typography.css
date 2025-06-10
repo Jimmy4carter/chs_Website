@@ -1,7 +1,7 @@
 
-/*===  
+/*=================  
 	Basic 
-======*/
+====================*/
 body {
     background-color: #fff;
     font-family: Rubik;
@@ -34,9 +34,9 @@ p, address, pre, hr, ul, ol, dl, dd, table { margin-bottom: 24px; }
 ::selection { background: #3396d1; color: #fff; }
 p { line-height: 28px; margin-bottom: 24px; }
 iframe{border:0;}
-/*===  
+/*=================  
 	Headings
-======*/
+====================*/
 h1, h2, h3, h4, h5, h6 { color: #111111; font-family: rubik; margin-top:0; }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { color: inherit; }
 h1 {font-size: 36px; line-height: 45px; margin-bottom: 25px; font-weight: 700; }
@@ -50,9 +50,9 @@ h6 {font-size: 16px; line-height: 22px; margin-bottom: 10px; font-weight: 500; }
 	h2{font-size: 26px; line-height: 35px; margin-bottom: 20px; font-weight: 700; }
 	h3{font-size: 24px; line-height: 30px; margin-bottom: 15px; font-weight: 700; }
 }
-/*===  
+/*=================  
 	Font Size
-======*/
+====================*/
 .fs10 { font-size: 10px; }
 .fs12 { font-size: 12px; }
 .fs13 { font-size: 13px; }
@@ -75,9 +75,9 @@ h6 {font-size: 16px; line-height: 22px; margin-bottom: 10px; font-weight: 500; }
 .fs80 { font-size: 80px; line-height:90px; }
 .fs90 { font-size: 90px;	line-height:100px; }
 .fs100 { font-size: 100px; line-height:110px; }
-/*===  
+/*=================  
 	Font Weight
-======*/
+====================*/
 .fw3 { font-weight: 300; }
 .fw4 { font-weight: 400; }
 .fw5 { font-weight: 500; }
@@ -85,17 +85,17 @@ h6 {font-size: 16px; line-height: 22px; margin-bottom: 10px; font-weight: 500; }
 .fw7 { font-weight: 700; }
 .fw8 { font-weight: 800; }
 .fw9 { font-weight: 900; }
-/*===  
+/*=================  
 	LISTS
-======*/
+====================*/
 dl, ul, ol { list-style-position: outside; padding: 0; }
 ul, ol { margin-bottom: 24px; }
 ul li, ol li { padding: 0; }
 dl { margin-left: 0; margin-bottom: 30px; }
 dl dd { margin-bottom: 10px; }
-/*===  
+/*=================  
 	Padding Around
-======*/
+====================*/
 .p-a0 { padding: 0;}
 .p-a5 { padding: 5px; }
 .p-a10 { padding: 10px;}
@@ -110,9 +110,9 @@ dl dd { margin-bottom: 10px; }
 .p-a80 { padding: 80px; }
 .p-a90 { padding: 90px; }
 .p-a100 { padding: 100px; }
-/*===  
+/*=================  
 	Padding Top
-======*/
+====================*/
 .p-t0 { padding-top: 0; }
 .p-t5 { padding-top: 5px; }
 .p-t10 { padding-top: 10px; }
@@ -126,9 +126,9 @@ dl dd { margin-bottom: 10px; }
 .p-t80 { padding-top: 80px; }
 .p-t90 { padding-top: 90px; }
 .p-t100 { padding-top: 100px; }
-/*===  
+/*=================  
 	Padding Bottom
-======*/
+====================*/
 .p-b0 { padding-bottom: 0; }
 .p-b5 { padding-bottom: 5px; }
 .p-b10 { padding-bottom: 10px; }
@@ -142,9 +142,9 @@ dl dd { margin-bottom: 10px; }
 .p-b80 { padding-bottom: 80px; }
 .p-b90 { padding-bottom: 90px; }
 .p-b100 { padding-bottom: 100px; }
-/*===  
+/*=================  
 	Padding Left
-======*/
+====================*/
 .p-l0 { padding-left: 0; }
 .p-l5 { padding-left: 5px; }
 .p-l10 { padding-left: 10px; }
@@ -158,9 +158,9 @@ dl dd { margin-bottom: 10px; }
 .p-l80 { padding-left: 80px; }
 .p-l90 { padding-left: 90px; }
 .p-l100 { padding-left: 100px; }
-/*===  
+/*=================  
 	Padding Right
-======*/
+====================*/
 .p-r0 { padding-right: 0;}
 .p-r5 { padding-right: 5px; }
 .p-r10 { padding-right: 10px;}
@@ -174,9 +174,9 @@ dl dd { margin-bottom: 10px; }
 .p-r80 { padding-right: 80px; }
 .p-r90 { padding-right: 90px; }
 .p-r100 { padding-right: 100px;}
-/*===  
+/*=================  
 	Padding Left Right
-======*/
+====================*/
 .p-lr0 { padding-left: 0; padding-right: 0; }
 .p-lr5 { padding-left: 5px; padding-right: 5px; }
 .p-lr10 { padding-left: 10px; padding-right: 10px; }
@@ -190,9 +190,9 @@ dl dd { margin-bottom: 10px; }
 .p-lr80 { padding-left: 80px; padding-right: 80px; }
 .p-lr90 { padding-left: 90px; padding-right: 90px; }
 .p-lr100 { padding-left: 100px; padding-right: 100px; }
-/*===  
+/*=================  
 	Padding Top Bottom
-======*/
+====================*/
 .p-tb0 { padding-bottom: 0; padding-top: 0; }
 .p-tb5 { padding-bottom: 5px; padding-top: 5px; }
 .p-tb10 { padding-bottom: 10px; padding-top: 10px; }
@@ -206,9 +206,9 @@ dl dd { margin-bottom: 10px; }
 .p-tb80 { padding-bottom: 80px; padding-top: 80px; }
 .p-tb90 { padding-bottom: 90px; padding-top: 90px; }
 .p-tb100 { padding-bottom: 100px; padding-top: 100px; }
-/*===  
+/*=================  
 	Margin Around
-======*/
+====================*/
 .m-auto { margin-left:auto; margin-right:auto;}
 .m-a0 { margin: 0;}
 .m-a5 { margin: 5px; }
@@ -224,9 +224,9 @@ dl dd { margin-bottom: 10px; }
 .m-a80 { margin: 80px; }
 .m-a90 { margin: 90px; }
 .m-a100 { margin: 100px; }
-/*===  
+/*=================  
 	Margin Top
-======*/
+====================*/
 .m-t0 { margin-top: 0; }
 .m-t5 { margin-top: 5px; }
 .m-t10 { margin-top: 10px; }
@@ -240,9 +240,9 @@ dl dd { margin-bottom: 10px; }
 .m-t80 { margin-top: 80px; }
 .m-t90 { margin-top: 90px; }
 .m-t100 { margin-top: 100px; }
-/*===  
+/*=================  
 	Margin Bottom
-======*/
+====================*/
 .m-b0 { margin-bottom: 0; }
 .m-b5 { margin-bottom: 5px; }
 .m-b10 { margin-bottom: 10px; }
@@ -256,9 +256,9 @@ dl dd { margin-bottom: 10px; }
 .m-b80 { margin-bottom: 80px; }
 .m-b90 { margin-bottom: 90px; }
 .m-b100 { margin-bottom: 100px; }
-/*===  
+/*=================  
 	Margin Left
-======*/
+====================*/
 .m-l0 { margin-left: 0; }
 .m-l5 { margin-left: 5px; }
 .m-l10 { margin-left: 10px; }
@@ -272,9 +272,9 @@ dl dd { margin-bottom: 10px; }
 .m-l80 { margin-left: 80px; }
 .m-l90 { margin-left: 90px; }
 .m-l100 { margin-left: 100px; }
-/*===  
+/*=================  
 	Margin Right
-======*/
+====================*/
 .m-r0 { margin-right: 0;}
 .m-r5 { margin-right: 5px; }
 .m-r10 { margin-right: 10px;}
@@ -288,9 +288,9 @@ dl dd { margin-bottom: 10px; }
 .m-r80 { margin-right: 80px; }
 .m-r90 { margin-right: 90px; }
 .m-r100 { margin-right: 100px;}
-/*===  
+/*=================  
 	Margin Left Right
-======*/
+====================*/
 .m-lr0 { margin-left: 0; margin-right: 0; }
 .m-lr5 { margin-left: 5px; margin-right: 5px; }
 .m-lr10 { margin-left: 10px; margin-right: 10px; }
@@ -304,9 +304,9 @@ dl dd { margin-bottom: 10px; }
 .m-lr80 { margin-left: 80px; margin-right: 80px; }
 .m-lr90 { margin-left: 90px; margin-right: 90px; }
 .m-lr100 { margin-left: 100px; margin-right: 100px; }
-/*===  
+/*=================  
 	Margin Top Bottom
-======*/
+====================*/
 .m-tb0 { margin-bottom: 0; margin-top: 0; }
 .m-tb5 { margin-bottom: 5px; margin-top: 5px; }
 .m-tb10 { margin-bottom: 10px; margin-top: 10px; }
@@ -320,9 +320,9 @@ dl dd { margin-bottom: 10px; }
 .m-tb80 { margin-bottom: 80px; margin-top: 80px; }
 .m-tb90 { margin-bottom: 90px; margin-top: 90px; }
 .m-tb100 { margin-bottom: 100px; margin-top: 100px; }
-/*===  
+/*=================  
 	Box Max Width Css
-======*/
+====================*/
 .mw50 { max-width: 50px; } 
 .mw60 { max-width: 60px; } 
 .mw80 { max-width: 80px; } 
@@ -336,9 +336,9 @@ dl dd { margin-bottom: 10px; }
 .mw800 { max-width: 800px; } 
 .mw900 { max-width: 900px; } 
 .mw1000 { max-width: 1000px; }
-/*===  
+/*=================  
 	Positions Z-index
-======*/
+====================*/
 .posi-ab { position: absolute; }
 .posi-rl { position: relative; }
 .posi-st { position: static; }
@@ -354,9 +354,9 @@ dl dd { margin-bottom: 10px; }
 .zi10 { z-index: 10; }
 .zi100 { z-index: 100; }
 .zi999 { z-index: 999; }
-/*===  
+/*=================  
 	Text Color
-======*/
+====================*/
 .text-white { color: #fff; }
 .text-black { color: #000; }
 .text-gray { color: #f5f6f6; }
@@ -366,9 +366,9 @@ dl dd { margin-bottom: 10px; }
 .text-blue{ color: #00c5dc; }
 .text-green{ color: #34bfa3; }
 .text-orange{  color: #ef9800; }
-/*===  
+/*=================  
 	Text Color
-======*/
+====================*/
 .bg-tp { background-color: transparent; }
 .bg-primary { background-color: ; }
 .bg-white { background-color: #FFF; }
@@ -380,9 +380,9 @@ dl dd { margin-bottom: 10px; }
 .bg-pink { background-color: #ff3c85; }
 .bg-blue { background-color: #00c5dc; }
 .bg-orange { background-color: #ef9800; }
-/*===  
+/*=================  
 	Background White Transperent
-======*/
+====================*/
 .tpbw1{ background-color:rgba(255,255,255,0.1) }
 .tpbw2{ background-color:rgba(255,255,255,0.2) }
 .tpbw3{ background-color:rgba(255,255,255,0.3) }
@@ -392,9 +392,9 @@ dl dd { margin-bottom: 10px; }
 .tpbw7{ background-color:rgba(255,255,255,0.7) }
 .tpbw8{ background-color:rgba(255,255,255,0.8) }
 .tpbw9{ background-color:rgba(255,255,255,0.9) }
-/*===  
+/*=================  
 	Background Black Transperent
-======*/
+====================*/
 .bg-tpb1{ background-color:rgba(0,0,0,0.05) }
 .bg-tpb2{ background-color:rgba(0,0,0,0.2) }
 .bg-tpb3{ background-color:rgba(0,0,0,0.3) }

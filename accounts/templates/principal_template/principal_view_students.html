@@ -15,73 +15,12 @@ Your Students
 
 {% block main_content %}
 <!-- Main content -->
-
 <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-sm">
         <div class="modal-content" style="width: 48px">
             <span class="fa fa-spinner fa-spin fa-3x"></span>
-
- <!-- Main content -->
- <section class="content">
-    <div class="container-fluid">
-            <!-- left column -->
-            <div class="col-md-12">
-                <!-- general form elements -->
-                <form action="" method="POST">
-                    {% csrf_token %}
-                <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Select Category</h3>
-                </div>
-               
-                <!-- /.card-header -->
-                <!-- form start -->
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Select Session</label>
-                            <select class="form-control" name="session_id" id="session_id">
-                                <option value="0">All</option>
-                                {% for sessions in sessions %}
-                                <option value="{{ sessions.id }}">{{ sessions.session_start_year }}/{{ sessions.session_end_year }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Select Class</label>
-                                <select class="form-control" name="classid" id="classid">
-                                    <option value="0">All</option>
-                                    {% for classes in classes%}
-                                    <option value="{{ classes.id}}">{{ classes.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            </div>
-                    </div>
-                </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                    <button type="button" class="btn btn-primary btn-block" id="fetch_student">Fetch Students</button>
-                    </div>
-
-                    <div id="student_data">
-                        
-                    </div>
-                </div>
-               
-                <!-- /.card -->
-            </form>
-            </div>
-        <!--/.col (left) -->
-
         </div>
-    
-
     </div>
-
 </div>
  <!-- Main content -->
  <section class="content">
@@ -142,8 +81,6 @@ Your Students
     
 
     </div>
-
-
     <!-- /.container-fluid -->
   </section>
 <!-- /.content -->
@@ -169,15 +106,12 @@ Your Students
         $("#fetch_student").click(function(){
             var session_id=$("#session_id").val()
             var classid=$("#classid").val()
-
             
             $('.modal').modal('show');
             setTimeout(function () {
                 console.log('hejsan');
                 $('.modal').modal('hide');
             }, 3000);
-
-
 
             $.ajax({
                 url:'{% url 'principal_view_students' %}',

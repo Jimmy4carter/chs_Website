@@ -65,7 +65,7 @@ Your Students
                 </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                    <button type="button" class="btn btn-primary btn-block onclick="modal();" id="fetch_student">Fetch Students</button>
+                    <button type="button" class="btn btn-primary btn-block" id="fetch_student">Fetch Students</button>
                     </div>
 
                     <div id="student_data">
@@ -106,21 +106,11 @@ Your Students
         $("#fetch_student").click(function(){
             var session_id=$("#session_id").val()
             var classid=$("#classid").val()
-
             $('.modal').modal('show');
                 setTimeout(function () {
                     console.log('hejsan');
                     $('.modal').modal('hide');
                 }, 4000);
-
-        
-                $('.modal').modal('show');
-                setTimeout(function () {
-                    console.log('hejsan');
-                    $('.modal').modal('hide');
-                }, 3000);
-            
-
 
             $.ajax({
                 url:'{% url 'query_view_students' %}',

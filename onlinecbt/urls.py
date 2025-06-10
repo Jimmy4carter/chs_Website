@@ -1,5 +1,4 @@
 from django.urls import path
-
 from onlinecbt import views
 
 urlpatterns = [
@@ -19,23 +18,5 @@ urlpatterns = [
     path('handle_timeout/<int:schedule_id>/', views.handle_timeout, name='handle_timeout'),
     path('save_answer/<int:schedule_id>/', views.save_answer, name='save_answer'),
     path('quiz_result/<int:schedule_id>/', views.quiz_result_view, name='quiz_result'),
-]
-
-
-from .views import (
-    QuizListView,
-    quiz_view,
-    quiz_data_view,
-    save_quiz_view
-
-)
-
-app_name = 'onlinecbt'
-
-urlpatterns = [
-    path('cbt/', QuizListView.as_view(), name='main_view'),
-    path('cbt/<pk>/', quiz_view, name='quiz-view'),
-    path('cbt/<pk>/save/', save_quiz_view, name='save-view'),
-    path('cbt/<pk>/data/', quiz_data_view, name='quiz-data-view'),
 ]
 
