@@ -109,11 +109,7 @@ class Students(models.Model):
     origin_state=models.CharField(max_length=255,default="Nigeria")
     dob=models.CharField(max_length=255,default="00-00-000")
     admission_class = models.IntegerField(default=0)
-<<<<<<< HEAD
     admission_ses = models.IntegerField(default=1)
-=======
-    admission_ses = models.IntegerField(default=0)
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
     parent_name=models.CharField(max_length=255,default=" ")
     parent_email=models.CharField(max_length=255,default=" ")
     parent_phone=models.CharField(max_length=255,default="+234")
@@ -302,10 +298,6 @@ class FeedBackStudent(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
-<<<<<<< HEAD
-=======
-
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
     class Meta:
         ordering = ('-created_at',)
   
@@ -526,10 +518,7 @@ class StudentApplication(models.Model):
 
     class Meta:
         ordering = ('-created_at',)
-<<<<<<< HEAD
         
-=======
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
 class OldResults(models.Model):
     id=models.AutoField(primary_key=True)
     students = models.ForeignKey(Students,on_delete=models.CASCADE)
@@ -543,23 +532,6 @@ class OldResults(models.Model):
     objects = models.Manager()
     class Meta:
         ordering = ('-created_at',)
-<<<<<<< HEAD
-=======
-
-
-class LessionPlan(models.Model):
-    id = models.AutoField(primary_key=True)
-    weeks = models.CharField(max_length=255)
-    term = models.ForeignKey(Terms,on_delete=models.CASCADE)
-    subjects = models.ForeignKey(Subjects,on_delete=models.CASCADE)
-    plan_file = models.FileField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    objects = models.Manager()
-    class Meta:
-        ordering = ('-created_at',)
-
-
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
 
 
 # G and C

@@ -8,11 +8,11 @@ from accounts.forms import AddStudentForm, EditStudentForm, StudyMaterialForm
 from os import name
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
-<<<<<<< HEAD
+
 from accounts.models import Attendance, AttendanceReport, ClassCategories, Classes,CombineEndTerm, CombineMidTerm, CombineSubjects, CustomUser, EntryAttestation, ExamFile, FeedBackStaff, FeedBackStudent, LeaveReport, NotificationStaff, NotificationStudent, OldCummulative, OldResults, SiteControls, SessionYearModel,Staff, StudentExitReport, Students, Subjects, StudyMaterial, Terms,SubjectsAllo, EndTerm, MidTerm,ClassAverage,AffectiveDomain,Psycomotor
-=======
+
 from accounts.models import Attendance, AttendanceReport, ClassCategories, Classes, CustomUser, FeedBackStaff, FeedBackStudent, LeaveReport, NotificationStaff, NotificationStudent, OldResults, SessionYearModel,Staff, StudentExitReport, Students, Subjects, Terms,EndTerm,MidTerm,ClassAverage
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from hostel.models import Hostel, Rooms, Logbook, Allocations, StudentEthosRecords

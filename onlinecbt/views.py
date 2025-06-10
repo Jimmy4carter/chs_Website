@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.cache import cache_control
@@ -400,7 +400,7 @@ def quiz_result_view(request, schedule_id):
     result = get_object_or_404(QuizResult, student=student, schedule=quiz_schedule)
 
     return render(request, 'quizes/quiz_result.html', {'result': result, 'quiz_schedule': quiz_schedule})
-=======
+
 from django.shortcuts import render
 from .models import Quiz, Question, Answer, Result, Students
 from django.views.generic import ListView
@@ -481,4 +481,4 @@ def save_quiz_view(request, pk):
             return JsonResponse({'passed': True, 'score': score_, 'results': results})
         else:
             return JsonResponse({'passed': False, 'score': score_, 'results': results})
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+

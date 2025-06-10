@@ -8,10 +8,10 @@ from django.template.loader import render_to_string
 from django.urls.base import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
-<<<<<<< HEAD
-=======
+
+
 from django.http import HttpResponse
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 from django.core.mail import send_mass_mail, send_mail, EmailMultiAlternatives
 import requests
 from accounts.models import BilItems, Classes, ContactForm, CustomUser, FeedBackStaff, JuniorCost, MailMessage, SeniorCost, SessionYearModel, Staff, StaffPost, StudentAccount, StudentApplication, Students, Subjects, Subscribers, Terms
@@ -31,8 +31,8 @@ def adminsec_home(request):
 
 @csrf_exempt
 def payment_history(request):
-<<<<<<< HEAD
-=======
+
+
 
     headers = {
     'Content-type': 'application/json',
@@ -43,7 +43,7 @@ def payment_history(request):
 
     response=response.json()['data']
     return render(request,"adminsec_template/payment_history.html",{"response":response})
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 
     headers = {
     'Content-type': 'application/json',
@@ -441,7 +441,7 @@ def newsletter_compose(request):
 
         messsage_emails=settings.EMAIL_HOST_USER
 
-<<<<<<< HEAD
+
         try:
             if title=="all":
                 parent = Students.objects.values_list('parent_email', flat=True)
@@ -492,7 +492,7 @@ def newsletter_compose(request):
     
             messages.success(request,"Mail Sent")
             return HttpResponseRedirect(reverse("newsletter_compose"))
-=======
+
         # try:
         res=[]
         if title=="all":
@@ -545,7 +545,7 @@ def newsletter_compose(request):
             msg = EmailMultiAlternatives(subject, message, messsage_emails, mail_list,)                                      
             msg.attach_alternative(html_content, "text/html")                                                                                                                                                                             
             msg.send()
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 
         messages.success(request,"Mail Sent")
         return HttpResponseRedirect(reverse("newsletter_compose"))

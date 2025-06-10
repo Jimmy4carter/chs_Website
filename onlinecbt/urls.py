@@ -1,5 +1,5 @@
 from django.urls import path
-<<<<<<< HEAD
+
 from onlinecbt import views
 
 urlpatterns = [
@@ -21,7 +21,7 @@ urlpatterns = [
     path('quiz_result/<int:schedule_id>/', views.quiz_result_view, name='quiz_result'),
 ]
 
-=======
+
 from .views import (
     QuizListView,
     quiz_view,
@@ -38,4 +38,4 @@ urlpatterns = [
     path('cbt/<pk>/save/', save_quiz_view, name='save-view'),
     path('cbt/<pk>/data/', quiz_data_view, name='quiz-data-view'),
 ]
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+

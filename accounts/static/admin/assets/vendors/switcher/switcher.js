@@ -9,7 +9,7 @@ function addSwitcher()
 
 jQuery(window).on('load',function(){
 	
-	//=== Switcher panal slide function	=====================//
+	//=== Switcher panal slide function	//
 	jQuery('.styleswitcher').animate({
 		'left': '-220px'
 	});
@@ -18,7 +18,7 @@ jQuery(window).on('load',function(){
 		'left': 'auto'
 	});
 	jQuery('.switch-btn').addClass('closed');
-	//=== Switcher panal slide function END	=====================//
+	//=== Switcher panal slide function END	//
 	
 });
 	
@@ -26,7 +26,7 @@ $(function(){
 	"use strict";
 	
 	addSwitcher();
-	//=== Switcher panal slide function	=====================//
+	//=== Switcher panal slide function	//
 	jQuery('.switch-btn').on('click',function () {	
 		if (jQuery(this).hasClass('open')) {
 			jQuery(this).addClass('closed');
@@ -52,9 +52,9 @@ $(function(){
 			}
 		}	
 	});
-	//=== Switcher panal slide function END	=====================//
+	//=== Switcher panal slide function END	//
 
-	//=== Color css change function	=====================//
+	//=== Color css change function	//
     // Color changer
     jQuery(".skin-1").on('click',function(){
         jQuery(".skin").attr("href", "assets/css/color/color-1.css");
@@ -76,7 +76,7 @@ $(function(){
 		jQuery(".ttr-sidebar-logo img").attr("src", "assets/images/logo-4.png");
         return false;
     });
-	//=== Color css change function	=====================//	
+	//=== Color css change function	//	
 	
 });
 

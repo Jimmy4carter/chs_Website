@@ -12,12 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from decouple import config
-<<<<<<< HEAD
 
-=======
-import mimetypes
-mimetypes.add_type("text/css", ".css", True)
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -55,13 +50,8 @@ INSTALLED_APPS = [
     'onlinecbt',
     'publicsite',
     'hostel',
-<<<<<<< HEAD
     'paystackpayments',
     'rest_framework'
-=======
-    'onlinecbt',
-    'paystackpayments'
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
 ]
 
 MIDDLEWARE = [
@@ -69,7 +59,6 @@ MIDDLEWARE = [
     # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -178,11 +167,6 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL=False
 EMAIL_HOST_USER = 'info@christhighschool.org'
 EMAIL_HOST_PASSWORD = 'jimmycarter12.'
-<<<<<<< HEAD
-=======
-# DEFAULT_FROM_EMAIL='info@christhighschool.org'
-# RECIPIENT_ADDRESS='www.jimmy000carter@gmail.com'
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
 
 
 #enable only when making life

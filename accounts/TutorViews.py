@@ -5,28 +5,28 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.http.response import HttpResponse, HttpResponseRedirect, JsonResponse
-<<<<<<< HEAD
+
 from accounts.models import AffectiveDomain, Attendance, AttendanceReport, ClassAverage, ClassCategories, Classes, CombineEndTerm, CombineMidTerm, CombineSubjects, CustomUser, GncResponse, EndTerm, EntryAttestation, FeedBackStaff, LeaveReport, LessionPlan, MidTerm, NotificationStaff, OldCummulative, Psycomotor, SessionYearModel, Staff, Students, SiteControls, Subjects, SubjectStream, Terms
 from hostel.models import StudentEthosRecords
 from django.shortcuts import get_object_or_404, render, redirect, render
-=======
+
 from accounts.models import AffectiveDomain, Attendance, AttendanceReport, ClassAverage, ClassCategories, Classes, CustomUser, EndTerm, FeedBackStaff, LeaveReport, LessionPlan, MidTerm, NotificationStaff, Psycomotor, SessionYearModel, Staff, Students, Subjects, Terms
 from django.shortcuts import render, redirect
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.core import serializers
-<<<<<<< HEAD
+
 from django.template.defaultfilters import linebreaksbr
 from django.db.models import Q, Sum
 import os
 from accounts.forms import EntryAttestationForm, QuestionForm
 from onlinecbt.forms import QuizForm, QuizScheduleForm
 from onlinecbt.models import ObjectiveOption, ObjectiveQuestion, Quiz, QuizResult, QuizSchedule, TheoryQuestion
-=======
+
 from onlinecbt.models import Quiz, Question, Answer, QUIZ_CHOICES
 from django.views import View
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 
 
 @login_required
@@ -793,8 +793,8 @@ def delete_score(request,restype,score_id):
 def save_midterm_result(request):
     if request.method!='POST':
         return HttpResponse(reverse,"tutor_add_midterm_result")
-<<<<<<< HEAD
-=======
+
+
 
     student_admin_id=request.POST.get('student_list')
     resumption_test=request.POST.get('resumption_test')
@@ -859,7 +859,7 @@ def save_midterm_result(request):
         result.save()
         messages.success(request,"Successfully Updated Result")
         return HttpResponseRedirect(reverse("tutor_add_midterm_result"))
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
     else:
 
         student_admin_id=request.POST.get('student_list')
@@ -1494,9 +1494,9 @@ def save_assessment (request):
     session_year=SessionYearModel.objects.get(status=1)
 
     if result_type==1:
-<<<<<<< HEAD
+
         if student_obj.class_id.id <= 3:
-=======
+
         if student_obj.class_id <= 3:
             totals=MidTerm.objects.filter(students_id=student_obj,term=term,session_year=session_year)
             subjects=totals.count()
@@ -1509,7 +1509,7 @@ def save_assessment (request):
 
         elif student_obj.class_id >=4:
 
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
             totals=MidTerm.objects.filter(students_id=student_obj,term=term,session_year=session_year)
             subjects=totals.count()
             subject_sum=0
@@ -1541,7 +1541,7 @@ def save_assessment (request):
             subject_sum=subject_sum+total.total
 
         subject_total=subjects*100
-<<<<<<< HEAD
+
         averages=subject_sum/subject_total*100
         average=round(averages,2)
         
@@ -1600,7 +1600,7 @@ def save_assessment (request):
             return HttpResponseRedirect(reverse("tutor_assess_student",kwargs={"students_id":student_id}))
     except:
         messages.error(request,"Failed to Assess Student, try again or contact ICT support")
-=======
+
         average=subject_sum/subject_total*100
         
     # try:
@@ -1642,14 +1642,14 @@ def save_assessment (request):
         result_affective.save()
 
         messages.success(request,"Assessment Successfully Updated")
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
         return HttpResponseRedirect(reverse("tutor_assess_student",kwargs={"students_id":student_id}))
 @login_required
 def form_students(request, class_id):
     form_students=Students.objects.filter(class_category=class_id)
     return render(request,"tutors_template/view_form_student.html",{"form_students":form_students})
 
-<<<<<<< HEAD
+
 @login_required
 @csrf_exempt
 def class_results(request, class_id):
@@ -1719,7 +1719,7 @@ def submit_plan(request):
 
         try:
             LessionPlan.objects.create(weeks=week,session_year=current_sessions,notes=notes,term=current_term,subjects=subject,plan_file=plan_file_url)
-=======
+
 def submit_plan(request):
     current_term=Terms.objects.get(status=1)
     tutor_subjects=Subjects.objects.filter(tutor=request.user.id)
@@ -1738,14 +1738,14 @@ def submit_plan(request):
 
         try:
             LessionPlan.objects.create(weeks=week,term=current_term,subjects=subject,plan_file=plan_file_url)
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
             messages.success(request,"Lession Plan Submitted Successfully, Check List Below TO Confirm")
             return HttpResponseRedirect(reverse("submit_plan"))
         except:
             messages.error(request,"Failed To Submit Lession Plan, Please Check and Try Again")
             return HttpResponseRedirect(reverse("submit_plan"))
 
-<<<<<<< HEAD
+
 @login_required            
 def delete_plan(request,item_id):
     try:
@@ -2590,7 +2590,7 @@ def result_details(request, schedule_id, student_id):
     }
 
     return render(request, 'tutors_template/quizes/student_cbt_result.html', context)
-=======
+
 
 def tutor_cbt(request):
     form_subjects=Subjects.objects.filter(tutor=request.user.id)
@@ -2731,4 +2731,4 @@ class AddQuestionView(View):
             )
         return redirect('quiz_detail', pk=quiz.pk)
 
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+

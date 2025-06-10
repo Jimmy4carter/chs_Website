@@ -34,16 +34,16 @@
             </a>
           </li>
           <li class="nav-item">
-<<<<<<< HEAD
+
             {% url 'cbt_view' as cbt_view %}
             <a href="{% url 'cbt_view' %}" class="nav-link {% if request.path == cbt_view %} active {% endif %}">
               <i class="nav-icon fa fa-desktop"></i>
-=======
+
             {% url 'my_results' as my_results %}
             {% url 'my_results' as my_result_action %}
             <a href="{% url 'my_result_action' %}" class="nav-link {% if request.path == my_results %} active {% endif %} {% if request.path == my_result_action %} active {% endif %}">
               <i class="nav-icon fas fa-copy"></i>
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
               <p>
                 CBT
                 <span class="right badge badge-danger">New</span>
@@ -51,7 +51,7 @@
             </a>
           </li>
           <li class="nav-item">
-<<<<<<< HEAD
+
             {% url 'my_results' as my_results %}
             {% url 'my_results' as my_result_action %}
             <a href="{% url 'my_result_action' %}" class="nav-link {% if request.path == my_results %} active {% endif %} {% if request.path == my_result_action %} active {% endif %}">
@@ -86,7 +86,7 @@
               </a>
             </li>
           {% endif %}
-=======
+
             {% url 'cbt_view' as cbt_view %}
             <a href="{% url 'cbt_view' %}" class="nav-link {% if request.path == cbt_view %} active {% endif %}">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -96,7 +96,7 @@
               </p>
             </a>
           </li>
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
           <li class="nav-item">
             {% url 'tuition_preview' as tuition_preview %}
             <a href="{% url 'tuition_preview' %}" class="nav-link {% if request.path == tuition_preview %} active {% endif %}">

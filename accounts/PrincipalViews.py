@@ -3,11 +3,11 @@ from django.contrib import messages
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.urls.base import reverse
-<<<<<<< HEAD
+
 from accounts.models import Attendance, AttendanceReport, Classes, ClassCategories, CombineEndTerm, CombineMidTerm, CombineSubjects, CustomUser, FeedBackStaff, EntryAttestation, FeedBackStudent, LeaveReport, LessionPlan, SessionYearModel, Staff, StudentApplication, StudentExitReport, Students, Subjects, Terms,SubjectsAllo, EndTerm, MidTerm,ClassAverage,AffectiveDomain,Psycomotor
-=======
+
 from accounts.models import Attendance, AttendanceReport, Classes, CustomUser, FeedBackStaff, FeedBackStudent, LeaveReport, LessionPlan, SessionYearModel, Staff, StudentApplication, StudentExitReport, Students, Subjects
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -17,7 +17,7 @@ from hostel.models import Hostel, Rooms, Logbook, Allocations, StudentEthosRecor
 from datetime import datetime
 
 from publicsite.models import JobApp
-<<<<<<< HEAD
+
 
 @login_required
 def principal_home(request):
@@ -26,7 +26,7 @@ def principal_home(request):
     class_count=Classes.objects.all().count()
     staff_count=Staff.objects.all().count()
 
-=======
+
 
 @login_required
 def principal_home(request):
@@ -35,7 +35,7 @@ def principal_home(request):
     class_count=Classes.objects.all().count()
     staff_count=Staff.objects.all().count()
 
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
     class_all=Classes.objects.all()
     class_name_list=[]
     subject_count_list=[]
@@ -126,13 +126,13 @@ def principal_view_students(request):
             return JsonResponse(json.dumps(list_data),content_type="application/json",safe=False)
         else:
             messages.Error(request,"No Records Found")
-<<<<<<< HEAD
-=======
+
+
 
 def principal_view_staff(request):
     staffs=Staff.objects.all()
     return render(request,"principal_template/view_all_staff.html",{"staffs":staffs})
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 
 @login_required
 def principal_view_staff(request):
@@ -163,32 +163,32 @@ def principal_get_result(request):
     else:
         messages.Error(request,"No Records Found")
 
-<<<<<<< HEAD
+
 @login_required
-=======
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
+
 def principal_leave(request):
     leave=LeaveReport.objects.all()
     return render(request,"principal_template/principal_leave_template.html",{"leaves":leave})
 
-<<<<<<< HEAD
+
 @login_required
-=======
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
+
 def leave_approve(request,leave_id):
     leave=LeaveReport.objects.get(id=leave_id)
     leave.leave_status=1
     leave.save()
     return HttpResponseRedirect(reverse("principal_leave"))
-<<<<<<< HEAD
-=======
+
+
 
 def leave_decline(request,leave_id):
     leave=LeaveReport.objects.get(id=leave_id)
     leave.leave_status=2
     leave.save()
     return HttpResponseRedirect(reverse("principal_leave"))
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 
 @login_required
 def leave_decline(request,leave_id):
@@ -221,18 +221,18 @@ def principal_feedback_save(request):
             messages.error(request,"Failed To Send Feedback")
             return HttpResponseRedirect(reverse("principal_feedback"))
 
-<<<<<<< HEAD
+
 @login_required
-=======
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
+
 def student_feedbacks(request):
     feedback=FeedBackStudent.objects.all()
     return render(request,"principal_template/student_feedback.html",{"feedbacks":feedback})
 
-<<<<<<< HEAD
+
 @login_required
-=======
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
+
 def principal_profile(request):
     user=CustomUser.objects.get(id=request.user.id)
     return render(request,"principal_template/principal_profile.html",{"user":user})
@@ -259,16 +259,16 @@ def edit_principal_profile(request):
             messages.error(request,"Failed To Update")
             return HttpResponseRedirect(reverse("principal_profile"))
 
-<<<<<<< HEAD
-@login_required
-=======
 
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+@login_required
+
+
+
 def student_applications(request):
     job=StudentApplication.objects.all()
     return render(request,"principal_template/student_applications.html",{'job':job})
 
-<<<<<<< HEAD
+
 @login_required
 def job_applications(request):
     jobs=JobApp.objects.all()
@@ -762,7 +762,7 @@ def hostel_analytics(request):
     
     
     
-=======
+
 
 def job_applications(request):
     jobs=JobApp.objects.all()
@@ -771,4 +771,4 @@ def job_applications(request):
 def lession_plan(request, subject_id):
     les_plan = LessionPlan.objects.filter(subjects=subject_id)
     return render(request,"principal_template/lession_plans.html",{"les_plan":les_plan})
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+

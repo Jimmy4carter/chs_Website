@@ -18,11 +18,11 @@ from os import name
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-<<<<<<< HEAD
+
 from accounts import  ManagementViews, AdminsecViews, PrincipalViews, TuckshopViews, TutorViews, StudentViews, views, AdminViews
-=======
+
 from accounts import  ManagementViews, AdminsecViews, PrincipalViews, TutorViews, StudentViews, views, AdminViews
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 import accounts
 from publicsite import PublicViews
 from hostel import HostelViews
@@ -59,11 +59,11 @@ urlpatterns = [
     #Admin URLs
     path('admin/', admin.site.urls),
     path('admin_home',AdminViews.admin_home,name="admin_home"),
-<<<<<<< HEAD
+
     path('cbtentry',AdminViews.cbtentry,name="cbtentry"),
-=======
+
     path('class_result',AdminViews.viewclass_result,name="class_result"),
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 
     #staff Actions
     path('staff_action',AdminViews.staff_action,name="staff_action"),
@@ -269,7 +269,7 @@ urlpatterns = [
     path('staff_all_notification',TutorViews.staff_all_notification,name="staff_all_notification"),
     path('form_students/<str:class_id>',TutorViews.form_students,name="form_students"),
     path('submit_plan',TutorViews.submit_plan,name="submit_plan"),
-<<<<<<< HEAD
+
     path('delete_plan/<str:item_id>',TutorViews.delete_plan,name="delete_plan"),
     path('delete_mid/<str:item_id>',TutorViews.delete_mid,name="delete_mid"),
     path('delete_end/<str:item_id>',TutorViews.delete_end,name="delete_end"),
@@ -293,10 +293,10 @@ urlpatterns = [
     path('schedule/<int:schedule_id>/students/', TutorViews.schedule_students, name='schedule_students'),
     path('results/<int:schedule_id>/<int:student_id>/', TutorViews.result_details, name='result_details'),
 
-=======
+
     path('addquiz/', TutorViews.AddQuizView.as_view(), name='addquiz'),
     path('addquestion/<quiz_id>/', TutorViews.add_questions, name='addquestion'),
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 
         #  Result Actions
     path('result_action',TutorViews.result_action,name="result_action"),
@@ -347,7 +347,7 @@ urlpatterns = [
     path('student_faq',StudentViews.student_faq,name="student_faq"),
     path('result_preview/<int:res_id>',StudentViews.result_preview,name="result_preview"),
     path('tuition_preview',StudentViews.tuition_preview,name="tuition_preview"),
-<<<<<<< HEAD
+
     path('inter_records',StudentViews.inter_records,name="inter_records"),
     path('saveinterests',StudentViews.saveinterests,name="saveinterests"),
     
@@ -366,9 +366,9 @@ urlpatterns = [
     path('cbt_result/<int:schedule_id>/', StudentViews.quiz_result_view, name='cbt_result'),
     path('cbt_complete/<int:schedule_id>/', StudentViews.quiz_complete, name='quiz_complete'),
 
-=======
+
     path('cbt_view',StudentViews.cbt_view,name="cbt_view"),
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 
 
 
@@ -391,7 +391,7 @@ urlpatterns = [
     path('job_applications',PrincipalViews.job_applications,name="job_applications"),
     path('student_applications',PrincipalViews.student_applications,name="student_applications"),
     path('lession_plan/<str:subject_id>',PrincipalViews.lession_plan,name="lession_plan"),
-<<<<<<< HEAD
+
     
     # principal result
     path('management_result',PrincipalViews.management_result,name="management_result"),
@@ -399,8 +399,8 @@ urlpatterns = [
     path('thebroadsheet_analysis',PrincipalViews.thebroadsheet_analysis,name="thebroadsheet_analysis"),
     path('management_subjectresults',PrincipalViews.management_subjectresults,name="management_subjectresults"),
     path('host_analytics',PrincipalViews.hostel_analytics,name="host_analytics"),
-=======
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
+
 
 
 

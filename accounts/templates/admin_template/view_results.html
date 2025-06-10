@@ -10,18 +10,18 @@
 {% endblock custom_css %}
 
 {% block page_title %}
-<<<<<<< HEAD
+
 Subject Based Results
 {% endblock page_title %}
 
 {% block main_content %}
-=======
+
 View Results
 {% endblock page_title %}
 
 {% block main_content %}
 <a href="{% url 'class_result' %}">Other View</a>
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-sm">
         <div class="modal-content" style="width: 48px">
@@ -43,7 +43,7 @@ View Results
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-<<<<<<< HEAD
+
                 <form action="/admin_results" method="post">
                     {% csrf_token %}
                     <div class="card-body">
@@ -488,7 +488,7 @@ View Results
 
                     
                 </div>
-=======
+
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-3">
@@ -544,7 +544,7 @@ View Results
                     </div>
                 </div>
                
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
             </div>
         <!--/.col (left) -->
         </div>
@@ -574,14 +574,14 @@ View Results
 <script>
     $(document).ready(function(){
         $("#fetch_student").click(function(){
-<<<<<<< HEAD
+
             $('.modal').modal('show');
                 setTimeout(function () {
                     $('.modal').modal('hide');
                 }, 5000);
 
             
-=======
+
             var subject=$("#subject").val()
             var result_type=$("#result_type").val()
             var term=$("#term").val()
@@ -657,7 +657,7 @@ View Results
                     div_data+="</div>"
                 
                 $("#student_data").html(div_data);
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 
                 $(function () {
                     $("#example1").DataTable({
@@ -678,13 +678,13 @@ View Results
 
 
             })
-<<<<<<< HEAD
-=======
+
+
             .fail(function(){
                 alart("Error in Fetching Students")
             })
         });
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
        
     });
    

@@ -1,15 +1,15 @@
 import json
-<<<<<<< HEAD
+
 from django.contrib.auth.decorators import login_required
-=======
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
+
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
-<<<<<<< HEAD
+
 from hostel.forms import StudentEthosRecordForm
 from accounts.models import CustomUser, FeedBackStaff, NotificationStaff, SessionYearModel, SiteControls, Staff, Students, Subjects
 from hostel.models import Allocations, Hostel, Logbook, Rooms, StudentEthosRecords
@@ -40,7 +40,7 @@ def hostel_home(request):
     return render(request, 'hostel_home.html', context)
 
 @login_required
-=======
+
 from accounts.models import CustomUser, FeedBackStaff, NotificationStaff, SessionYearModel, Staff, Students, Subjects
 from hostel.models import Allocations, Hostel, Logbook, Rooms
 
@@ -54,7 +54,7 @@ def hostel_home(request):
 
     return render(request,"hostel_home.html", {"all_students":all_students,"active_student":active_student,"all_staff":all_staff,"all_subjects":all_subjects})
 
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 def hostel_profile(request):
     if request.method!="POST":
         user=CustomUser.objects.get(id=request.user.id)
@@ -85,11 +85,11 @@ def hostel_profile(request):
         except:
             messages.error(request,"Failed To Update")
             return HttpResponseRedirect(reverse("hostel_profile"))
-<<<<<<< HEAD
-@login_required
-=======
 
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+@login_required
+
+
+
 def hostels_manage(request):
     if request.method!="POST":
         hostels=Hostel.objects.all()
@@ -128,21 +128,21 @@ def hostels_manage(request):
         except:
             messages.error(request,"Failed To Update/Add Hostel")
             return HttpResponseRedirect(reverse("hostels_manage"))
-<<<<<<< HEAD
-@login_required
-=======
 
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+@login_required
+
+
+
 def rooms_manage(request):
     if request.method!="POST":
         hostels=Hostel.objects.all()
         rooms=Rooms.objects.all()
-<<<<<<< HEAD
+
         students = Students.objects.filter(class_id__in=[4, 5, 6])
         return render(request,"rooms.html",{"rooms":rooms,"hostels":hostels,"students":students})
-=======
+
         return render(request,"rooms.html",{"rooms":rooms,"hostels":hostels})
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
     else:
         hostel = int(request.POST.get('hostel'))
         roomid = request.POST.get("roomid")
@@ -175,7 +175,7 @@ def rooms_manage(request):
             messages.error(request,"Failed To Update/Add Room")
             return HttpResponseRedirect(reverse("rooms_manage"))
 
-<<<<<<< HEAD
+
 @login_required          
 def delete_room(request,item_id):
     try:
@@ -188,20 +188,20 @@ def delete_room(request,item_id):
         messages.error(request,"Failed To Delete Entry, Please Check and Try Again")
         return HttpResponseRedirect(reverse("rooms_manage"))
 @login_required
-=======
 
 
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
+
 def hostel_all_notification(request):
     staff=Staff.objects.get(admin=request.user.id)
     notification=NotificationStaff.objects.filter(staff_id=staff.id)
     return render(request,"all_notifcation.html",{"notifications":notification})
 
-<<<<<<< HEAD
-@login_required
-=======
 
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+@login_required
+
+
+
 def hostel_feedback(request):
     if request.method!="POST":
         staff_id=Staff.objects.get(admin=request.user.id)
@@ -220,7 +220,7 @@ def hostel_feedback(request):
         except:
             messages.error(request,"Failed To Send Feedback")
             return HttpResponseRedirect(reverse("hostel_feedback"))
-<<<<<<< HEAD
+
 @login_required   
 def allocate_room(request):
     if request.method!="POST":
@@ -230,7 +230,7 @@ def allocate_room(request):
         students = Students.objects.filter(class_id__in=[1, 2, 3, 4, 5, 6]).order_by('class_id')
         allo=Allocations.objects.filter(sessionid=ses)
         return render(request, "allocateroom_template.html",{"rooms":rooms,"hostels":hostels,"ses":ses,"allo":allo,"students":students})
-=======
+
     
 def allocate_room(request):
     if request.method!="POST":
@@ -238,7 +238,7 @@ def allocate_room(request):
         ses=SessionYearModel.objects.get(status=1)
         allo=Allocations.objects.all()
         return render(request, "allocateroom_template.html",{"hostel":hostel,"ses":ses,"allo":allo})
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
     else:
         hostel=int(request.POST.get('hostel'))
         room=int(request.POST.get('room'))
@@ -261,19 +261,19 @@ def allocate_room(request):
             messages.success(request,"Allocation Successful")
             return HttpResponseRedirect(reverse("allocate_room"))
 
-<<<<<<< HEAD
-@login_required
-=======
 
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+@login_required
+
+
+
 @csrf_exempt
 def get_rooms(request):
     hostel=int(request.POST.get('hostel'))
     rooms=Rooms.objects.filter(hostels=hostel)
-<<<<<<< HEAD
-=======
+
+
     print(rooms)
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 
     if rooms!=None:
         list_data=[]
@@ -284,7 +284,7 @@ def get_rooms(request):
     else:
         messages.Error(request,"No ROOMs for selected HOSTEL")
 
-<<<<<<< HEAD
+
         
 @login_required
 def view_logs(request):
@@ -354,7 +354,7 @@ def hostel_grading(request):
         record.total_ethos = positive_ethos_sum - negative_ethos_sum
     return render(request, 'hostel_grade.html', {'form': form, 'ethos_records': ethos_records, 'result_type':result_type})
 
-=======
+
 
 @csrf_exempt
 def check_username_exis(request):
@@ -387,4 +387,4 @@ def create_log(request):
 
         Logbook.objects.create(rdate=date,reporter=reporter,report=report,sessionid=ses)
         return HttpResponse(True)
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+

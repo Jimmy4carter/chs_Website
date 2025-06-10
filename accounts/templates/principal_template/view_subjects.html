@@ -15,11 +15,11 @@
 {% endblock custom_css %}
 
 {% block page_title %}
-<<<<<<< HEAD
+
 Subjects
-=======
+
 Lession Plan 
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
 {% endblock page_title %}
 
 {% block main_content %}
@@ -51,7 +51,7 @@ Lession Plan
                                   <td> {{ subject.class_id.name }} </td>
                                   <td>Code: {{ subject.outline}} <br> Title:{{ subject.subject_name }}</td>
                                   <td>{{ subject.tutor.last_name }} {{ subject.tutor.first_name }}</td>
-<<<<<<< HEAD
+
                                   <td>
                                         {% if values.plan_count <= 1 %}
                                             <a class="btn btn-outline-danger" href="{% url 'lession_plan' subject_id=subject.id %}">
@@ -81,9 +81,9 @@ Lession Plan
                                         
                                           
                                     </td>
-=======
+
                                   <td><a href="{% url 'lession_plan' subject_id=subject.id %}">View Plan</a></td>
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
                                   
                                 
                             </tr>

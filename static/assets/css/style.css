@@ -1,7 +1,7 @@
 /*
-======================================
+===
   * CSS TABLE CONTENT *  
-======================================
+===
 1. HEADER
 2. HEADER TOPBAR
 3. HEADER LOGO
@@ -15,14 +15,14 @@
 11. COUNTERUP
 12. FOOTER
 13. INNER CONTENT CSS
-======================================
+===
   * END TABLE CONTENT *  
-======================================
+===
 */
 
-/*=================================
+/*=====
 	1. HEADER
-=================================*/
+=====*/
 .bg-fix {
     background-attachment: fixed;
 	background-size: cover;
@@ -165,9 +165,9 @@
         text-align: right;
     }
 }
-/*=================================
+/*=====
 	2. HEADER TOPBAR
-=================================*/
+=====*/
 .top-bar {
     background-color: #ffffff;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
@@ -293,9 +293,9 @@
 		padding:0 5px;
 	}
 }
-/*=================================
+/*=====
 	3. HEADER LOGO
-=================================*/
+=====*/
 .menu-logo {
     display: table;
     float: left;
@@ -361,9 +361,9 @@
 		padding: 11px 0;
 	}
 }
-/*=================================
+/*=====
 	4. MENU BAR
-=================================*/
+=====*/
 .menu-bar {
     background: #FFFFFF;
     width: 100%;
@@ -549,9 +549,9 @@
     top: 0px;
     width: 6px;
 }
-/*=================================
+/*=====
 	5. MEGA MENU
-=================================*/
+=====*/
 .menu-links .nav > li.has-mega-menu {
     position: inherit;
 }
@@ -1002,9 +1002,9 @@
         padding: 10px 15px;
     }
 }
-/*=================================
+/*=====
 	6. HEADER TRANSPARENT
-=================================*/
+=====*/
 .header-transparent{
 	position:absolute;
 	width:100%;
@@ -1074,9 +1074,9 @@
 		padding-right: 15px;
 	}
 }
-/*=================================
+/*=====
 	7. MENU ICON
-=================================*/
+=====*/
 .menuicon{
   width: 20px;
   height: 14px;
@@ -1136,9 +1136,9 @@
   -o-transform: rotate(-135deg);
   transform: rotate(-135deg);
 }
-/*========================
+/*===
 	8. PAGE BANNER
-=========================*/
+====*/
 .page-banner {
     height: 300px;
     background-size: cover;
@@ -1181,9 +1181,9 @@
 		text-align:center;
 	}
 }
-/*========================
+/*===
 	9. BLOG
-=========================*/
+====*/
 .blog-post{
     position: relative;
     margin-bottom: 30px;
@@ -1569,9 +1569,9 @@ ol.comment-list li.comment .comment-respond .comment-form p {
         padding: 20px;
     }
 }
-/*========================
+/*===
 	10. TESTIMONIALS
-=========================*/
+====*/
 .testimonial-pic {
     background: #FFF;
     width: 100px;
@@ -1624,9 +1624,9 @@ ol.comment-list li.comment .comment-respond .comment-form p {
 .testimonial-text p:last-child {
     margin: 0;
 }
-/*========================
+/*===
 	11. COUNTERUP
-=========================*/
+====*/
 .counter {
     position: relative;
 }
@@ -1642,9 +1642,9 @@ ol.comment-list li.comment .comment-respond .comment-form p {
 	font-size:45px;
 	margin-right:10px;
 }
-/*========================
+/*===
 	12. FOOTER
-=========================*/
+====*/
 footer h1,
 footer h2,
 footer h3,
@@ -1887,9 +1887,9 @@ button.back-to-top {
     background-size: 60px;
     background-position: center;
 }
-/*========================
+/*===
 	13. INNER CONTENT CSS
-=========================*/
+====*/
 /* About Section */
 .service-info-bx{
 	margin-top: -215px;

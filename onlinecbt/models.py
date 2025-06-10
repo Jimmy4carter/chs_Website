@@ -3,16 +3,16 @@ from accounts.models import Students, Subjects
 from django.conf import settings
 import random
 from django.utils import timezone
-<<<<<<< HEAD
+
 from django.contrib.auth import get_user_model
 
-=======
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
+
 
 # Create your models here.
 
 
-<<<<<<< HEAD
+
 
 
 class Quiz(models.Model):
@@ -122,7 +122,7 @@ class QuizResult(models.Model):
         self.is_passed = self.score >= (total_questions * 0.5)  # Example: pass if >= 50%
         self.save()
 
-=======
+
 QUIZ_CHOICES= (
     ('Resumption Test', 'Resumption Test'),
     ('Assignment', 'Assignment'),
@@ -184,4 +184,4 @@ class Result(models.Model):
     def __str__(self):
         return str(self.pk)
     
->>>>>>> 869102c69b442947ca113121ce958681c2b69674
+
